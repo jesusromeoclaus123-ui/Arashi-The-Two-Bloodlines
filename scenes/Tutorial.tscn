@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://dr6qg0iw5lrut"]
 
 [ext_resource type="PackedScene" uid="uid://cxp23lwbrnclb" path="res://scenes/arashi.tscn" id="1_cfv3y"]
+[ext_resource type="Texture2D" uid="uid://b0ecm3cc8dae2" path="res://Assets/content.png" id="1_ci5ev"]
+[ext_resource type="Texture2D" uid="uid://kbcada0mwn6a" path="res://Assets/edb255b2-f64d-4501-9b9a-98e07d05439e.png" id="3_pgr2e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ci5ev"]
 size = Vector2(1280, 100)
@@ -31,5 +33,15 @@ shape = SubResource("RectangleShape2D_pgr2e")
 position = Vector2(1204, 360)
 shape = SubResource("RectangleShape2D_siew1")
 
+[node name="Content" type="Sprite2D" parent="StaticBody2D3" unique_id=1518879222]
+position = Vector2(576, 356.5)
+scale = Vector2(0.88216144, 0.6962891)
+texture = ExtResource("1_ci5ev")
+
 [node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
 position = Vector2(200, 500)
+
+[node name="Edb255b2F64d45019b9a98e07d05439e" type="Sprite2D" parent="." unique_id=579186235]
+position = Vector2(640, 626)
+scale = Vector2(1.438166, 1.438166)
+texture = ExtResource("3_pgr2e")
