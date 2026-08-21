@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dr6qg0iw5lrut"]
+
+[ext_resource type="PackedScene" uid="uid://cxp23lwbrnclb" path="res://scenes/arashi.tscn" id="1_cfv3y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ci5ev"]
+size = Vector2(1280, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pgr2e"]
+size = Vector2(100, 720)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_siew1"]
+size = Vector2(100, 720)
+
+[node name="Node2D" type="Node2D" unique_id=1291949946]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2130840707]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=120338455]
+position = Vector2(640, 650)
+shape = SubResource("RectangleShape2D_ci5ev")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=1585304690]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=516152779]
+position = Vector2(-53, 360)
+shape = SubResource("RectangleShape2D_pgr2e")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="." unique_id=347610425]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3" unique_id=1835874515]
+position = Vector2(1204, 360)
+shape = SubResource("RectangleShape2D_siew1")
+
+[node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
+position = Vector2(200, 500)

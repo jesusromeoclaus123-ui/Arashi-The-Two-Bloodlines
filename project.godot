@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Arashi : The Two Bloodlines"
+run/main_scene="uid://dr6qg0iw5lrut"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
