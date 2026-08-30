@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cxp23lwbrnclb"]
 
-[ext_resource type="Script" uid="uid://blm7v58vbtlah" path="res://scenes/arashi.gd" id="1_7qhff"]
+[ext_resource type="Script" uid="uid://blm7v58vbtlah" path="res://Scripts/arashi.gd" id="1_7qhff"]
 [ext_resource type="Texture2D" uid="uid://bt4xsuipodmio" path="res://Assets/Samurai_Jack.webp" id="2_kvp8d"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
