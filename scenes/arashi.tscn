@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cxp23lwbrnclb"]
+
+[ext_resource type="Script" uid="uid://blm7v58vbtlah" path="res://Scripts/arashi.gd" id="1_7qhff"]
+[ext_resource type="Texture2D" uid="uid://bt4xsuipodmio" path="res://Assets/Samurai_Jack.webp" id="2_kvp8d"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
+radius = 20.0
+height = 80.0
+
+[node name="Arashi" type="CharacterBody2D" unique_id=489452437]
+script = ExtResource("1_7qhff")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=206490550]
+shape = SubResource("CapsuleShape2D_siew1")
+
+[node name="SamuraiJack" type="Sprite2D" parent="." unique_id=441650261]
+position = Vector2(0, -1.1920929e-07)
+scale = Vector2(0.10161567, 0.09140879)
+texture = ExtResource("2_kvp8d")
