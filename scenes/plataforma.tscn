@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c1ux7wauqp8n5"]
+
+[ext_resource type="Texture2D" uid="uid://b4pe83jmibdee" path="res://Assets/PlataformaChica.png" id="1_bon5w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
+size = Vector2(68, 104)
+
+[node name="Node2D" type="Node2D" unique_id=105287030]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1843745730]
+position = Vector2(35, 34)
+scale = Vector2(0.29178885, 0.27324262)
+texture = ExtResource("1_bon5w")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1504845275]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=97849513]
+position = Vector2(37, 35)
+shape = SubResource("RectangleShape2D_bhunq")

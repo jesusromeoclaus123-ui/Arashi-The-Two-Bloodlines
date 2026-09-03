@@ -7,21 +7,37 @@ const DOUBLE_JUMP_FORCE := -350.0
 
 var jumps_left := 2
 var space_was_pressed := false
+var atacando := false
+
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 
 func _physics_process(delta: float) -> void:
-	# Gravedad
+
+	# =========================
+	# GRAVEDAD
+	# =========================
+
 	if not is_on_floor():
 		velocity.y += GRAVITY * delta
 
-	# Recuperar los dos saltos al tocar el suelo
+
+	# =========================
+	# RECUPERAR SALTOS
+	# =========================
+
 	if is_on_floor():
 		jumps_left = 2
 
-	# Detectar una pulsación NUEVA de espacio
+
+	# =========================
+	# SALTO
+	# =========================
+
 	var space_pressed := Input.is_key_pressed(KEY_SPACE)
 
 	if space_pressed and not space_was_pressed:
+
 		if jumps_left > 0:
 
 			if jumps_left == 2:
@@ -33,17 +49,72 @@ func _physics_process(delta: float) -> void:
 
 	space_was_pressed = space_pressed
 
-	# Movimiento A / D
+
+	# =========================
+	# ATTACK2
+	# =========================
+
+	if Input.is_key_pressed(KEY_K) and not atacando:
+
+		atacando = true
+		velocity.x = 0
+
+		animated_sprite.play("attack2")
+
+
+	# =========================
+	# MOVIMIENTO A / D
+	# =========================
+
 	var direction := 0.0
 
 	if Input.is_key_pressed(KEY_A):
 		direction = -1.0
+
 	elif Input.is_key_pressed(KEY_D):
 		direction = 1.0
 
-	if direction != 0:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+	if not atacando:
+
+		if direction != 0:
+
+			velocity.x = direction * SPEED
+
+			if direction < 0:
+				animated_sprite.flip_h = true
+			else:
+				animated_sprite.flip_h = false
+
+		else:
+
+			velocity.x = move_toward(velocity.x, 0, SPEED)
+
+
+	# =========================
+	# ANIMACIONES
+	# =========================
+
+	if not atacando:
+
+		if not is_on_floor():
+
+			animated_sprite.play("jump")
+
+		else:
+
+			animated_sprite.play("idle")
+
 
 	move_and_slide()
+
+
+# =========================
+# TERMINÓ ATTACK2
+# =========================
+
+func _on_animation_finished() -> void:
+
+	if animated_sprite.animation == "attack2":
+
+		atacando = false

@@ -1,11 +1,121 @@
 [gd_scene format=3 uid="uid://cxp23lwbrnclb"]
 
 [ext_resource type="Script" uid="uid://blm7v58vbtlah" path="res://Scripts/arashi.gd" id="1_7qhff"]
-[ext_resource type="Texture2D" uid="uid://bt4xsuipodmio" path="res://Assets/Samurai_Jack.webp" id="2_kvp8d"]
+[ext_resource type="Texture2D" uid="uid://bhqjdtelf3ss4" path="res://Assets/Rayo.png" id="2_d5fca"]
+[ext_resource type="Texture2D" uid="uid://cc60ptteq7opx" path="res://Assets/arashi salto.png" id="2_kvp8d"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
 radius = 20.0
 height = 80.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hokwn"]
+atlas = ExtResource("2_d5fca")
+region = Rect2(0, 0, 426, 333)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gv8de"]
+atlas = ExtResource("2_d5fca")
+region = Rect2(426, 0, 426, 333)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jkqck"]
+atlas = ExtResource("2_d5fca")
+region = Rect2(852, 0, 426, 333)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_flwhf"]
+atlas = ExtResource("2_d5fca")
+region = Rect2(1278, 0, 426, 333)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_swnmv"]
+atlas = ExtResource("2_d5fca")
+region = Rect2(0, 333, 426, 333)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6oq3"]
+atlas = ExtResource("2_d5fca")
+region = Rect2(426, 333, 426, 333)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_66cqq"]
+atlas = ExtResource("2_d5fca")
+region = Rect2(852, 333, 426, 333)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p0lmu"]
+atlas = ExtResource("2_d5fca")
+region = Rect2(1278, 333, 426, 333)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5fca"]
+atlas = ExtResource("2_kvp8d")
+region = Rect2(0, 0, 662, 594)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1hsds"]
+atlas = ExtResource("2_kvp8d")
+region = Rect2(0, 0, 662, 594)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylts7"]
+atlas = ExtResource("2_kvp8d")
+region = Rect2(662, 0, 662, 594)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6r2f6"]
+atlas = ExtResource("2_kvp8d")
+region = Rect2(0, 594, 662, 594)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vr1t"]
+atlas = ExtResource("2_kvp8d")
+region = Rect2(662, 594, 662, 594)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bhunq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hokwn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gv8de")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jkqck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_flwhf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_swnmv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6oq3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_66cqq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p0lmu")
+}],
+"loop": 1,
+"name": &"attack2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5fca")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1hsds")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ylts7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6r2f6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7vr1t")
+}],
+"loop": 1,
+"name": &"jump",
+"speed": 5.0
+}]
 
 [node name="Arashi" type="CharacterBody2D" unique_id=489452437]
 script = ExtResource("1_7qhff")
@@ -13,7 +123,8 @@ script = ExtResource("1_7qhff")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=206490550]
 shape = SubResource("CapsuleShape2D_siew1")
 
-[node name="SamuraiJack" type="Sprite2D" parent="." unique_id=441650261]
-position = Vector2(0, -1.1920929e-07)
-scale = Vector2(0.10161567, 0.09140879)
-texture = ExtResource("2_kvp8d")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444]
+position = Vector2(-6, 3.000001)
+scale = Vector2(0.09969793, 0.08585859)
+sprite_frames = SubResource("SpriteFrames_bhunq")
+animation = &"attack2"
