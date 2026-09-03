@@ -2,8 +2,8 @@ extends CharacterBody2D
 
 const SPEED := 300.0
 const GRAVITY := 700.0
-const JUMP_FORCE := -400.0
-const DOUBLE_JUMP_FORCE := -350.0
+const JUMP_FORCE := -500.0
+const DOUBLE_JUMP_FORCE := -550.0
 
 var jumps_left := 2
 var space_was_pressed := false
@@ -82,9 +82,9 @@ func _physics_process(delta: float) -> void:
 			velocity.x = direction * SPEED
 
 			if direction < 0:
-				animated_sprite.flip_h = true
-			else:
 				animated_sprite.flip_h = false
+			else:
+				animated_sprite.flip_h = true
 
 		else:
 

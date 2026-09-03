@@ -1,49 +1,45 @@
 [gd_scene format=3 uid="uid://dr6qg0iw5lrut"]
 
 [ext_resource type="PackedScene" uid="uid://cxp23lwbrnclb" path="res://scenes/arashi.tscn" id="1_cfv3y"]
-[ext_resource type="Texture2D" uid="uid://b0ecm3cc8dae2" path="res://Assets/content.png" id="1_ci5ev"]
+[ext_resource type="Texture2D" uid="uid://lcdmijf8igug" path="res://Assets/Gemini_Generated_Image_6sqf706sqf706sqf.jpeg" id="3_pgr2e"]
 [ext_resource type="PackedScene" uid="uid://c1ux7wauqp8n5" path="res://scenes/plataforma.tscn" id="4_ebau5"]
-[ext_resource type="PackedScene" uid="uid://b1l2mvkoro111" path="res://scenes/enemigo.tscn" id="5_288ch"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ci5ev"]
-size = Vector2(1280, 100)
+size = Vector2(1911, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pgr2e"]
-size = Vector2(100, 720)
+size = Vector2(100, 1069)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_siew1"]
-size = Vector2(100, 720)
+size = Vector2(100, 1066)
 
 [node name="Node2D" type="Node2D" unique_id=1291949946]
 
-[node name="Content" type="Sprite2D" parent="." unique_id=1518879222]
-position = Vector2(576, 356.5)
-scale = Vector2(0.88216144, 0.6962891)
-texture = ExtResource("1_ci5ev")
+[node name="GeminiGeneratedImage6Sqf706Sqf706Sqf" type="Sprite2D" parent="." unique_id=780527202]
+position = Vector2(955, 502.4826)
+scale = Vector2(1.5349442, 1.3138474)
+texture = ExtResource("3_pgr2e")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2130840707]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=120338455]
-position = Vector2(640, 650)
+position = Vector2(955, 1044)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=1585304690]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=516152779]
-position = Vector2(-53, 360)
+position = Vector2(-50, 540)
 shape = SubResource("RectangleShape2D_pgr2e")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="." unique_id=347610425]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3" unique_id=1835874515]
-position = Vector2(1204, 360)
+position = Vector2(1964, 540)
 shape = SubResource("RectangleShape2D_siew1")
 
 [node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
-position = Vector2(186, 564)
-
-[node name="Node2D" parent="." unique_id=626442668 instance=ExtResource("5_288ch")]
-position = Vector2(467, 501)
+position = Vector2(218, 949)
 
 [node name="Node2D2" parent="." unique_id=105287030 instance=ExtResource("4_ebau5")]
-position = Vector2(299, 508)
+position = Vector2(1566, 861)

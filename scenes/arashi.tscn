@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://cc60ptteq7opx" path="res://Assets/arashi salto.png" id="2_kvp8d"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
-radius = 20.0
-height = 80.0
+radius = 48.894928
+height = 154.53041
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hokwn"]
 atlas = ExtResource("2_d5fca")
@@ -121,10 +121,11 @@ animations = [{
 script = ExtResource("1_7qhff")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=206490550]
+rotation = 0.029986693
 shape = SubResource("CapsuleShape2D_siew1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444]
-position = Vector2(-6, 3.000001)
-scale = Vector2(0.09969793, 0.08585859)
+position = Vector2(-42.000004, 9.536743e-07)
+scale = Vector2(0.37077758, 0.3500716)
 sprite_frames = SubResource("SpriteFrames_bhunq")
 animation = &"attack2"
