@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://blm7v58vbtlah" path="res://Scripts/arashi.gd" id="1_7qhff"]
 [ext_resource type="Texture2D" uid="uid://bhqjdtelf3ss4" path="res://Assets/Rayo.png" id="2_d5fca"]
 [ext_resource type="Texture2D" uid="uid://cc60ptteq7opx" path="res://Assets/arashi salto.png" id="2_kvp8d"]
+[ext_resource type="Texture2D" uid="uid://crrwblpgfk5sl" path="res://Assets/0d5aae97-3d10-4672-acbf-07fcf7d2f32e.png" id="3_1hsds"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
 radius = 48.894928
@@ -39,10 +40,6 @@ region = Rect2(852, 333, 426, 333)
 [sub_resource type="AtlasTexture" id="AtlasTexture_p0lmu"]
 atlas = ExtResource("2_d5fca")
 region = Rect2(1278, 333, 426, 333)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d5fca"]
-atlas = ExtResource("2_kvp8d")
-region = Rect2(0, 0, 662, 594)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1hsds"]
 atlas = ExtResource("2_kvp8d")
@@ -93,7 +90,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_d5fca")
+"texture": ExtResource("3_1hsds")
 }],
 "loop": 1,
 "name": &"idle",
@@ -125,7 +122,6 @@ rotation = 0.029986693
 shape = SubResource("CapsuleShape2D_siew1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444]
-position = Vector2(-42.000004, 9.536743e-07)
-scale = Vector2(0.37077758, 0.3500716)
+scale = Vector2(0.21281455, 0.18093571)
 sprite_frames = SubResource("SpriteFrames_bhunq")
-animation = &"attack2"
+animation = &"idle"
