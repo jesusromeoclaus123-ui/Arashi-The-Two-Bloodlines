@@ -9,7 +9,26 @@ var jumps_left := 2
 var space_was_pressed := false
 var atacando := false
 
+# =========================
+# CHECKPOINT
+# =========================
+
+# Posición del checkpoint normal
+var punto_checkpoint: Vector2
+
+# Nueva posición guardada por la bandera
+var posicion_bandera: Vector2
+
+# Indica si tocamos una bandera
+var bandera_activada: bool = false
+
+
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+
+func _ready() -> void:
+	# Al comenzar, el checkpoint es la posición inicial del personaje
+	punto_checkpoint = global_position
 
 
 func _physics_process(delta: float) -> void:
@@ -107,6 +126,38 @@ func _physics_process(delta: float) -> void:
 
 
 	move_and_slide()
+
+
+# =========================
+# BANDERA
+# =========================
+
+func activar_bandera(posicion: Vector2) -> void:
+
+	bandera_activada = true
+	posicion_bandera = posicion
+
+	print("Nuevo checkpoint: ", posicion_bandera)
+
+
+# =========================
+# RESPANEAR
+# =========================
+
+func respawn() -> void:
+
+	if bandera_activada:
+
+		global_position = posicion_bandera
+
+	else:
+
+		global_position = punto_checkpoint
+
+	velocity = Vector2.ZERO
+	atacando = false
+
+	animated_sprite.play("idle")
 
 
 # =========================

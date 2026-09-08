@@ -84,7 +84,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_p0lmu")
 }],
-"loop": 1,
+"loop": 0,
 "name": &"attack2",
 "speed": 5.0
 }, {
@@ -114,14 +114,20 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Arashi" type="CharacterBody2D" unique_id=489452437]
+[node name="Arashi" type="CharacterBody2D" unique_id=489452437 groups=["player"]]
 script = ExtResource("1_7qhff")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=206490550]
+position = Vector2(414, -290)
 rotation = 0.029986693
 shape = SubResource("CapsuleShape2D_siew1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444]
+position = Vector2(428, -262)
 scale = Vector2(0.21281455, 0.18093571)
 sprite_frames = SubResource("SpriteFrames_bhunq")
 animation = &"idle"
+autoplay = "idle"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=903674846]
+position = Vector2(957, -446)

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://ba43j7idrq2qy"]
+
+[ext_resource type="Texture2D" uid="uid://cec7gngvod25p" path="res://Assets/ChatGPT Image 8 sept 2026, 11_31_41.png" id="1_bpvnt"]
+[ext_resource type="Script" uid="uid://cndf7iyqwwmn2" path="res://bandera.gd" id="2_2mfvn"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_riqys"]
+radius = 28.0
+height = 78.0
+
+[node name="Node2D" type="Node2D" unique_id=952836414]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1767625843]
+position = Vector2(35.75, 90.24999)
+scale = Vector2(0.05781499, 0.07535883)
+texture = ExtResource("1_bpvnt")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1364943288]
+script = ExtResource("2_2mfvn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1913119124]
+position = Vector2(36, 89)
+shape = SubResource("CapsuleShape2D_riqys")

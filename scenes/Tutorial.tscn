@@ -3,20 +3,18 @@
 [ext_resource type="PackedScene" uid="uid://cxp23lwbrnclb" path="res://scenes/arashi.tscn" id="1_cfv3y"]
 [ext_resource type="Texture2D" uid="uid://cssgg02y8vo1d" path="res://Assets/file_000000004038820e823b8486bed90bbe.png" id="1_ebau5"]
 [ext_resource type="Texture2D" uid="uid://b3d17att5oqcr" path="res://Assets/ab254be8-9126-4564-b91e-ace38ed50ae9.png" id="2_ebau5"]
+[ext_resource type="Texture2D" uid="uid://dxdu8r82g5yya" path="res://Assets/Captura de pantalla 2026-09-08 111340.jpg" id="3_288ch"]
 [ext_resource type="PackedScene" uid="uid://c1ux7wauqp8n5" path="res://scenes/plataforma.tscn" id="4_ebau5"]
+[ext_resource type="PackedScene" uid="uid://ba43j7idrq2qy" path="res://glabal.tscn" id="6_twv1b"]
+[ext_resource type="PackedScene" uid="uid://dotpynjalckd6" path="res://control.tscn" id="7_y0w3d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pgr2e"]
 size = Vector2(100, 1069)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_siew1"]
-size = Vector2(100, 1066)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ci5ev"]
-size = Vector2(2216.25, 243.75)
+size = Vector2(11021, 243.75)
 
 [node name="Node2D" type="Node2D" unique_id=1291949946]
-
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=2130840707]
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=1585304690]
 
@@ -26,12 +24,28 @@ shape = SubResource("RectangleShape2D_pgr2e")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="." unique_id=347610425]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3" unique_id=1835874515]
-position = Vector2(1964, 540)
-shape = SubResource("RectangleShape2D_siew1")
-
 [node name="File000000004038820e823b8486Bed90Bbe" type="Sprite2D" parent="StaticBody2D3" unique_id=777993604]
 position = Vector2(1099.0001, 540)
+scale = Vector2(1.240699, 1.240699)
+texture = ExtResource("1_ebau5")
+
+[node name="File000000004038820e823b8486Bed90Bbe2" type="Sprite2D" parent="StaticBody2D3" unique_id=867299780]
+position = Vector2(3299.0002, 541.00006)
+scale = Vector2(1.240699, 1.240699)
+texture = ExtResource("1_ebau5")
+
+[node name="File000000004038820e823b8486Bed90Bbe3" type="Sprite2D" parent="StaticBody2D3" unique_id=375664738]
+position = Vector2(5498, 548)
+scale = Vector2(1.240699, 1.240699)
+texture = ExtResource("1_ebau5")
+
+[node name="File000000004038820e823b8486Bed90Bbe4" type="Sprite2D" parent="StaticBody2D3" unique_id=1457741555]
+position = Vector2(7703, 551.00006)
+scale = Vector2(1.240699, 1.240699)
+texture = ExtResource("1_ebau5")
+
+[node name="File000000004038820e823b8486Bed90Bbe5" type="Sprite2D" parent="StaticBody2D3" unique_id=146843332]
+position = Vector2(9902, 551)
 scale = Vector2(1.240699, 1.240699)
 texture = ExtResource("1_ebau5")
 
@@ -41,11 +55,37 @@ scale = Vector2(1.0615978, 1.0615978)
 texture = ExtResource("2_ebau5")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D3" unique_id=120338455]
-position = Vector2(1101.125, 1009)
+position = Vector2(5503.5, 1009)
 shape = SubResource("RectangleShape2D_ci5ev")
 
+[node name="CapturaDePantalla20260908111340" type="Sprite2D" parent="StaticBody2D3" unique_id=644742918]
+position = Vector2(3310, 988.5)
+scale = Vector2(1.9486272, 1.5714288)
+texture = ExtResource("3_288ch")
+
+[node name="CapturaDePantalla20260908111341" type="Sprite2D" parent="StaticBody2D3" unique_id=843201965]
+position = Vector2(5499, 995.00006)
+scale = Vector2(1.9486272, 1.5714288)
+texture = ExtResource("3_288ch")
+
+[node name="CapturaDePantalla20260908111342" type="Sprite2D" parent="StaticBody2D3" unique_id=257723137]
+position = Vector2(7704.0005, 1003)
+scale = Vector2(1.9486272, 1.5714288)
+texture = ExtResource("3_288ch")
+
+[node name="CapturaDePantalla20260908111343" type="Sprite2D" parent="StaticBody2D3" unique_id=604362646]
+position = Vector2(9909, 998)
+scale = Vector2(1.9486272, 1.5714288)
+texture = ExtResource("3_288ch")
+
 [node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
-position = Vector2(230, 788)
+position = Vector2(284, 765)
 
 [node name="Node2D2" parent="." unique_id=105287030 instance=ExtResource("4_ebau5")]
-position = Vector2(1789, 711)
+position = Vector2(1875, 690)
+
+[node name="Node2D" parent="." unique_id=952836414 instance=ExtResource("6_twv1b")]
+position = Vector2(1125, 738)
+
+[node name="Node2D3" parent="." unique_id=2091260195 instance=ExtResource("7_y0w3d")]
+position = Vector2(6, 201)
