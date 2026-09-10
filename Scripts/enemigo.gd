@@ -35,10 +35,10 @@ func _physics_process(delta: float) -> void:
 
 	if jugador.global_position.x < global_position.x:
 		velocity.x = -SPEED
-		animated_sprite.flip_h = true
+		animated_sprite.flip_h = false
 	else:
 		velocity.x = SPEED
-		animated_sprite.flip_h = false
+		animated_sprite.flip_h = true
 
 	animated_sprite.play("walk")
 

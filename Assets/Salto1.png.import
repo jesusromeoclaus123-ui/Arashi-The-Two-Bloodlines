@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0b4ad1o3y5jx"
-path="res://.godot/imported/PlataformaMedia.png-1f7e0408cb305d5def62b08b14a418be.ctex"
+uid="uid://1qimjeec3dmx"
+path="res://.godot/imported/Salto1.png-fb1f3974997caeaae0e54bcb5c3adb7d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/PlataformaMedia.png"
-dest_files=["res://.godot/imported/PlataformaMedia.png-1f7e0408cb305d5def62b08b14a418be.ctex"]
+source_file="res://Assets/Salto1.png"
+dest_files=["res://.godot/imported/Salto1.png-fb1f3974997caeaae0e54bcb5c3adb7d.ctex"]
 
 [params]
 

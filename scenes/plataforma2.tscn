@@ -1,19 +1,19 @@
-[gd_scene format=3 uid="uid://c1ux7wauqp8n5"]
+[gd_scene format=3 uid="uid://7hjyi8pckllo"]
 
-[ext_resource type="Texture2D" uid="uid://dt5v0dbas3jo6" path="res://Assets/PlataformaGrande.png" id="1_rkcww"]
+[ext_resource type="Texture2D" uid="uid://i0dbckjo3i3w" path="res://Assets/Plataforma1.png" id="1_wcnrw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
-size = Vector2(393, 460)
+size = Vector2(190, 238)
 
 [node name="Node2D" type="Node2D" unique_id=105287030]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1504845275]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=97849513]
-position = Vector2(81.5, -95)
+position = Vector2(105, -82)
 shape = SubResource("RectangleShape2D_bhunq")
 
 [node name="PlataformaGrande" type="Sprite2D" parent="StaticBody2D" unique_id=1572815402]
 position = Vector2(87.593735, -85.61012)
 scale = Vector2(0.70603883, 0.61599576)
-texture = ExtResource("1_rkcww")
+texture = ExtResource("1_wcnrw")

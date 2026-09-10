@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b4pe83jmibdee"
-path="res://.godot/imported/PlataformaChica.png-91ae98def74c896b0f9d6e69f94bb2e5.ctex"
+uid="uid://crueli757wtr6"
+path="res://.godot/imported/Salto8.png-d77effd22adff5732336750407100454.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/PlataformaChica.png"
-dest_files=["res://.godot/imported/PlataformaChica.png-91ae98def74c896b0f9d6e69f94bb2e5.ctex"]
+source_file="res://Assets/Salto8.png"
+dest_files=["res://.godot/imported/Salto8.png-d77effd22adff5732336750407100454.ctex"]
 
 [params]
 

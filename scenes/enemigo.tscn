@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b1l2mvkoro111"]
 
-[ext_resource type="Script" uid="uid://18k02ao7ndif" path="res://scenes/enemigo.gd" id="1_hlx46"]
+[ext_resource type="Script" uid="uid://18k02ao7ndif" path="res://Scripts/enemigo.gd" id="1_hlx46"]
 [ext_resource type="Texture2D" uid="uid://d2fykjce7b1mi" path="res://Assets/Samurai.png" id="2_hlx46"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bhunq"]
@@ -39,8 +39,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pdlv7"]
-radius = 55.0
-height = 130.0
+radius = 52.0
+height = 200.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ahthy"]
 size = Vector2(64.22232, 10.238518)
@@ -51,18 +51,18 @@ size = Vector2(64.22232, 10.238518)
 script = ExtResource("1_hlx46")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=1657806897 groups=["player"]]
-position = Vector2(75.72397, 26.876526)
-scale = Vector2(0.13735563, 0.11557734)
+position = Vector2(95.223976, 4.876524)
+scale = Vector2(0.1699099, 0.14908838)
 sprite_frames = SubResource("SpriteFrames_bhunq")
 animation = &"attack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1906639047]
-position = Vector2(79, 29)
+position = Vector2(114, 5)
 shape = SubResource("CapsuleShape2D_pdlv7")
 
 [node name="AttackArea" type="Area2D" parent="CharacterBody2D" unique_id=339711785]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/AttackArea" unique_id=911347834]
-position = Vector2(32.060226, 53.686115)
+position = Vector2(29.999996, 43.999996)
 rotation = -0.31296298
 shape = SubResource("RectangleShape2D_ahthy")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0ecm3cc8dae2"
-path="res://.godot/imported/content.png-a92adabcf696d1c428f1101bbcd21495.ctex"
+uid="uid://dj523tvyll4e1"
+path="res://.godot/imported/Salto9.png-27c3384eca7d14f3061586f870c7c247.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/content.png"
-dest_files=["res://.godot/imported/content.png-a92adabcf696d1c428f1101bbcd21495.ctex"]
+source_file="res://Assets/Salto9.png"
+dest_files=["res://.godot/imported/Salto9.png-27c3384eca7d14f3061586f870c7c247.ctex"]
 
 [params]
 

@@ -1,126 +1,89 @@
 [gd_scene format=3 uid="uid://cxp23lwbrnclb"]
 
 [ext_resource type="Script" uid="uid://blm7v58vbtlah" path="res://Scripts/arashi.gd" id="1_7qhff"]
-[ext_resource type="Texture2D" uid="uid://bhqjdtelf3ss4" path="res://Assets/Rayo.png" id="2_d5fca"]
-[ext_resource type="Texture2D" uid="uid://cc60ptteq7opx" path="res://Assets/arashi salto.png" id="2_kvp8d"]
-[ext_resource type="Texture2D" uid="uid://crrwblpgfk5sl" path="res://Assets/0d5aae97-3d10-4672-acbf-07fcf7d2f32e.png" id="3_1hsds"]
+[ext_resource type="Texture2D" uid="uid://bfjjt2q5cgn8h" path="res://Assets/c408a6eb-7941-4ead-a783-b2bea26d040a (1).png" id="2_t6oq3"]
+[ext_resource type="Texture2D" uid="uid://1qimjeec3dmx" path="res://Assets/Salto1.png" id="3_66cqq"]
+[ext_resource type="Texture2D" uid="uid://gan6fq4gnopv" path="res://Assets/Salto2.png" id="4_p0lmu"]
+[ext_resource type="Texture2D" uid="uid://bkncp0thrm62n" path="res://Assets/Salto3.png" id="5_h5ptu"]
+[ext_resource type="Texture2D" uid="uid://biukb8rf73y4w" path="res://Assets/Salto4.png" id="6_62ryb"]
+[ext_resource type="Texture2D" uid="uid://da5m8nuppi353" path="res://Assets/Salto5.png" id="7_g7m5g"]
+[ext_resource type="Texture2D" uid="uid://cdewqagf3p4bh" path="res://Assets/Salto6.png" id="8_vrquo"]
+[ext_resource type="Texture2D" uid="uid://jlsttpaoddk4" path="res://Assets/Salto7.png" id="9_ag8g7"]
+[ext_resource type="Texture2D" uid="uid://crueli757wtr6" path="res://Assets/Salto8.png" id="10_wgnyk"]
+[ext_resource type="Texture2D" uid="uid://dj523tvyll4e1" path="res://Assets/Salto9.png" id="11_sschl"]
+[ext_resource type="Texture2D" uid="uid://crgglyore4txj" path="res://Assets/Salto10.png" id="12_ckd3t"]
+[ext_resource type="Texture2D" uid="uid://vqu4klkbj0q3" path="res://Assets/Salto11.png" id="13_j7dm4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
-radius = 48.894928
-height = 154.53041
+radius = 78.11481
+height = 202.14914
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hokwn"]
-atlas = ExtResource("2_d5fca")
-region = Rect2(0, 0, 426, 333)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gv8de"]
-atlas = ExtResource("2_d5fca")
-region = Rect2(426, 0, 426, 333)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jkqck"]
-atlas = ExtResource("2_d5fca")
-region = Rect2(852, 0, 426, 333)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_flwhf"]
-atlas = ExtResource("2_d5fca")
-region = Rect2(1278, 0, 426, 333)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_swnmv"]
-atlas = ExtResource("2_d5fca")
-region = Rect2(0, 333, 426, 333)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t6oq3"]
-atlas = ExtResource("2_d5fca")
-region = Rect2(426, 333, 426, 333)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_66cqq"]
-atlas = ExtResource("2_d5fca")
-region = Rect2(852, 333, 426, 333)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p0lmu"]
-atlas = ExtResource("2_d5fca")
-region = Rect2(1278, 333, 426, 333)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1hsds"]
-atlas = ExtResource("2_kvp8d")
-region = Rect2(0, 0, 662, 594)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ylts7"]
-atlas = ExtResource("2_kvp8d")
-region = Rect2(662, 0, 662, 594)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6r2f6"]
-atlas = ExtResource("2_kvp8d")
-region = Rect2(0, 594, 662, 594)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_bhunq"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_te31d"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_hokwn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gv8de")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jkqck")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_flwhf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_swnmv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_t6oq3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_66cqq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p0lmu")
-}],
-"loop": 0,
-"name": &"attack2",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_1hsds")
-}],
-"loop": 0,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1hsds")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ylts7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6r2f6")
+"texture": ExtResource("2_t6oq3")
 }],
 "loop": 1,
-"name": &"jump",
+"name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_66cqq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_p0lmu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_h5ptu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_62ryb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_g7m5g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_vrquo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_vrquo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ag8g7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_wgnyk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_sschl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_ckd3t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_j7dm4")
+}],
+"loop": 0,
+"name": &"jump",
+"speed": 8.0
 }]
 
 [node name="Arashi" type="CharacterBody2D" unique_id=489452437 groups=["player"]]
+position = Vector2(5, -94)
 script = ExtResource("1_7qhff")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=206490550]
-position = Vector2(414, -290)
+position = Vector2(972.00006, -299.00003)
 rotation = 0.029986693
 shape = SubResource("CapsuleShape2D_siew1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444]
-position = Vector2(414, -287)
-scale = Vector2(0.12896281, 0.11865003)
-sprite_frames = SubResource("SpriteFrames_bhunq")
-animation = &"idle"
-autoplay = "idle"
+position = Vector2(971, -327)
+scale = Vector2(0.4934723, 0.48953205)
+sprite_frames = SubResource("SpriteFrames_te31d")
+animation = &"jump"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=903674846]
 position = Vector2(957, -446)

@@ -1,3 +1,4 @@
+
 extends CharacterBody2D
 
 const SPEED := 300.0
@@ -8,6 +9,7 @@ const DOUBLE_JUMP_FORCE := -550.0
 var jumps_left := 2
 var space_was_pressed := false
 var atacando := false
+var saltando := false
 
 # =========================
 # CHECKPOINT
@@ -26,6 +28,9 @@ func _ready() -> void:
 	# attack2 NO se repite
 	animated_sprite.sprite_frames.set_animation_loop("attack2", false)
 
+	# jump NO se repite
+	animated_sprite.sprite_frames.set_animation_loop("jump", false)
+
 
 func _physics_process(delta: float) -> void:
 
@@ -43,6 +48,7 @@ func _physics_process(delta: float) -> void:
 
 	if is_on_floor():
 		jumps_left = 2
+		saltando = false
 
 
 	# =========================
@@ -61,6 +67,10 @@ func _physics_process(delta: float) -> void:
 				velocity.y = DOUBLE_JUMP_FORCE
 
 			jumps_left -= 1
+			saltando = true
+
+			# Reproducir animación de salto
+			animated_sprite.play("jump")
 
 	space_was_pressed = space_pressed
 
@@ -93,10 +103,13 @@ func _physics_process(delta: float) -> void:
 
 			velocity.x = direction * SPEED
 
+			# Dirección del personaje
 			if direction < 0:
-				animated_sprite.flip_h = false
-			else:
+				# A = izquierda
 				animated_sprite.flip_h = true
+			else:
+				# D = derecha
+				animated_sprite.flip_h = false
 
 		else:
 
@@ -109,12 +122,12 @@ func _physics_process(delta: float) -> void:
 
 	if not atacando:
 
-		if not is_on_floor():
-
-			animated_sprite.play("jump")
+		if saltando:
+			# La animación ya se inició al apretar espacio.
+			# No la reiniciamos constantemente.
+			pass
 
 		else:
-
 			animated_sprite.play("idle")
 
 
@@ -182,5 +195,6 @@ func respawn() -> void:
 
 	velocity = Vector2.ZERO
 	atacando = false
+	saltando = false
 
 	animated_sprite.play("idle")

@@ -1,26 +1,26 @@
 [gd_scene format=3 uid="uid://dotpynjalckd6"]
 
-[ext_resource type="Texture2D" uid="uid://ywalc0tu7stq" path="res://Assets/ChatGPT Image 8 sept 2026, 12_04_20.png" id="1_62e2m"]
 [ext_resource type="Texture2D" uid="uid://bg1klt5b1oe4k" path="res://Assets/ChatGPT Image 8 sept 2026, 12_10_11.png" id="2_qtu10"]
+[ext_resource type="Texture2D" uid="uid://b7qqljnqqbpbb" path="res://Assets/Viejo.png" id="2_r67kn"]
 
 [node name="Node2D" type="Node2D" unique_id=2091260195]
 
 [node name="ChatGptImage8Sept2026,121011" type="Sprite2D" parent="." unique_id=647379948]
-position = Vector2(266.75, 368.125)
+position = Vector2(240, 287.00003)
 scale = Vector2(0.16679388, 0.18172356)
 texture = ExtResource("2_qtu10")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1802268130]
 modulate = Color(0, 0, 0, 1)
-offset_left = 173.0
-offset_top = 281.0
-offset_right = 373.0
-offset_bottom = 475.0
+offset_left = 162.0
+offset_top = 204.0
+offset_right = 362.0
+offset_bottom = 398.0
 text = "\"¡Bienvenido! Tocá ESPACIO para saltar.\"
 \"Evitá los obstáculos para seguir vivo.\"
 \"¡Buena suerte!\""
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2022654499]
-position = Vector2(152.00006, 545)
-scale = Vector2(0.19459173, 0.14148681)
-texture = ExtResource("1_62e2m")
+position = Vector2(119, 480)
+scale = Vector2(0.25858626, 0.2527287)
+texture = ExtResource("2_r67kn")

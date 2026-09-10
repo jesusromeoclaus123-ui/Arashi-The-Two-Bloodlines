@@ -5,12 +5,13 @@
 [ext_resource type="Texture2D" uid="uid://b3d17att5oqcr" path="res://Assets/ab254be8-9126-4564-b91e-ace38ed50ae9.png" id="2_ebau5"]
 [ext_resource type="Texture2D" uid="uid://dxdu8r82g5yya" path="res://Assets/Captura de pantalla 2026-09-08 111340.jpg" id="3_288ch"]
 [ext_resource type="PackedScene" uid="uid://c1ux7wauqp8n5" path="res://scenes/plataforma.tscn" id="4_ebau5"]
-[ext_resource type="PackedScene" uid="uid://ba43j7idrq2qy" path="res://glabal.tscn" id="6_twv1b"]
-[ext_resource type="PackedScene" uid="uid://dotpynjalckd6" path="res://control.tscn" id="7_y0w3d"]
+[ext_resource type="PackedScene" uid="uid://ba43j7idrq2qy" path="res://scenes/glabal.tscn" id="6_twv1b"]
+[ext_resource type="PackedScene" uid="uid://dotpynjalckd6" path="res://scenes/control.tscn" id="7_y0w3d"]
 [ext_resource type="PackedScene" uid="uid://b1l2mvkoro111" path="res://scenes/enemigo.tscn" id="8_u5f0c"]
+[ext_resource type="PackedScene" uid="uid://7hjyi8pckllo" path="res://scenes/plataforma2.tscn" id="9_0g6v0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pgr2e"]
-size = Vector2(479, 1069)
+size = Vector2(249, 1056.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ci5ev"]
 size = Vector2(11027.5, 151.875)
@@ -20,7 +21,7 @@ size = Vector2(11027.5, 151.875)
 [node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=1585304690]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=516152779]
-position = Vector2(139.5, 540)
+position = Vector2(24.5, 533.75)
 shape = SubResource("RectangleShape2D_pgr2e")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="." unique_id=347610425]
@@ -79,17 +80,20 @@ position = Vector2(9899.5, 1204)
 scale = Vector2(1.9654562, 2.4897962)
 texture = ExtResource("3_288ch")
 
+[node name="Node2D3" parent="." unique_id=2091260195 instance=ExtResource("7_y0w3d")]
+position = Vector2(507, 416)
+
 [node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
-position = Vector2(284, 765)
+position = Vector2(-25, 1392)
 
 [node name="Node2D2" parent="." unique_id=105287030 instance=ExtResource("4_ebau5")]
-position = Vector2(1869, 841)
+position = Vector2(1933, 960)
 
 [node name="Node2D" parent="." unique_id=952836414 instance=ExtResource("6_twv1b")]
 position = Vector2(3463, 939)
 
-[node name="Node2D3" parent="." unique_id=2091260195 instance=ExtResource("7_y0w3d")]
-position = Vector2(6, 201)
-
 [node name="Node2D4" parent="." unique_id=626442668 instance=ExtResource("8_u5f0c")]
-position = Vector2(2435, 742)
+position = Vector2(2345, 950)
+
+[node name="Node2D5" parent="." unique_id=538056576 instance=ExtResource("9_0g6v0")]
+position = Vector2(1324, 1048)
