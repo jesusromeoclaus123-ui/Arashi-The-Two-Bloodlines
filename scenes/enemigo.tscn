@@ -136,10 +136,10 @@ radius = 37.01351
 script = ExtResource("1_hlx46")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=1657806897 groups=["player"]]
-position = Vector2(37, 61)
-scale = Vector2(0.3046875, 0.3529412)
+position = Vector2(41.999996, 40)
+scale = Vector2(0.70485514, 0.65196073)
 sprite_frames = SubResource("SpriteFrames_bhunq")
-animation = &"walk"
+animation = &"attack"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=1906639047]
 position = Vector2(41, 57)

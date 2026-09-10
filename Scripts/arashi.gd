@@ -13,22 +13,18 @@ var atacando := false
 # CHECKPOINT
 # =========================
 
-# Posición del checkpoint normal
 var punto_checkpoint: Vector2
-
-# Nueva posición guardada por la bandera
 var posicion_bandera: Vector2
-
-# Indica si tocamos una bandera
 var bandera_activada: bool = false
-
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 
 func _ready() -> void:
-	# Al comenzar, el checkpoint es la posición inicial del personaje
 	punto_checkpoint = global_position
+
+	# attack2 NO se repite
+	animated_sprite.sprite_frames.set_animation_loop("attack2", false)
 
 
 func _physics_process(delta: float) -> void:
@@ -75,10 +71,7 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_key_pressed(KEY_K) and not atacando:
 
-		atacando = true
-		velocity.x = 0
-
-		animated_sprite.play("attack2")
+		realizar_ataque()
 
 
 	# =========================
@@ -129,7 +122,40 @@ func _physics_process(delta: float) -> void:
 
 
 # =========================
-# BANDERA
+# REALIZAR ATAQUE
+# =========================
+
+func realizar_ataque() -> void:
+
+	atacando = true
+	velocity.x = 0
+
+	animated_sprite.play("attack2")
+
+	# Cantidad de frames de attack2
+	var cantidad_frames := animated_sprite.sprite_frames.get_frame_count("attack2")
+
+	# FPS de attack2
+	var fps := animated_sprite.sprite_frames.get_animation_speed("attack2")
+
+	# Evitar división por cero
+	if fps <= 0:
+		fps = 5.0
+
+	# Duración total de la animación
+	var duracion := float(cantidad_frames) / fps
+
+	await get_tree().create_timer(duracion).timeout
+
+	# Volver a idle
+	atacando = false
+	velocity.x = 0
+
+	animated_sprite.play("idle")
+
+
+# =========================
+# BANDERA / CHECKPOINT
 # =========================
 
 func activar_bandera(posicion: Vector2) -> void:
@@ -141,7 +167,7 @@ func activar_bandera(posicion: Vector2) -> void:
 
 
 # =========================
-# RESPANEAR
+# RESPAWN
 # =========================
 
 func respawn() -> void:
@@ -158,14 +184,3 @@ func respawn() -> void:
 	atacando = false
 
 	animated_sprite.play("idle")
-
-
-# =========================
-# TERMINÓ ATTACK2
-# =========================
-
-func _on_animation_finished() -> void:
-
-	if animated_sprite.animation == "attack2":
-
-		atacando = false
