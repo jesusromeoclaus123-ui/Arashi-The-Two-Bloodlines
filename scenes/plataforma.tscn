@@ -3,19 +3,19 @@
 [ext_resource type="Texture2D" uid="uid://dt5v0dbas3jo6" path="res://Assets/PlataformaGrande.png" id="1_rkcww"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bhunq"]
-size = Vector2(323, 396)
+size = Vector2(138, 109)
 
 [node name="Node2D" type="Node2D" unique_id=105287030]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1504845275]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=97849513]
-position = Vector2(7.5, -7)
+position = Vector2(-92, 151)
 shape = SubResource("RectangleShape2D_bhunq")
 
 [node name="Sprite2D" type="Sprite2D" parent="StaticBody2D" unique_id=1656672699]
 
 [node name="PlataformaGrande" type="Sprite2D" parent="StaticBody2D" unique_id=1572815402]
-position = Vector2(-7.6293945e-06, 7.6293945e-06)
-scale = Vector2(0.4487885, 0.4487885)
+position = Vector2(-93.90624, 154.38986)
+scale = Vector2(0.17299925, 0.14724582)
 texture = ExtResource("1_rkcww")

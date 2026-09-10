@@ -13,7 +13,7 @@
 size = Vector2(479, 1069)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ci5ev"]
-size = Vector2(11029.5, 187.875)
+size = Vector2(11027.5, 151.875)
 
 [node name="Node2D" type="Node2D" unique_id=1291949946]
 
@@ -56,7 +56,7 @@ scale = Vector2(1.0615978, 1.4224765)
 texture = ExtResource("2_ebau5")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D3" unique_id=120338455]
-position = Vector2(5510.75, 1120.9375)
+position = Vector2(5511.75, 1138.9375)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="CapturaDePantalla20260908111340" type="Sprite2D" parent="StaticBody2D3" unique_id=644742918]
@@ -70,13 +70,13 @@ scale = Vector2(1.9486272, 2.4489799)
 texture = ExtResource("3_288ch")
 
 [node name="CapturaDePantalla20260908111342" type="Sprite2D" parent="StaticBody2D3" unique_id=257723137]
-position = Vector2(7704.0005, 1215)
-scale = Vector2(1.9486272, 2.5714288)
+position = Vector2(7698.5, 1215)
+scale = Vector2(1.9583708, 2.5714288)
 texture = ExtResource("3_288ch")
 
 [node name="CapturaDePantalla20260908111343" type="Sprite2D" parent="StaticBody2D3" unique_id=604362646]
-position = Vector2(9909, 1204)
-scale = Vector2(1.9486272, 2.4897962)
+position = Vector2(9899.5, 1204)
+scale = Vector2(1.9654562, 2.4897962)
 texture = ExtResource("3_288ch")
 
 [node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
@@ -86,10 +86,7 @@ position = Vector2(284, 765)
 position = Vector2(1869, 841)
 
 [node name="Node2D" parent="." unique_id=952836414 instance=ExtResource("6_twv1b")]
-position = Vector2(1125, 738)
-
-[node name="Node2D5" parent="." unique_id=1857446972 instance=ExtResource("6_twv1b")]
-position = Vector2(4056, 942)
+position = Vector2(3463, 939)
 
 [node name="Node2D3" parent="." unique_id=2091260195 instance=ExtResource("7_y0w3d")]
 position = Vector2(6, 201)

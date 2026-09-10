@@ -116,10 +116,10 @@ rotation = 0.029986693
 shape = SubResource("CapsuleShape2D_siew1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444]
-position = Vector2(428.00003, -290)
-scale = Vector2(0.22549324, 0.23565257)
+position = Vector2(414, -287)
+scale = Vector2(0.12896281, 0.11865003)
 sprite_frames = SubResource("SpriteFrames_bhunq")
-animation = &"attack2"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=903674846]
