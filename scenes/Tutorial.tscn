@@ -1,99 +1,67 @@
 [gd_scene format=3 uid="uid://dr6qg0iw5lrut"]
 
+[ext_resource type="Texture2D" uid="uid://bmcwnvg2ijpkp" path="res://Assets/Fondo.png" id="1_288ch"]
 [ext_resource type="PackedScene" uid="uid://cxp23lwbrnclb" path="res://scenes/arashi.tscn" id="1_cfv3y"]
-[ext_resource type="Texture2D" uid="uid://cssgg02y8vo1d" path="res://Assets/file_000000004038820e823b8486bed90bbe.png" id="1_ebau5"]
-[ext_resource type="Texture2D" uid="uid://b3d17att5oqcr" path="res://Assets/ab254be8-9126-4564-b91e-ace38ed50ae9.png" id="2_ebau5"]
-[ext_resource type="Texture2D" uid="uid://dxdu8r82g5yya" path="res://Assets/Captura de pantalla 2026-09-08 111340.jpg" id="3_288ch"]
+[ext_resource type="Texture2D" uid="uid://ix3m832rm8bj" path="res://Assets/Cielo.png" id="2_y0w3d"]
 [ext_resource type="PackedScene" uid="uid://c1ux7wauqp8n5" path="res://scenes/plataforma.tscn" id="4_ebau5"]
-[ext_resource type="PackedScene" uid="uid://ba43j7idrq2qy" path="res://scenes/glabal.tscn" id="6_twv1b"]
+[ext_resource type="Texture2D" uid="uid://1pgsymgkb84o" path="res://Assets/Sol.png" id="7_u5f0c"]
 [ext_resource type="PackedScene" uid="uid://dotpynjalckd6" path="res://scenes/control.tscn" id="7_y0w3d"]
-[ext_resource type="PackedScene" uid="uid://b1l2mvkoro111" path="res://scenes/enemigo.tscn" id="8_u5f0c"]
+[ext_resource type="Texture2D" uid="uid://cxu73drdl135h" path="res://Assets/Nube.png" id="8_u5f0c"]
 [ext_resource type="PackedScene" uid="uid://7hjyi8pckllo" path="res://scenes/plataforma2.tscn" id="9_0g6v0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pgr2e"]
 size = Vector2(249, 1056.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ci5ev"]
-size = Vector2(11027.5, 151.875)
+size = Vector2(2107, 118)
 
 [node name="Node2D" type="Node2D" unique_id=1291949946]
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=1585304690]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=516152779]
-position = Vector2(24.5, 533.75)
+position = Vector2(-53, 805)
 shape = SubResource("RectangleShape2D_pgr2e")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="." unique_id=347610425]
 
-[node name="File000000004038820e823b8486Bed90Bbe" type="Sprite2D" parent="StaticBody2D3" unique_id=777993604]
-position = Vector2(1099.0001, 468.125)
-scale = Vector2(1.240699, 1.4027622)
-texture = ExtResource("1_ebau5")
-
-[node name="File000000004038820e823b8486Bed90Bbe2" type="Sprite2D" parent="StaticBody2D3" unique_id=867299780]
-position = Vector2(3299.0002, 470.62503)
-scale = Vector2(1.240699, 1.39938)
-texture = ExtResource("1_ebau5")
-
-[node name="File000000004038820e823b8486Bed90Bbe3" type="Sprite2D" parent="StaticBody2D3" unique_id=375664738]
-position = Vector2(5498, 474.12503)
-scale = Vector2(1.240699, 1.4072716)
-texture = ExtResource("1_ebau5")
-
-[node name="File000000004038820e823b8486Bed90Bbe4" type="Sprite2D" parent="StaticBody2D3" unique_id=1457741555]
-position = Vector2(7703, 478.62506)
-scale = Vector2(1.240699, 1.4038895)
-texture = ExtResource("1_ebau5")
-
-[node name="File000000004038820e823b8486Bed90Bbe5" type="Sprite2D" parent="StaticBody2D3" unique_id=146843332]
-position = Vector2(9902, 482.625)
-scale = Vector2(1.240699, 1.3948703)
-texture = ExtResource("1_ebau5")
-
-[node name="Ab254Be891264564B91eAce38Ed50Ae9" type="Sprite2D" parent="StaticBody2D3" unique_id=1358013222]
-position = Vector2(1099, 847.5926)
-scale = Vector2(1.0615978, 1.4224765)
-texture = ExtResource("2_ebau5")
+[node name="Fondo" type="Sprite2D" parent="StaticBody2D3" unique_id=1187695709]
+position = Vector2(1053, 744.5)
+scale = Vector2(1.4544199, 1.3710866)
+texture = ExtResource("1_288ch")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D3" unique_id=120338455]
-position = Vector2(5511.75, 1138.9375)
+position = Vector2(1059.5, 1381)
 shape = SubResource("RectangleShape2D_ci5ev")
 
-[node name="CapturaDePantalla20260908111340" type="Sprite2D" parent="StaticBody2D3" unique_id=644742918]
-position = Vector2(3305.5, 1201)
-scale = Vector2(1.9565989, 2.448979)
-texture = ExtResource("3_288ch")
-
-[node name="CapturaDePantalla20260908111341" type="Sprite2D" parent="StaticBody2D3" unique_id=843201965]
-position = Vector2(5499, 1204)
-scale = Vector2(1.9486272, 2.4489799)
-texture = ExtResource("3_288ch")
-
-[node name="CapturaDePantalla20260908111342" type="Sprite2D" parent="StaticBody2D3" unique_id=257723137]
-position = Vector2(7698.5, 1215)
-scale = Vector2(1.9583708, 2.5714288)
-texture = ExtResource("3_288ch")
-
-[node name="CapturaDePantalla20260908111343" type="Sprite2D" parent="StaticBody2D3" unique_id=604362646]
-position = Vector2(9899.5, 1204)
-scale = Vector2(1.9654562, 2.4897962)
-texture = ExtResource("3_288ch")
+[node name="Cielo" type="Sprite2D" parent="StaticBody2D3" unique_id=1348989056]
+position = Vector2(1054, 304.5)
+scale = Vector2(1.9499998, 0.8513889)
+texture = ExtResource("2_y0w3d")
 
 [node name="Node2D3" parent="." unique_id=2091260195 instance=ExtResource("7_y0w3d")]
-position = Vector2(507, 416)
+position = Vector2(417, 689)
 
 [node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
-position = Vector2(-25, 1392)
+position = Vector2(-809, 1497)
 
 [node name="Node2D2" parent="." unique_id=105287030 instance=ExtResource("4_ebau5")]
-position = Vector2(1933, 960)
-
-[node name="Node2D" parent="." unique_id=952836414 instance=ExtResource("6_twv1b")]
-position = Vector2(3463, 939)
-
-[node name="Node2D4" parent="." unique_id=626442668 instance=ExtResource("8_u5f0c")]
-position = Vector2(2345, 950)
+position = Vector2(1772, 1180)
 
 [node name="Node2D5" parent="." unique_id=538056576 instance=ExtResource("9_0g6v0")]
-position = Vector2(1324, 1048)
+position = Vector2(1340, 1277)
+
+[node name="Sol" type="Sprite2D" parent="." unique_id=506164999]
+position = Vector2(1079.0001, 302)
+scale = Vector2(0.6125426, 0.54479164)
+texture = ExtResource("7_u5f0c")
+
+[node name="Nube" type="Sprite2D" parent="." unique_id=61112264]
+position = Vector2(1671.0001, 288)
+scale = Vector2(0.7152778, 0.7152778)
+texture = ExtResource("8_u5f0c")
+
+[node name="Nube" type="Sprite2D" parent="Nube" unique_id=673827861]
+position = Vector2(-1690.2524, -26.563086)
+scale = Vector2(1.0919988, 1.1131961)
+texture = ExtResource("8_u5f0c")

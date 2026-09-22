@@ -16,7 +16,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
 radius = 78.11481
-height = 202.14914
+height = 176.16083
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_te31d"]
 animations = [{
