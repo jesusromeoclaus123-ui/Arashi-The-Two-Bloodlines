@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://dr6qg0iw5lrut"]
 
-[ext_resource type="Texture2D" uid="uid://bmcwnvg2ijpkp" path="res://Assets/Fondo.png" id="1_288ch"]
 [ext_resource type="PackedScene" uid="uid://cxp23lwbrnclb" path="res://scenes/arashi.tscn" id="1_cfv3y"]
 [ext_resource type="Texture2D" uid="uid://ix3m832rm8bj" path="res://Assets/Cielo.png" id="2_y0w3d"]
+[ext_resource type="Texture2D" uid="uid://b0rxxmc68kgch" path="res://Assets/Monte.png" id="3_u5f0c"]
 [ext_resource type="PackedScene" uid="uid://c1ux7wauqp8n5" path="res://scenes/plataforma.tscn" id="4_ebau5"]
+[ext_resource type="Texture2D" uid="uid://cfmmqapm7iv6q" path="res://Assets/Suelo.png" id="5_0g6v0"]
 [ext_resource type="Texture2D" uid="uid://1pgsymgkb84o" path="res://Assets/Sol.png" id="7_u5f0c"]
 [ext_resource type="PackedScene" uid="uid://dotpynjalckd6" path="res://scenes/control.tscn" id="7_y0w3d"]
 [ext_resource type="Texture2D" uid="uid://cxu73drdl135h" path="res://Assets/Nube.png" id="8_u5f0c"]
@@ -25,43 +26,48 @@ shape = SubResource("RectangleShape2D_pgr2e")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="." unique_id=347610425]
 
-[node name="Fondo" type="Sprite2D" parent="StaticBody2D3" unique_id=1187695709]
-position = Vector2(1053, 744.5)
-scale = Vector2(1.4544199, 1.3710866)
-texture = ExtResource("1_288ch")
+[node name="Cielo" type="Sprite2D" parent="StaticBody2D3" unique_id=1348989056]
+position = Vector2(1061.0001, 717.50006)
+scale = Vector2(1.9629629, 1.9986112)
+texture = ExtResource("2_y0w3d")
+
+[node name="Sol" type="Sprite2D" parent="StaticBody2D3" unique_id=506164999]
+position = Vector2(363.00003, 670)
+scale = Vector2(0.6125426, 0.54479164)
+texture = ExtResource("7_u5f0c")
+
+[node name="Monte" type="Sprite2D" parent="StaticBody2D3" unique_id=1369669762]
+position = Vector2(1083, 824.00006)
+scale = Vector2(1.3683243, 1.3683242)
+texture = ExtResource("3_u5f0c")
+
+[node name="Nube" type="Sprite2D" parent="StaticBody2D3" unique_id=61112264]
+position = Vector2(1659, 234.00002)
+scale = Vector2(0.7152779, 0.71527785)
+texture = ExtResource("8_u5f0c")
+
+[node name="Nube2" type="Sprite2D" parent="StaticBody2D3" unique_id=673827861]
+position = Vector2(407, 231.00003)
+scale = Vector2(0.78108263, 0.79624456)
+texture = ExtResource("8_u5f0c")
+
+[node name="Suelo" type="Sprite2D" parent="StaticBody2D3" unique_id=1081914892]
+position = Vector2(1415, 1106)
+scale = Vector2(3.3263886, 3.3263888)
+texture = ExtResource("5_0g6v0")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D3" unique_id=120338455]
 position = Vector2(1059.5, 1381)
 shape = SubResource("RectangleShape2D_ci5ev")
 
-[node name="Cielo" type="Sprite2D" parent="StaticBody2D3" unique_id=1348989056]
-position = Vector2(1054, 304.5)
-scale = Vector2(1.9499998, 0.8513889)
-texture = ExtResource("2_y0w3d")
-
 [node name="Node2D3" parent="." unique_id=2091260195 instance=ExtResource("7_y0w3d")]
-position = Vector2(417, 689)
+position = Vector2(419, 668)
 
 [node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
-position = Vector2(-809, 1497)
+position = Vector2(-782, 1523)
 
 [node name="Node2D2" parent="." unique_id=105287030 instance=ExtResource("4_ebau5")]
 position = Vector2(1772, 1180)
 
 [node name="Node2D5" parent="." unique_id=538056576 instance=ExtResource("9_0g6v0")]
 position = Vector2(1340, 1277)
-
-[node name="Sol" type="Sprite2D" parent="." unique_id=506164999]
-position = Vector2(1079.0001, 302)
-scale = Vector2(0.6125426, 0.54479164)
-texture = ExtResource("7_u5f0c")
-
-[node name="Nube" type="Sprite2D" parent="." unique_id=61112264]
-position = Vector2(1671.0001, 288)
-scale = Vector2(0.7152778, 0.7152778)
-texture = ExtResource("8_u5f0c")
-
-[node name="Nube" type="Sprite2D" parent="Nube" unique_id=673827861]
-position = Vector2(-1690.2524, -26.563086)
-scale = Vector2(1.0919988, 1.1131961)
-texture = ExtResource("8_u5f0c")
