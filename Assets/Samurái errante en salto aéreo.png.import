@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crgglyore4txj"
-path="res://.godot/imported/Salto10.png-4665ce200229b912d7333bb1a8a80a2a.ctex"
+uid="uid://b3ffuivm26moq"
+path="res://.godot/imported/Samurái errante en salto aéreo.png-ee0c96231902de9b9e82ed818e51faf2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Salto10.png"
-dest_files=["res://.godot/imported/Salto10.png-4665ce200229b912d7333bb1a8a80a2a.ctex"]
+source_file="res://Assets/Samurái errante en salto aéreo.png"
+dest_files=["res://.godot/imported/Samurái errante en salto aéreo.png-ee0c96231902de9b9e82ed818e51faf2.ctex"]
 
 [params]
 

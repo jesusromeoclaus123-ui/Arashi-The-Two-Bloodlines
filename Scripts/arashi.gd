@@ -1,10 +1,10 @@
 
 extends CharacterBody2D
 
-const SPEED := 300.0
-const GRAVITY := 700.0
-const JUMP_FORCE := -500.0
-const DOUBLE_JUMP_FORCE := -550.0
+const SPEED := 500.0
+const GRAVITY := 900.0
+const JUMP_FORCE := -600.0
+const DOUBLE_JUMP_FORCE := -700.0
 
 var jumps_left := 2
 var space_was_pressed := false
@@ -25,11 +25,10 @@ var bandera_activada: bool = false
 func _ready() -> void:
 	punto_checkpoint = global_position
 
-	# attack2 NO se repite
+	# Las animaciones NO se repiten
 	animated_sprite.sprite_frames.set_animation_loop("attack2", false)
-
-	# jump NO se repite
 	animated_sprite.sprite_frames.set_animation_loop("jump", false)
+	animated_sprite.sprite_frames.set_animation_loop("double_jump", false)
 
 
 func _physics_process(delta: float) -> void:
@@ -52,7 +51,7 @@ func _physics_process(delta: float) -> void:
 
 
 	# =========================
-	# SALTO
+	# SALTO Y DOBLE SALTO
 	# =========================
 
 	var space_pressed := Input.is_key_pressed(KEY_SPACE)
@@ -62,15 +61,23 @@ func _physics_process(delta: float) -> void:
 		if jumps_left > 0:
 
 			if jumps_left == 2:
+				# PRIMER SALTO
 				velocity.y = JUMP_FORCE
-			else:
+				saltando = true
+
+				if not atacando:
+					animated_sprite.play("jump")
+
+			elif jumps_left == 1:
+				# SEGUNDO SALTO
 				velocity.y = DOUBLE_JUMP_FORCE
+				saltando = true
+
+				if not atacando:
+					# Interrumpe jump y comienza double_jump
+					animated_sprite.play("double_jump")
 
 			jumps_left -= 1
-			saltando = true
-
-			# Reproducir animación de salto
-			animated_sprite.play("jump")
 
 	space_was_pressed = space_pressed
 
@@ -80,7 +87,6 @@ func _physics_process(delta: float) -> void:
 	# =========================
 
 	if Input.is_key_pressed(KEY_K) and not atacando:
-
 		realizar_ataque()
 
 
@@ -105,15 +111,19 @@ func _physics_process(delta: float) -> void:
 
 			# Dirección del personaje
 			if direction < 0:
-				# A = izquierda
 				animated_sprite.flip_h = true
 			else:
-				# D = derecha
 				animated_sprite.flip_h = false
 
 		else:
-
 			velocity.x = move_toward(velocity.x, 0, SPEED)
+
+
+	# =========================
+	# MOVIMIENTO FÍSICO
+	# =========================
+
+	move_and_slide()
 
 
 	# =========================
@@ -122,16 +132,14 @@ func _physics_process(delta: float) -> void:
 
 	if not atacando:
 
-		if saltando:
-			# La animación ya se inició al apretar espacio.
-			# No la reiniciamos constantemente.
-			pass
-
-		else:
+		if is_on_floor():
+			saltando = false
 			animated_sprite.play("idle")
 
-
-	move_and_slide()
+		elif saltando:
+			# Mantener la animación aérea actual.
+			# No reiniciar jump ni double_jump.
+			pass
 
 
 # =========================
@@ -160,11 +168,18 @@ func realizar_ataque() -> void:
 
 	await get_tree().create_timer(duracion).timeout
 
-	# Volver a idle
 	atacando = false
 	velocity.x = 0
 
-	animated_sprite.play("idle")
+	# Recuperar la animación correspondiente
+	if is_on_floor():
+		animated_sprite.play("idle")
+
+	elif jumps_left == 0:
+		animated_sprite.play("double_jump")
+
+	else:
+		animated_sprite.play("jump")
 
 
 # =========================
@@ -186,15 +201,13 @@ func activar_bandera(posicion: Vector2) -> void:
 func respawn() -> void:
 
 	if bandera_activada:
-
 		global_position = posicion_bandera
-
 	else:
-
 		global_position = punto_checkpoint
 
 	velocity = Vector2.ZERO
 	atacando = false
 	saltando = false
+	jumps_left = 2
 
 	animated_sprite.play("idle")
