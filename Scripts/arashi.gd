@@ -25,10 +25,14 @@ var bandera_activada: bool = false
 func _ready() -> void:
 	punto_checkpoint = global_position
 
-	# Las animaciones NO se repiten
+	# Animaciones que NO se repiten
 	animated_sprite.sprite_frames.set_animation_loop("attack2", false)
 	animated_sprite.sprite_frames.set_animation_loop("jump", false)
 	animated_sprite.sprite_frames.set_animation_loop("double_jump", false)
+
+	# Animaciones que SI se repiten
+	animated_sprite.sprite_frames.set_animation_loop("run", true)
+	animated_sprite.sprite_frames.set_animation_loop("idle", true)
 
 
 func _physics_process(delta: float) -> void:
@@ -74,7 +78,6 @@ func _physics_process(delta: float) -> void:
 				saltando = true
 
 				if not atacando:
-					# Interrumpe jump y comienza double_jump
 					animated_sprite.play("double_jump")
 
 			jumps_left -= 1
@@ -111,16 +114,16 @@ func _physics_process(delta: float) -> void:
 
 			# Dirección del personaje
 			if direction < 0:
-				animated_sprite.flip_h = true
-			else:
 				animated_sprite.flip_h = false
+			else:
+				animated_sprite.flip_h = true
 
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 
 
 	# =========================
-	# MOVIMIENTO FÍSICO
+	# MOVIMIENTO FISICO
 	# =========================
 
 	move_and_slide()
@@ -133,12 +136,24 @@ func _physics_process(delta: float) -> void:
 	if not atacando:
 
 		if is_on_floor():
+
 			saltando = false
-			animated_sprite.play("idle")
+
+			# CORRER
+			if direction != 0:
+
+				if animated_sprite.animation != "run":
+					animated_sprite.play("run")
+
+			# QUIETO
+			else:
+
+				if animated_sprite.animation != "idle":
+					animated_sprite.play("idle")
 
 		elif saltando:
-			# Mantener la animación aérea actual.
-			# No reiniciar jump ni double_jump.
+			# Mantener la animación de salto
+			# o doble salto sin reiniciarla.
 			pass
 
 
@@ -173,7 +188,11 @@ func realizar_ataque() -> void:
 
 	# Recuperar la animación correspondiente
 	if is_on_floor():
-		animated_sprite.play("idle")
+
+		if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_D):
+			animated_sprite.play("run")
+		else:
+			animated_sprite.play("idle")
 
 	elif jumps_left == 0:
 		animated_sprite.play("double_jump")

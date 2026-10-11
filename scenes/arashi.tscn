@@ -9,6 +9,12 @@
 [ext_resource type="Texture2D" uid="uid://b3ffuivm26moq" path="res://Assets/Samurái errante en salto aéreo.png" id="5_hokwn"]
 [ext_resource type="Texture2D" uid="uid://d4n1c7x7hjm3c" path="res://Assets/Samurái descendiendo con katana.png" id="6_gv8de"]
 [ext_resource type="Texture2D" uid="uid://dj6ipnbn2wmik" path="res://Assets/Samurái Ronin en Salto Dinámico.png" id="6_jkqck"]
+[ext_resource type="Texture2D" uid="uid://wci6nbvh30m7" path="res://Assets/Samurái samurái corriendo con katana.png" id="10_p0lmu"]
+[ext_resource type="Texture2D" uid="uid://bywsdqm8aj3ft" path="res://Assets/ronincorriendo.png" id="11_h5ptu"]
+[ext_resource type="Texture2D" uid="uid://l3xo56y6cdj5" path="res://Assets/Samurái en Carrera Dinámica.png" id="12_62ryb"]
+[ext_resource type="Texture2D" uid="uid://c4342gfuljdpd" path="res://Assets/Ronin samurái corriendo con katana.png" id="13_g7m5g"]
+[ext_resource type="Texture2D" uid="uid://ctdd0gtbqh76k" path="res://Assets/Samurái en carrera con katana.png" id="14_vrquo"]
+[ext_resource type="Texture2D" uid="uid://bdh873eqpp48q" path="res://Assets/Samurái corriendo con katana.png" id="15_ag8g7"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
 radius = 78.11481
@@ -57,6 +63,29 @@ animations = [{
 "loop": 0,
 "name": &"jump",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_p0lmu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_h5ptu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_62ryb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_g7m5g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_vrquo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_ag8g7")
+}],
+"loop": 1,
+"name": &"run",
+"speed": 10.0
 }]
 
 [node name="Arashi" type="CharacterBody2D" unique_id=489452437 groups=["player"]]
@@ -68,7 +97,7 @@ shape = SubResource("CapsuleShape2D_siew1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444]
 scale = Vector2(0.22336394, 0.20973176)
 sprite_frames = SubResource("SpriteFrames_te31d")
-animation = &"double_jump"
+animation = &"run"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=903674846]
 limit_left = 0
