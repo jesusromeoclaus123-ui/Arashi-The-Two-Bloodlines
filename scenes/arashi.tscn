@@ -1,20 +1,30 @@
 [gd_scene format=3 uid="uid://cxp23lwbrnclb"]
 
 [ext_resource type="Script" uid="uid://blm7v58vbtlah" path="res://Scripts/arashi.gd" id="1_7qhff"]
-[ext_resource type="Texture2D" uid="uid://ww2e73xie025" path="res://Assets/Arashi.png" id="2_6r2f6"]
-[ext_resource type="Texture2D" uid="uid://d2o3iximnglq0" path="res://Assets/Samurái en salto aéreo dinámico.png" id="2_gv8de"]
-[ext_resource type="Texture2D" uid="uid://bvbwt21ojctkj" path="res://Assets/Samurái Ronin en Guardia.png" id="3_6r2f6"]
-[ext_resource type="Texture2D" uid="uid://dj6ipnbn2wmik" path="res://Assets/Samurái ronin en salto dinámico.png" id="4_7vr1t"]
-[ext_resource type="Texture2D" uid="uid://dpssy074bjo6y" path="res://Assets/Samurái Ronin en Pleno Giro.png" id="4_jkqck"]
-[ext_resource type="Texture2D" uid="uid://b3ffuivm26moq" path="res://Assets/Samurái errante en salto aéreo.png" id="5_hokwn"]
-[ext_resource type="Texture2D" uid="uid://d4n1c7x7hjm3c" path="res://Assets/Samurái descendiendo con katana.png" id="6_gv8de"]
-[ext_resource type="Texture2D" uid="uid://dj6ipnbn2wmik" path="res://Assets/Samurái Ronin en Salto Dinámico.png" id="6_jkqck"]
-[ext_resource type="Texture2D" uid="uid://wci6nbvh30m7" path="res://Assets/Samurái samurái corriendo con katana.png" id="10_p0lmu"]
-[ext_resource type="Texture2D" uid="uid://bywsdqm8aj3ft" path="res://Assets/ronincorriendo.png" id="11_h5ptu"]
-[ext_resource type="Texture2D" uid="uid://l3xo56y6cdj5" path="res://Assets/Samurái en Carrera Dinámica.png" id="12_62ryb"]
-[ext_resource type="Texture2D" uid="uid://c4342gfuljdpd" path="res://Assets/Ronin samurái corriendo con katana.png" id="13_g7m5g"]
-[ext_resource type="Texture2D" uid="uid://ctdd0gtbqh76k" path="res://Assets/Samurái en carrera con katana.png" id="14_vrquo"]
-[ext_resource type="Texture2D" uid="uid://bdh873eqpp48q" path="res://Assets/Samurái corriendo con katana.png" id="15_ag8g7"]
+[ext_resource type="Texture2D" uid="uid://ww2e73xie025" path="res://Assets/Arashi/Arashi.png" id="2_6r2f6"]
+[ext_resource type="Texture2D" uid="uid://nclawmbfjuwl" path="res://Assets/Arashi/FrameGolpe1.png" id="2_bjm35"]
+[ext_resource type="Texture2D" uid="uid://d2o3iximnglq0" path="res://Assets/Arashi/Samurái en salto aéreo dinámico.png" id="2_gv8de"]
+[ext_resource type="Texture2D" uid="uid://bvbwt21ojctkj" path="res://Assets/Arashi/Samurái Ronin en Guardia.png" id="3_6r2f6"]
+[ext_resource type="Texture2D" uid="uid://e8kblve7q0pf" path="res://Assets/Arashi/Framegolpe2.png" id="3_lfo6g"]
+[ext_resource type="Texture2D" uid="uid://dpssy074bjo6y" path="res://Assets/Arashi/Samurái Ronin en Pleno Giro.png" id="4_jkqck"]
+[ext_resource type="Texture2D" uid="uid://b2r4n5dxl0vug" path="res://Assets/Arashi/FrameGolpe3.png" id="4_vhigo"]
+[ext_resource type="Texture2D" uid="uid://b3ffuivm26moq" path="res://Assets/Arashi/Samurái errante en salto aéreo.png" id="5_hokwn"]
+[ext_resource type="Texture2D" uid="uid://lewx1c50emr6" path="res://Assets/Arashi/FrameGolpe4.png" id="5_ijs1d"]
+[ext_resource type="Texture2D" uid="uid://hymfd0xqaumf" path="res://Assets/Arashi/FrameGolpe5.png" id="6_5wiae"]
+[ext_resource type="Texture2D" uid="uid://d4n1c7x7hjm3c" path="res://Assets/Arashi/Samurái descendiendo con katana.png" id="6_gv8de"]
+[ext_resource type="Texture2D" uid="uid://dj6ipnbn2wmik" path="res://Assets/Arashi/Samurái Ronin en Salto Dinámico.png" id="6_jkqck"]
+[ext_resource type="Texture2D" uid="uid://6gw6xgp1a11m" path="res://Assets/Arashi/FrameGolpe6.png" id="7_63uqo"]
+[ext_resource type="Texture2D" uid="uid://b3dooov6fj5ep" path="res://Assets/Arashi/FrameGolpe7.png" id="8_g4mlw"]
+[ext_resource type="Texture2D" uid="uid://dseyep6nk6p7r" path="res://Assets/Arashi/FrameGolpe8.png" id="9_fb0g1"]
+[ext_resource type="Texture2D" uid="uid://wci6nbvh30m7" path="res://Assets/Arashi/Samurái samurái corriendo con katana.png" id="10_p0lmu"]
+[ext_resource type="Texture2D" uid="uid://c6dqx6iv3tuiv" path="res://Assets/Arashi/FrameGolpe9.png" id="10_pf8w4"]
+[ext_resource type="Texture2D" uid="uid://bywsdqm8aj3ft" path="res://Assets/Arashi/ronincorriendo.png" id="11_h5ptu"]
+[ext_resource type="Texture2D" uid="uid://ckcto2jhsmy84" path="res://Assets/Arashi/FrameGolpe10.png" id="11_tae3t"]
+[ext_resource type="Texture2D" uid="uid://l3xo56y6cdj5" path="res://Assets/Arashi/Samurái en Carrera Dinámica.png" id="12_62ryb"]
+[ext_resource type="Texture2D" uid="uid://bpuap7dilyhxv" path="res://Assets/Arashi/FrameGolpe11.png" id="12_tsfr7"]
+[ext_resource type="Texture2D" uid="uid://c4342gfuljdpd" path="res://Assets/Arashi/Ronin samurái corriendo con katana.png" id="13_g7m5g"]
+[ext_resource type="Texture2D" uid="uid://ctdd0gtbqh76k" path="res://Assets/Arashi/Samurái en carrera con katana.png" id="14_vrquo"]
+[ext_resource type="Texture2D" uid="uid://bdh873eqpp48q" path="res://Assets/Arashi/Samurái corriendo con katana.png" id="15_ag8g7"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
 radius = 78.11481
@@ -22,6 +32,54 @@ height = 176.16083
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_te31d"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_bjm35")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_lfo6g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_vhigo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ijs1d")
+}],
+"loop": 1,
+"name": &"attack1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_5wiae")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_63uqo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_g4mlw")
+}],
+"loop": 1,
+"name": &"attack2",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_fb0g1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_pf8w4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_tae3t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_tsfr7")
+}],
+"loop": 1,
+"name": &"attack3",
+"speed": 10.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("2_gv8de")
@@ -52,7 +110,7 @@ animations = [{
 "texture": ExtResource("3_6r2f6")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_7vr1t")
+"texture": ExtResource("6_jkqck")
 }, {
 "duration": 1.0,
 "texture": ExtResource("5_hokwn")
@@ -97,7 +155,7 @@ shape = SubResource("CapsuleShape2D_siew1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444]
 scale = Vector2(0.22336394, 0.20973176)
 sprite_frames = SubResource("SpriteFrames_te31d")
-animation = &"run"
+animation = &"attack3"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=903674846]
 limit_left = 0

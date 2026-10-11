@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxu73drdl135h"
-path="res://.godot/imported/Nube.png-f3b0099c50f49e382eb3d66d09c07467.ctex"
+uid="uid://bhe7jlstecc6t"
+path="res://.godot/imported/Salir.png-b03e7eaff2bc5b7852037f41d5ef1e58.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Nube.png"
-dest_files=["res://.godot/imported/Nube.png-f3b0099c50f49e382eb3d66d09c07467.ctex"]
+source_file="res://Assets/Menu/Salir.png"
+dest_files=["res://.godot/imported/Salir.png-b03e7eaff2bc5b7852037f41d5ef1e58.ctex"]
 
 [params]
 

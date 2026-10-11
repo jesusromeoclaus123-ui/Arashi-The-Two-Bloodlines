@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bn7jalgfmhgqg"
-path="res://.godot/imported/imagen_sin_marca_de_agua.png INVERTIDO.png-057853485f2ac4b21edf8eff40f4b507.ctex"
+path="res://.godot/imported/imagen_sin_marca_de_agua.png INVERTIDO.png-9354f6d81c03383c6b513f5af8c85d19.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/imagen_sin_marca_de_agua.png INVERTIDO.png"
-dest_files=["res://.godot/imported/imagen_sin_marca_de_agua.png INVERTIDO.png-057853485f2ac4b21edf8eff40f4b507.ctex"]
+source_file="res://Assets/Menu/imagen_sin_marca_de_agua.png INVERTIDO.png"
+dest_files=["res://.godot/imported/imagen_sin_marca_de_agua.png INVERTIDO.png-9354f6d81c03383c6b513f5af8c85d19.ctex"]
 
 [params]
 

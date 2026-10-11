@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b74tb7bp43v3x"
-path="res://.godot/imported/Titulo.png-5101c117704e6bbc146533829e673cd8.ctex"
+uid="uid://b0rxxmc68kgch"
+path="res://.godot/imported/Monte.png-a4b014262995195e65bff21e98e87fcd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Titulo.png"
-dest_files=["res://.godot/imported/Titulo.png-5101c117704e6bbc146533829e673cd8.ctex"]
+source_file="res://Assets/Fondo/Monte.png"
+dest_files=["res://.godot/imported/Monte.png-a4b014262995195e65bff21e98e87fcd.ctex"]
 
 [params]
 

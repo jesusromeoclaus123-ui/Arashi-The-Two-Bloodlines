@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3d17att5oqcr"
-path="res://.godot/imported/ab254be8-9126-4564-b91e-ace38ed50ae9.png-ff96724a757a88814ffd49d04930c970.ctex"
+uid="uid://c43viux4t8cjj"
+path="res://.godot/imported/salir destrozado.png-bfef91470d5459d86090e75733c695a8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/ab254be8-9126-4564-b91e-ace38ed50ae9.png"
-dest_files=["res://.godot/imported/ab254be8-9126-4564-b91e-ace38ed50ae9.png-ff96724a757a88814ffd49d04930c970.ctex"]
+source_file="res://Assets/Menu/salir destrozado.png"
+dest_files=["res://.godot/imported/salir destrozado.png-bfef91470d5459d86090e75733c695a8.ctex"]
 
 [params]
 

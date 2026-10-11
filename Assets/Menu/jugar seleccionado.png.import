@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfmmqapm7iv6q"
-path="res://.godot/imported/Suelo.png-790afb3d4d0bcbdf971ac4e1d67fef12.ctex"
+uid="uid://cwbofpv27v8hh"
+path="res://.godot/imported/jugar seleccionado.png-31fd039b49ea6ce8e8299fdb1f9b095f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Suelo.png"
-dest_files=["res://.godot/imported/Suelo.png-790afb3d4d0bcbdf971ac4e1d67fef12.ctex"]
+source_file="res://Assets/Menu/jugar seleccionado.png"
+dest_files=["res://.godot/imported/jugar seleccionado.png-31fd039b49ea6ce8e8299fdb1f9b095f.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4342gfuljdpd"
-path="res://.godot/imported/Ronin samurái corriendo con katana.png-14c4da3060f80bdfd568742b4904f241.ctex"
+uid="uid://b74tb7bp43v3x"
+path="res://.godot/imported/Titulo.png-3efed9ece1ae86d4f5a20e05f57641d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Ronin samurái corriendo con katana.png"
-dest_files=["res://.godot/imported/Ronin samurái corriendo con katana.png-14c4da3060f80bdfd568742b4904f241.ctex"]
+source_file="res://Assets/Menu/Titulo.png"
+dest_files=["res://.godot/imported/Titulo.png-3efed9ece1ae86d4f5a20e05f57641d1.ctex"]
 
 [params]
 

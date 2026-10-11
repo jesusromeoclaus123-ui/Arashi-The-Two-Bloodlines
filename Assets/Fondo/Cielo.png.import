@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vlxjftj4r8si"
-path="res://.godot/imported/Jugar.png-848b5e743b6c77decd9c76b468019cc6.ctex"
+uid="uid://ix3m832rm8bj"
+path="res://.godot/imported/Cielo.png-a665159396976b7ea6fd25dc7b1934ae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Jugar.png"
-dest_files=["res://.godot/imported/Jugar.png-848b5e743b6c77decd9c76b468019cc6.ctex"]
+source_file="res://Assets/Fondo/Cielo.png"
+dest_files=["res://.godot/imported/Cielo.png-a665159396976b7ea6fd25dc7b1934ae.ctex"]
 
 [params]
 

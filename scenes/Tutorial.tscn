@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://dr6qg0iw5lrut"]
 
 [ext_resource type="PackedScene" uid="uid://cxp23lwbrnclb" path="res://scenes/arashi.tscn" id="1_cfv3y"]
-[ext_resource type="Texture2D" uid="uid://ix3m832rm8bj" path="res://Assets/Cielo.png" id="2_y0w3d"]
-[ext_resource type="Texture2D" uid="uid://b0rxxmc68kgch" path="res://Assets/Monte.png" id="3_u5f0c"]
+[ext_resource type="Texture2D" uid="uid://ix3m832rm8bj" path="res://Assets/Fondo/Cielo.png" id="2_y0w3d"]
+[ext_resource type="Texture2D" uid="uid://b0rxxmc68kgch" path="res://Assets/Fondo/Monte.png" id="3_u5f0c"]
 [ext_resource type="PackedScene" uid="uid://c1ux7wauqp8n5" path="res://scenes/plataforma.tscn" id="4_ebau5"]
-[ext_resource type="Texture2D" uid="uid://cfmmqapm7iv6q" path="res://Assets/Suelo.png" id="5_0g6v0"]
-[ext_resource type="Texture2D" uid="uid://1pgsymgkb84o" path="res://Assets/Sol.png" id="7_u5f0c"]
+[ext_resource type="Texture2D" uid="uid://dr1blc5e3wi76" path="res://Assets/Plataforma de hierba dorada al atardecer.png" id="5_0g6v0"]
+[ext_resource type="Texture2D" uid="uid://1pgsymgkb84o" path="res://Assets/Fondo/Sol.png" id="7_u5f0c"]
 [ext_resource type="PackedScene" uid="uid://dotpynjalckd6" path="res://scenes/control.tscn" id="7_y0w3d"]
-[ext_resource type="Texture2D" uid="uid://cxu73drdl135h" path="res://Assets/Nube.png" id="8_u5f0c"]
+[ext_resource type="Texture2D" uid="uid://cxu73drdl135h" path="res://Assets/Fondo/Nube.png" id="8_u5f0c"]
 [ext_resource type="PackedScene" uid="uid://7hjyi8pckllo" path="res://scenes/plataforma2.tscn" id="9_0g6v0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pgr2e"]
@@ -51,9 +51,9 @@ position = Vector2(407, 231.00003)
 scale = Vector2(0.78108263, 0.79624456)
 texture = ExtResource("8_u5f0c")
 
-[node name="Suelo" type="Sprite2D" parent="StaticBody2D3" unique_id=1081914892]
-position = Vector2(1415, 1106)
-scale = Vector2(3.3263886, 3.3263888)
+[node name="PlataformaDeHierbaDoradaAlAtardecer" type="Sprite2D" parent="StaticBody2D3" unique_id=1313453411]
+position = Vector2(1054.5, 1302)
+scale = Vector2(1.0262431, 1)
 texture = ExtResource("5_0g6v0")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D3" unique_id=120338455]
@@ -61,7 +61,7 @@ position = Vector2(1059.5, 1381)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="Node2D3" parent="." unique_id=2091260195 instance=ExtResource("7_y0w3d")]
-position = Vector2(419, 668)
+position = Vector2(415, 679)
 
 [node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
 position = Vector2(182, 1195)

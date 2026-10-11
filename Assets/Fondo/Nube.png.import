@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qvw7enlti36j"
-path="res://.godot/imported/imagen_sin_marca_de_agua.png-0d4aa16f8b9975105ee50a1c97fd71a3.ctex"
+uid="uid://cxu73drdl135h"
+path="res://.godot/imported/Nube.png-7e97fc733509981252457b9535e20cc2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/imagen_sin_marca_de_agua.png"
-dest_files=["res://.godot/imported/imagen_sin_marca_de_agua.png-0d4aa16f8b9975105ee50a1c97fd71a3.ctex"]
+source_file="res://Assets/Fondo/Nube.png"
+dest_files=["res://.godot/imported/Nube.png-7e97fc733509981252457b9535e20cc2.ctex"]
 
 [params]
 

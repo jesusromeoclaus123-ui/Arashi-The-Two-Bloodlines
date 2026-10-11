@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpssy074bjo6y"
-path="res://.godot/imported/Samurái Ronin en Pleno Giro.png-b6e7ac92bd326310167e7c1350415439.ctex"
+uid="uid://qvw7enlti36j"
+path="res://.godot/imported/imagen_sin_marca_de_agua.png-42f6f07328d96d1ab5225ba071698ed4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Samurái Ronin en Pleno Giro.png"
-dest_files=["res://.godot/imported/Samurái Ronin en Pleno Giro.png-b6e7ac92bd326310167e7c1350415439.ctex"]
+source_file="res://Assets/Menu/imagen_sin_marca_de_agua.png"
+dest_files=["res://.godot/imported/imagen_sin_marca_de_agua.png-42f6f07328d96d1ab5225ba071698ed4.ctex"]
 
 [params]
 

@@ -1,4 +1,5 @@
 
+
 extends CharacterBody2D
 
 const SPEED := 500.0
@@ -6,10 +7,24 @@ const GRAVITY := 900.0
 const JUMP_FORCE := -600.0
 const DOUBLE_JUMP_FORCE := -700.0
 
+# Tiempo para continuar el combo
+const COMBO_WINDOW := 0.6
+
 var jumps_left := 2
 var space_was_pressed := false
+var attack_was_pressed := false
+
 var atacando := false
 var saltando := false
+
+# =========================
+# SISTEMA DE COMBO
+# =========================
+
+var combo_step := 0
+var ataque_en_cola := false
+var combo_tiempo_restante := 0.0
+
 
 # =========================
 # CHECKPOINT
@@ -23,16 +38,23 @@ var bandera_activada: bool = false
 
 
 func _ready() -> void:
+
 	punto_checkpoint = global_position
 
 	# Animaciones que NO se repiten
+	animated_sprite.sprite_frames.set_animation_loop("attack1", false)
 	animated_sprite.sprite_frames.set_animation_loop("attack2", false)
+	animated_sprite.sprite_frames.set_animation_loop("attack3", false)
 	animated_sprite.sprite_frames.set_animation_loop("jump", false)
 	animated_sprite.sprite_frames.set_animation_loop("double_jump", false)
 
 	# Animaciones que SI se repiten
 	animated_sprite.sprite_frames.set_animation_loop("run", true)
 	animated_sprite.sprite_frames.set_animation_loop("idle", true)
+
+	# Detectar cuando termina una animacion
+	if not animated_sprite.animation_finished.is_connected(_on_animation_finished):
+		animated_sprite.animation_finished.connect(_on_animation_finished)
 
 
 func _physics_process(delta: float) -> void:
@@ -55,6 +77,19 @@ func _physics_process(delta: float) -> void:
 
 
 	# =========================
+	# TIEMPO DEL COMBO
+	# =========================
+
+	if not atacando and combo_tiempo_restante > 0:
+
+		combo_tiempo_restante -= delta
+
+		if combo_tiempo_restante <= 0:
+			combo_tiempo_restante = 0
+			combo_step = 0
+
+
+	# =========================
 	# SALTO Y DOBLE SALTO
 	# =========================
 
@@ -65,7 +100,7 @@ func _physics_process(delta: float) -> void:
 		if jumps_left > 0:
 
 			if jumps_left == 2:
-				# PRIMER SALTO
+
 				velocity.y = JUMP_FORCE
 				saltando = true
 
@@ -73,7 +108,7 @@ func _physics_process(delta: float) -> void:
 					animated_sprite.play("jump")
 
 			elif jumps_left == 1:
-				# SEGUNDO SALTO
+
 				velocity.y = DOUBLE_JUMP_FORCE
 				saltando = true
 
@@ -86,11 +121,30 @@ func _physics_process(delta: float) -> void:
 
 
 	# =========================
-	# ATTACK2
+	# ATAQUE CON K
 	# =========================
 
-	if Input.is_key_pressed(KEY_K) and not atacando:
-		realizar_ataque()
+	var attack_pressed := Input.is_key_pressed(KEY_K)
+
+	if attack_pressed and not attack_was_pressed:
+
+		if atacando:
+
+			# Guardar el siguiente golpe
+			if combo_step < 3:
+				ataque_en_cola = true
+
+		else:
+
+			# Continuar el combo
+			if combo_tiempo_restante > 0 and combo_step < 3:
+				iniciar_ataque(combo_step + 1)
+
+			else:
+				# Comenzar desde el primer golpe
+				iniciar_ataque(1)
+
+	attack_was_pressed = attack_pressed
 
 
 	# =========================
@@ -112,14 +166,20 @@ func _physics_process(delta: float) -> void:
 
 			velocity.x = direction * SPEED
 
-			# Dirección del personaje
+			# Direccion del personaje
 			if direction < 0:
 				animated_sprite.flip_h = false
 			else:
 				animated_sprite.flip_h = true
 
 		else:
+
 			velocity.x = move_toward(velocity.x, 0, SPEED)
+
+	else:
+
+		# Detener movimiento horizontal durante ataque
+		velocity.x = 0
 
 
 	# =========================
@@ -135,70 +195,102 @@ func _physics_process(delta: float) -> void:
 
 	if not atacando:
 
-		if is_on_floor():
-
-			saltando = false
-
-			# CORRER
-			if direction != 0:
-
-				if animated_sprite.animation != "run":
-					animated_sprite.play("run")
-
-			# QUIETO
-			else:
-
-				if animated_sprite.animation != "idle":
-					animated_sprite.play("idle")
-
-		elif saltando:
-			# Mantener la animación de salto
-			# o doble salto sin reiniciarla.
-			pass
+		actualizar_animacion(direction)
 
 
 # =========================
-# REALIZAR ATAQUE
+# INICIAR ATAQUE
 # =========================
 
-func realizar_ataque() -> void:
+func iniciar_ataque(numero: int) -> void:
 
 	atacando = true
+	combo_step = numero
+	ataque_en_cola = false
+	combo_tiempo_restante = 0.0
+
 	velocity.x = 0
 
-	animated_sprite.play("attack2")
+	var nombre_animacion := "attack%d" % numero
 
-	# Cantidad de frames de attack2
-	var cantidad_frames := animated_sprite.sprite_frames.get_frame_count("attack2")
+	animated_sprite.play(nombre_animacion)
 
-	# FPS de attack2
-	var fps := animated_sprite.sprite_frames.get_animation_speed("attack2")
 
-	# Evitar división por cero
-	if fps <= 0:
-		fps = 5.0
+# =========================
+# CUANDO TERMINA UN ATAQUE
+# =========================
 
-	# Duración total de la animación
-	var duracion := float(cantidad_frames) / fps
+func _on_animation_finished() -> void:
 
-	await get_tree().create_timer(duracion).timeout
+	if not atacando:
+		return
 
+	var ataque_actual := "attack%d" % combo_step
+
+	if animated_sprite.animation != ataque_actual:
+		return
+
+	# Si el jugador preparo otro golpe
+	if ataque_en_cola and combo_step < 3:
+
+		iniciar_ataque(combo_step + 1)
+		return
+
+	# Terminar ataque actual
 	atacando = false
-	velocity.x = 0
+	ataque_en_cola = false
 
-	# Recuperar la animación correspondiente
-	if is_on_floor():
+	# Permitir continuar el combo por un tiempo
+	combo_tiempo_restante = COMBO_WINDOW
 
-		if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_D):
+	# Recuperar la animacion correspondiente
+	var direction := 0.0
+
+	if Input.is_key_pressed(KEY_A):
+		direction = -1.0
+
+	elif Input.is_key_pressed(KEY_D):
+		direction = 1.0
+
+	actualizar_animacion(direction)
+
+
+# =========================
+# ACTUALIZAR ANIMACIONES
+# =========================
+
+func actualizar_animacion(direction: float) -> void:
+
+	if atacando:
+		return
+
+	if not is_on_floor():
+
+		# Mantener animacion aerea
+		var animacion_aerea := "jump"
+
+		if jumps_left == 0:
+			animacion_aerea = "double_jump"
+
+		if animated_sprite.animation != animacion_aerea:
+			animated_sprite.play(animacion_aerea)
+
+		return
+
+	# Personaje en el suelo
+	saltando = false
+
+	if direction != 0:
+
+		# CORRER
+		if animated_sprite.animation != "run":
 			animated_sprite.play("run")
-		else:
-			animated_sprite.play("idle")
-
-	elif jumps_left == 0:
-		animated_sprite.play("double_jump")
 
 	else:
-		animated_sprite.play("jump")
+
+		# QUIETO
+		if animated_sprite.animation != "idle":
+			animated_sprite.play("idle")
 
 
 # =========================
@@ -220,13 +312,25 @@ func activar_bandera(posicion: Vector2) -> void:
 func respawn() -> void:
 
 	if bandera_activada:
+
 		global_position = posicion_bandera
+
 	else:
+
 		global_position = punto_checkpoint
 
 	velocity = Vector2.ZERO
+
 	atacando = false
 	saltando = false
 	jumps_left = 2
+
+	# Reiniciar combo
+	combo_step = 0
+	ataque_en_cola = false
+	combo_tiempo_restante = 0.0
+
+	space_was_pressed = Input.is_key_pressed(KEY_SPACE)
+	attack_was_pressed = Input.is_key_pressed(KEY_K)
 
 	animated_sprite.play("idle")
