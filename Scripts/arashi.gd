@@ -1,5 +1,6 @@
 
 
+
 extends CharacterBody2D
 
 const SPEED := 500.0
@@ -13,6 +14,7 @@ const COMBO_WINDOW := 0.6
 var jumps_left := 2
 var space_was_pressed := false
 var attack_was_pressed := false
+var block_was_pressed := false
 
 var atacando := false
 var saltando := false
@@ -24,6 +26,19 @@ var saltando := false
 var combo_step := 0
 var ataque_en_cola := false
 var combo_tiempo_restante := 0.0
+
+
+# =========================
+# SISTEMA DE BLOQUEO
+# =========================
+
+# Estados posibles:
+# "" = no bloquea
+# "start" = comienza a bloquear
+# "hold" = mantiene el bloqueo
+# "end" = deja de bloquear
+
+var bloqueo_estado := ""
 
 
 # =========================
@@ -48,9 +63,14 @@ func _ready() -> void:
 	animated_sprite.sprite_frames.set_animation_loop("jump", false)
 	animated_sprite.sprite_frames.set_animation_loop("double_jump", false)
 
+	# Animaciones de entrada y salida del bloqueo
+	animated_sprite.sprite_frames.set_animation_loop("block_start", false)
+	animated_sprite.sprite_frames.set_animation_loop("block_end", false)
+
 	# Animaciones que SI se repiten
 	animated_sprite.sprite_frames.set_animation_loop("run", true)
 	animated_sprite.sprite_frames.set_animation_loop("idle", true)
+	animated_sprite.sprite_frames.set_animation_loop("block_hold", true)
 
 	# Detectar cuando termina una animacion
 	if not animated_sprite.animation_finished.is_connected(_on_animation_finished):
@@ -90,6 +110,25 @@ func _physics_process(delta: float) -> void:
 
 
 	# =========================
+	# BLOQUEO CON L
+	# =========================
+
+	var block_pressed := Input.is_key_pressed(KEY_L)
+
+	# Iniciar bloqueo al presionar L
+	if block_pressed and not block_was_pressed:
+
+		if bloqueo_estado == "" and not atacando and is_on_floor():
+			iniciar_bloqueo()
+
+	# Soltar L mientras mantiene la defensa
+	if not block_pressed and bloqueo_estado == "hold":
+		finalizar_bloqueo()
+
+	block_was_pressed = block_pressed
+
+
+	# =========================
 	# SALTO Y DOBLE SALTO
 	# =========================
 
@@ -97,7 +136,8 @@ func _physics_process(delta: float) -> void:
 
 	if space_pressed and not space_was_pressed:
 
-		if jumps_left > 0:
+		# No permitir saltar durante el bloqueo
+		if jumps_left > 0 and bloqueo_estado == "":
 
 			if jumps_left == 2:
 
@@ -128,21 +168,24 @@ func _physics_process(delta: float) -> void:
 
 	if attack_pressed and not attack_was_pressed:
 
-		if atacando:
+		# No atacar mientras bloquea
+		if bloqueo_estado == "":
 
-			# Guardar el siguiente golpe
-			if combo_step < 3:
-				ataque_en_cola = true
+			if atacando:
 
-		else:
-
-			# Continuar el combo
-			if combo_tiempo_restante > 0 and combo_step < 3:
-				iniciar_ataque(combo_step + 1)
+				# Guardar el siguiente golpe
+				if combo_step < 3:
+					ataque_en_cola = true
 
 			else:
-				# Comenzar desde el primer golpe
-				iniciar_ataque(1)
+
+				# Continuar el combo
+				if combo_tiempo_restante > 0 and combo_step < 3:
+					iniciar_ataque(combo_step + 1)
+
+				else:
+					# Comenzar desde el primer golpe
+					iniciar_ataque(1)
 
 	attack_was_pressed = attack_pressed
 
@@ -160,7 +203,7 @@ func _physics_process(delta: float) -> void:
 		direction = 1.0
 
 
-	if not atacando:
+	if not atacando and bloqueo_estado == "":
 
 		if direction != 0:
 
@@ -178,7 +221,7 @@ func _physics_process(delta: float) -> void:
 
 	else:
 
-		# Detener movimiento horizontal durante ataque
+		# Detener movimiento durante ataques o bloqueo
 		velocity.x = 0
 
 
@@ -193,9 +236,51 @@ func _physics_process(delta: float) -> void:
 	# ANIMACIONES
 	# =========================
 
-	if not atacando:
+	if not atacando and bloqueo_estado == "":
 
 		actualizar_animacion(direction)
+
+
+# =========================
+# INICIAR BLOQUEO
+# =========================
+
+func iniciar_bloqueo() -> void:
+
+	bloqueo_estado = "start"
+	velocity.x = 0
+
+	# Reiniciar el combo al bloquear
+	combo_step = 0
+	ataque_en_cola = false
+	combo_tiempo_restante = 0.0
+
+	# Comenzar a desenvainar
+	animated_sprite.play("block_start")
+
+
+# =========================
+# FINALIZAR BLOQUEO
+# =========================
+
+func finalizar_bloqueo() -> void:
+
+	if bloqueo_estado == "":
+		return
+
+	bloqueo_estado = "end"
+
+	# Animacion de guardar la espada
+	animated_sprite.play("block_end")
+
+
+# =========================
+# COMPROBAR BLOQUEO ACTIVO
+# =========================
+
+func esta_bloqueando() -> bool:
+
+	return bloqueo_estado == "hold"
 
 
 # =========================
@@ -217,17 +302,57 @@ func iniciar_ataque(numero: int) -> void:
 
 
 # =========================
-# CUANDO TERMINA UN ATAQUE
+# CUANDO TERMINA UNA ANIMACION
 # =========================
 
 func _on_animation_finished() -> void:
+
+	var animacion_actual := animated_sprite.animation
+
+	# =========================
+	# TERMINO EL INICIO DEL BLOQUEO
+	# =========================
+
+	if animacion_actual == "block_start" and bloqueo_estado == "start":
+
+		# Si sigue apretando L, mantener defensa
+		if Input.is_key_pressed(KEY_L):
+
+			bloqueo_estado = "hold"
+			animated_sprite.play("block_hold")
+
+		else:
+
+			# Si solto L, comenzar a guardar
+			finalizar_bloqueo()
+
+		return
+
+
+	# =========================
+	# TERMINO LA SALIDA DEL BLOQUEO
+	# =========================
+
+	if animacion_actual == "block_end" and bloqueo_estado == "end":
+
+		bloqueo_estado = ""
+
+		var direction := obtener_direccion()
+		actualizar_animacion(direction)
+
+		return
+
+
+	# =========================
+	# TERMINO UN ATAQUE
+	# =========================
 
 	if not atacando:
 		return
 
 	var ataque_actual := "attack%d" % combo_step
 
-	if animated_sprite.animation != ataque_actual:
+	if animacion_actual != ataque_actual:
 		return
 
 	# Si el jugador preparo otro golpe
@@ -240,19 +365,25 @@ func _on_animation_finished() -> void:
 	atacando = false
 	ataque_en_cola = false
 
-	# Permitir continuar el combo por un tiempo
+	# Permitir continuar el combo
 	combo_tiempo_restante = COMBO_WINDOW
 
-	# Recuperar la animacion correspondiente
-	var direction := 0.0
+	actualizar_animacion(obtener_direccion())
+
+
+# =========================
+# OBTENER DIRECCION
+# =========================
+
+func obtener_direccion() -> float:
 
 	if Input.is_key_pressed(KEY_A):
-		direction = -1.0
+		return -1.0
 
 	elif Input.is_key_pressed(KEY_D):
-		direction = 1.0
+		return 1.0
 
-	actualizar_animacion(direction)
+	return 0.0
 
 
 # =========================
@@ -261,7 +392,8 @@ func _on_animation_finished() -> void:
 
 func actualizar_animacion(direction: float) -> void:
 
-	if atacando:
+	# No interrumpir ataques ni bloqueo
+	if atacando or bloqueo_estado != "":
 		return
 
 	if not is_on_floor():
@@ -325,6 +457,9 @@ func respawn() -> void:
 	saltando = false
 	jumps_left = 2
 
+	# Reiniciar bloqueo
+	bloqueo_estado = ""
+
 	# Reiniciar combo
 	combo_step = 0
 	ataque_en_cola = false
@@ -332,5 +467,6 @@ func respawn() -> void:
 
 	space_was_pressed = Input.is_key_pressed(KEY_SPACE)
 	attack_was_pressed = Input.is_key_pressed(KEY_K)
+	block_was_pressed = Input.is_key_pressed(KEY_L)
 
 	animated_sprite.play("idle")
