@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://ddutr16ikk05v"]
+
+[ext_resource type="PackedScene" uid="uid://dr6qg0iw5lrut" path="res://scenes/Tutorial.tscn" id="1_6wet6"]
+[ext_resource type="Texture2D" uid="uid://ix3m832rm8bj" path="res://Assets/Fondo/Cielo.png" id="2_6axp4"]
+
+[node name="Node2D" type="Node2D" unique_id=501246816]
+
+[node name="Node2D" parent="." unique_id=1291949946 instance=ExtResource("1_6wet6")]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="Node2D" unique_id=1402770266]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Node2D/ParallaxBackground" unique_id=1403111543]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D/ParallaxBackground/ParallaxLayer" unique_id=1608258318]
+position = Vector2(1051, 668)
+scale = Vector2(1.9462965, 1.8555555)
+texture = ExtResource("2_6axp4")
