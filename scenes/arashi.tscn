@@ -29,6 +29,10 @@
 [ext_resource type="Texture2D" uid="uid://bdh873eqpp48q" path="res://Assets/Arashi/Samurái corriendo con katana.png" id="15_ag8g7"]
 [ext_resource type="Texture2D" uid="uid://bog3qrollne5q" path="res://Assets/Arashi/BloqueoFrame1.png" id="15_g4mlw"]
 [ext_resource type="Texture2D" uid="uid://258slktpcgtm" path="res://Assets/Arashi/BloqueoFrame4.png" id="16_fb0g1"]
+[ext_resource type="Texture2D" uid="uid://dvj0qwx2jfl7o" path="res://Assets/Arashi/DashFrame1.png" id="17_pf8w4"]
+[ext_resource type="Texture2D" uid="uid://5unkdeeuejlu" path="res://Assets/Arashi/DashFrame2.png" id="18_tae3t"]
+[ext_resource type="Texture2D" uid="uid://dtinatd6sdfvd" path="res://Assets/Arashi/DashFrame3.png" id="19_tsfr7"]
+[ext_resource type="Texture2D" uid="uid://bk2t1jwdfjued" path="res://Assets/Arashi/DashFrame4.png" id="20_swq80"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
 radius = 78.11481
@@ -122,6 +126,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("17_pf8w4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_tae3t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_tsfr7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_swq80")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_pf8w4")
+}],
+"loop": 1,
+"name": &"dash",
+"speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("2_gv8de")
 }, {
 "duration": 1.0,
@@ -195,7 +219,7 @@ shape = SubResource("CapsuleShape2D_siew1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444]
 scale = Vector2(0.22336394, 0.20973176)
 sprite_frames = SubResource("SpriteFrames_te31d")
-animation = &"block_start"
+animation = &"dash"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=903674846]
 limit_left = 0

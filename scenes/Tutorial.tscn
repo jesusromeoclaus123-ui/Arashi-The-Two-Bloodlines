@@ -3,13 +3,12 @@
 [ext_resource type="PackedScene" uid="uid://cxp23lwbrnclb" path="res://scenes/arashi.tscn" id="1_cfv3y"]
 [ext_resource type="Texture2D" uid="uid://ix3m832rm8bj" path="res://Assets/Fondo/Cielo.png" id="2_y0w3d"]
 [ext_resource type="Texture2D" uid="uid://b0rxxmc68kgch" path="res://Assets/Fondo/Monte.png" id="3_u5f0c"]
-[ext_resource type="PackedScene" uid="uid://c1ux7wauqp8n5" path="res://scenes/plataforma.tscn" id="4_ebau5"]
-[ext_resource type="Texture2D" uid="uid://dr1blc5e3wi76" path="res://Assets/Plataforma de hierba dorada al atardecer.png" id="5_0g6v0"]
+[ext_resource type="Texture2D" uid="uid://dr1blc5e3wi76" path="res://Assets/Fondo/Plataforma de hierba dorada al atardecer.png" id="5_0g6v0"]
 [ext_resource type="Texture2D" uid="uid://1pgsymgkb84o" path="res://Assets/Fondo/Sol.png" id="7_u5f0c"]
-[ext_resource type="PackedScene" uid="uid://dotpynjalckd6" path="res://scenes/control.tscn" id="7_y0w3d"]
 [ext_resource type="Texture2D" uid="uid://cxu73drdl135h" path="res://Assets/Fondo/Nube.png" id="8_u5f0c"]
-[ext_resource type="PackedScene" uid="uid://7hjyi8pckllo" path="res://scenes/plataforma2.tscn" id="9_0g6v0"]
+[ext_resource type="Texture2D" uid="uid://d2fykjce7b1mi" path="res://Assets/Samurai.png" id="9_0g6v0"]
 [ext_resource type="Texture2D" uid="uid://ci1pva736l8g0" path="res://Assets/Fondo/MonteLejano.png" id="10_1qfbs"]
+[ext_resource type="PackedScene" uid="uid://cgr211ituxreg" path="res://scenes/Papa.tscn" id="10_hf6er"]
 [ext_resource type="Texture2D" uid="uid://cen3fnftqsun5" path="res://Assets/Casa.png" id="10_hvqni"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pgr2e"]
@@ -77,17 +76,11 @@ shape = SubResource("RectangleShape2D_ci5ev")
 position = Vector2(7334, 1377)
 shape = SubResource("RectangleShape2D_ci5ev")
 
-[node name="Node2D3" parent="." unique_id=2091260195 instance=ExtResource("7_y0w3d")]
-position = Vector2(500, 676)
+[node name="Node2D" parent="StaticBody2D3" unique_id=621281575 instance=ExtResource("10_hf6er")]
+position = Vector2(941, 1108)
 
 [node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
 position = Vector2(480, 1248)
-
-[node name="Node2D2" parent="." unique_id=105287030 instance=ExtResource("4_ebau5")]
-position = Vector2(1772, 1180)
-
-[node name="Node2D5" parent="." unique_id=538056576 instance=ExtResource("9_0g6v0")]
-position = Vector2(1226, 1280)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=674905101]
 
@@ -161,3 +154,8 @@ texture = ExtResource("10_1qfbs")
 position = Vector2(1772, 1019)
 scale = Vector2(1.2189226, 1.1031307)
 texture = ExtResource("10_1qfbs")
+
+[node name="Samurai" type="Sprite2D" parent="." unique_id=1709654656]
+position = Vector2(1733, 1216.9999)
+scale = Vector2(0.28505853, 0.23362537)
+texture = ExtResource("9_0g6v0")

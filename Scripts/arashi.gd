@@ -1,6 +1,4 @@
 
-
-
 extends CharacterBody2D
 
 const SPEED := 500.0
@@ -8,8 +6,29 @@ const GRAVITY := 900.0
 const JUMP_FORCE := -600.0
 const DOUBLE_JUMP_FORCE := -700.0
 
-# Tiempo para continuar el combo
+# =========================
+# CONFIGURACION DEL COMBO
+# =========================
+
 const COMBO_WINDOW := 0.6
+
+# =========================
+# CONFIGURACION DEL DASH
+# =========================
+
+const DASH_SPEED := 1200.0
+const DASH_DURATION := 0.25
+const DASH_COOLDOWN := 0.6
+
+var en_dash := false
+var dash_was_pressed := false
+var dash_direccion := -1.0
+var dash_tiempo_restante := 0.0
+var dash_recarga_restante := 0.0
+
+# =========================
+# ESTADO DEL JUGADOR
+# =========================
 
 var jumps_left := 2
 var space_was_pressed := false
@@ -27,19 +46,16 @@ var combo_step := 0
 var ataque_en_cola := false
 var combo_tiempo_restante := 0.0
 
-
 # =========================
 # SISTEMA DE BLOQUEO
 # =========================
 
-# Estados posibles:
-# "" = no bloquea
-# "start" = comienza a bloquear
-# "hold" = mantiene el bloqueo
-# "end" = deja de bloquear
+# "" = libre
+# "start" = preparando bloqueo
+# "hold" = bloqueando
+# "end" = guardando espada
 
 var bloqueo_estado := ""
-
 
 # =========================
 # CHECKPOINT
@@ -56,23 +72,28 @@ func _ready() -> void:
 
 	punto_checkpoint = global_position
 
-	# Animaciones que NO se repiten
-	animated_sprite.sprite_frames.set_animation_loop("attack1", false)
-	animated_sprite.sprite_frames.set_animation_loop("attack2", false)
-	animated_sprite.sprite_frames.set_animation_loop("attack3", false)
-	animated_sprite.sprite_frames.set_animation_loop("jump", false)
-	animated_sprite.sprite_frames.set_animation_loop("double_jump", false)
+	# Animaciones SIN loop
+	for anim in [
+		"attack1",
+		"attack2",
+		"attack3",
+		"jump",
+		"double_jump",
+		"block_start",
+		"block_end",
+		"dash"
+	]:
+		animated_sprite.sprite_frames.set_animation_loop(anim, false)
 
-	# Animaciones de entrada y salida del bloqueo
-	animated_sprite.sprite_frames.set_animation_loop("block_start", false)
-	animated_sprite.sprite_frames.set_animation_loop("block_end", false)
+	# Animaciones CON loop
+	for anim in [
+		"run",
+		"idle",
+		"block_hold"
+	]:
+		animated_sprite.sprite_frames.set_animation_loop(anim, true)
 
-	# Animaciones que SI se repiten
-	animated_sprite.sprite_frames.set_animation_loop("run", true)
-	animated_sprite.sprite_frames.set_animation_loop("idle", true)
-	animated_sprite.sprite_frames.set_animation_loop("block_hold", true)
-
-	# Detectar cuando termina una animacion
+	# Detectar final de animaciones
 	if not animated_sprite.animation_finished.is_connected(_on_animation_finished):
 		animated_sprite.animation_finished.connect(_on_animation_finished)
 
@@ -80,12 +101,12 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 
 	# =========================
-	# GRAVEDAD
+	# RECARGA DEL DASH
 	# =========================
 
-	if not is_on_floor():
-		velocity.y += GRAVITY * delta
-
+	if dash_recarga_restante > 0.0:
+		dash_recarga_restante -= delta
+		dash_recarga_restante = max(0.0, dash_recarga_restante)
 
 	# =========================
 	# RECUPERAR SALTOS
@@ -95,48 +116,94 @@ func _physics_process(delta: float) -> void:
 		jumps_left = 2
 		saltando = false
 
+	# =========================
+	# LEER CONTROLES
+	# =========================
+
+	var direction := obtener_direccion()
+
+	var space_pressed := Input.is_key_pressed(KEY_SPACE)
+	var attack_pressed := Input.is_key_pressed(KEY_K)
+	var block_pressed := Input.is_key_pressed(KEY_L)
+	var dash_pressed := Input.is_key_pressed(KEY_SHIFT)
+
+	# =========================
+	# ACTIVAR DASH
+	# =========================
+
+	if dash_pressed and not dash_was_pressed:
+
+		if not en_dash and not atacando and bloqueo_estado == "" and dash_recarga_restante <= 0.0:
+			iniciar_dash(direction)
+
+	dash_was_pressed = dash_pressed
+
+	# =========================
+	# MOVIMIENTO DURANTE EL DASH
+	# =========================
+
+	if en_dash:
+
+		dash_tiempo_restante -= delta
+
+		# Desplazamiento horizontal rapido
+		velocity.x = dash_direccion * DASH_SPEED
+
+		# Suspender gravedad temporalmente
+		velocity.y = 0.0
+
+		move_and_slide()
+
+		# Actualizar controles para evitar
+		# acciones acumuladas al terminar
+		space_was_pressed = space_pressed
+		attack_was_pressed = attack_pressed
+		block_was_pressed = block_pressed
+
+		if dash_tiempo_restante <= 0.0:
+			finalizar_dash()
+
+		return
+
+	# =========================
+	# GRAVEDAD NORMAL
+	# =========================
+
+	if not is_on_floor():
+		velocity.y += GRAVITY * delta
 
 	# =========================
 	# TIEMPO DEL COMBO
 	# =========================
 
-	if not atacando and combo_tiempo_restante > 0:
+	if not atacando and combo_tiempo_restante > 0.0:
 
 		combo_tiempo_restante -= delta
 
-		if combo_tiempo_restante <= 0:
-			combo_tiempo_restante = 0
+		if combo_tiempo_restante <= 0.0:
+			combo_tiempo_restante = 0.0
 			combo_step = 0
-
 
 	# =========================
 	# BLOQUEO CON L
 	# =========================
 
-	var block_pressed := Input.is_key_pressed(KEY_L)
-
-	# Iniciar bloqueo al presionar L
 	if block_pressed and not block_was_pressed:
 
 		if bloqueo_estado == "" and not atacando and is_on_floor():
 			iniciar_bloqueo()
 
-	# Soltar L mientras mantiene la defensa
 	if not block_pressed and bloqueo_estado == "hold":
 		finalizar_bloqueo()
 
 	block_was_pressed = block_pressed
 
-
 	# =========================
 	# SALTO Y DOBLE SALTO
 	# =========================
 
-	var space_pressed := Input.is_key_pressed(KEY_SPACE)
-
 	if space_pressed and not space_was_pressed:
 
-		# No permitir saltar durante el bloqueo
 		if jumps_left > 0 and bloqueo_estado == "":
 
 			if jumps_left == 2:
@@ -159,71 +226,52 @@ func _physics_process(delta: float) -> void:
 
 	space_was_pressed = space_pressed
 
-
 	# =========================
-	# ATAQUE CON K
+	# COMBO DE ATAQUES CON K
 	# =========================
-
-	var attack_pressed := Input.is_key_pressed(KEY_K)
 
 	if attack_pressed and not attack_was_pressed:
 
-		# No atacar mientras bloquea
 		if bloqueo_estado == "":
 
 			if atacando:
 
-				# Guardar el siguiente golpe
 				if combo_step < 3:
 					ataque_en_cola = true
 
 			else:
 
-				# Continuar el combo
-				if combo_tiempo_restante > 0 and combo_step < 3:
+				if combo_tiempo_restante > 0.0 and combo_step < 3:
 					iniciar_ataque(combo_step + 1)
 
 				else:
-					# Comenzar desde el primer golpe
 					iniciar_ataque(1)
 
 	attack_was_pressed = attack_pressed
-
 
 	# =========================
 	# MOVIMIENTO A / D
 	# =========================
 
-	var direction := 0.0
-
-	if Input.is_key_pressed(KEY_A):
-		direction = -1.0
-
-	elif Input.is_key_pressed(KEY_D):
-		direction = 1.0
-
-
 	if not atacando and bloqueo_estado == "":
 
-		if direction != 0:
+		if direction != 0.0:
 
 			velocity.x = direction * SPEED
 
-			# Direccion del personaje
-			if direction < 0:
+			# Sprites originales miran a izquierda
+			if direction < 0.0:
 				animated_sprite.flip_h = false
 			else:
 				animated_sprite.flip_h = true
 
 		else:
 
-			velocity.x = move_toward(velocity.x, 0, SPEED)
+			velocity.x = move_toward(velocity.x, 0.0, SPEED)
 
 	else:
 
-		# Detener movimiento durante ataques o bloqueo
-		velocity.x = 0
-
+		velocity.x = 0.0
 
 	# =========================
 	# MOVIMIENTO FISICO
@@ -231,14 +279,80 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
-
 	# =========================
 	# ANIMACIONES
 	# =========================
 
 	if not atacando and bloqueo_estado == "":
-
 		actualizar_animacion(direction)
+
+
+# =========================
+# INICIAR DASH
+# =========================
+
+func iniciar_dash(direction: float) -> void:
+
+	en_dash = true
+	dash_tiempo_restante = DASH_DURATION
+
+	# Elegir la direccion del dash
+	if direction != 0.0:
+
+		dash_direccion = direction
+
+		if direction < 0.0:
+			animated_sprite.flip_h = false
+		else:
+			animated_sprite.flip_h = true
+
+	else:
+
+		# Si no se mueve, usar la direccion
+		# hacia la que esta mirando Arashi
+		if animated_sprite.flip_h:
+			dash_direccion = 1.0
+		else:
+			dash_direccion = -1.0
+
+	# Reiniciar combo al comenzar dash
+	combo_step = 0
+	ataque_en_cola = false
+	combo_tiempo_restante = 0.0
+
+	# Impulso del dash
+	velocity.x = dash_direccion * DASH_SPEED
+	velocity.y = 0.0
+
+	# Animacion del dash
+	animated_sprite.play("dash")
+
+
+# =========================
+# FINALIZAR DASH
+# =========================
+
+func finalizar_dash() -> void:
+
+	en_dash = false
+
+	# Iniciar tiempo de recarga
+	dash_recarga_restante = DASH_COOLDOWN
+
+	# Terminar impulso
+	velocity.x = 0.0
+
+	# Recuperar animacion correspondiente
+	actualizar_animacion(obtener_direccion())
+
+
+# =========================
+# CONSULTAR SI ESTA EN DASH
+# =========================
+
+func esta_en_dash() -> bool:
+
+	return en_dash
 
 
 # =========================
@@ -248,14 +362,12 @@ func _physics_process(delta: float) -> void:
 func iniciar_bloqueo() -> void:
 
 	bloqueo_estado = "start"
-	velocity.x = 0
+	velocity.x = 0.0
 
-	# Reiniciar el combo al bloquear
 	combo_step = 0
 	ataque_en_cola = false
 	combo_tiempo_restante = 0.0
 
-	# Comenzar a desenvainar
 	animated_sprite.play("block_start")
 
 
@@ -270,7 +382,6 @@ func finalizar_bloqueo() -> void:
 
 	bloqueo_estado = "end"
 
-	# Animacion de guardar la espada
 	animated_sprite.play("block_end")
 
 
@@ -294,7 +405,7 @@ func iniciar_ataque(numero: int) -> void:
 	ataque_en_cola = false
 	combo_tiempo_restante = 0.0
 
-	velocity.x = 0
+	velocity.x = 0.0
 
 	var nombre_animacion := "attack%d" % numero
 
@@ -310,12 +421,20 @@ func _on_animation_finished() -> void:
 	var animacion_actual := animated_sprite.animation
 
 	# =========================
-	# TERMINO EL INICIO DEL BLOQUEO
+	# DASH
+	# =========================
+
+	# La duracion del movimiento del dash
+	# se controla desde _physics_process
+	if animacion_actual == "dash":
+		return
+
+	# =========================
+	# INICIO DEL BLOQUEO
 	# =========================
 
 	if animacion_actual == "block_start" and bloqueo_estado == "start":
 
-		# Si sigue apretando L, mantener defensa
 		if Input.is_key_pressed(KEY_L):
 
 			bloqueo_estado = "hold"
@@ -323,28 +442,24 @@ func _on_animation_finished() -> void:
 
 		else:
 
-			# Si solto L, comenzar a guardar
 			finalizar_bloqueo()
 
 		return
 
-
 	# =========================
-	# TERMINO LA SALIDA DEL BLOQUEO
+	# FINAL DEL BLOQUEO
 	# =========================
 
 	if animacion_actual == "block_end" and bloqueo_estado == "end":
 
 		bloqueo_estado = ""
 
-		var direction := obtener_direccion()
-		actualizar_animacion(direction)
+		actualizar_animacion(obtener_direccion())
 
 		return
 
-
 	# =========================
-	# TERMINO UN ATAQUE
+	# FINAL DEL ATAQUE
 	# =========================
 
 	if not atacando:
@@ -355,17 +470,14 @@ func _on_animation_finished() -> void:
 	if animacion_actual != ataque_actual:
 		return
 
-	# Si el jugador preparo otro golpe
 	if ataque_en_cola and combo_step < 3:
 
 		iniciar_ataque(combo_step + 1)
 		return
 
-	# Terminar ataque actual
 	atacando = false
 	ataque_en_cola = false
 
-	# Permitir continuar el combo
 	combo_tiempo_restante = COMBO_WINDOW
 
 	actualizar_animacion(obtener_direccion())
@@ -392,13 +504,16 @@ func obtener_direccion() -> float:
 
 func actualizar_animacion(direction: float) -> void:
 
-	# No interrumpir ataques ni bloqueo
-	if atacando or bloqueo_estado != "":
+	# Prioridad para dash, ataque y bloqueo
+	if en_dash or atacando or bloqueo_estado != "":
 		return
+
+	# =========================
+	# EN EL AIRE
+	# =========================
 
 	if not is_on_floor():
 
-		# Mantener animacion aerea
 		var animacion_aerea := "jump"
 
 		if jumps_left == 0:
@@ -409,18 +524,19 @@ func actualizar_animacion(direction: float) -> void:
 
 		return
 
-	# Personaje en el suelo
+	# =========================
+	# EN EL SUELO
+	# =========================
+
 	saltando = false
 
-	if direction != 0:
+	if direction != 0.0:
 
-		# CORRER
 		if animated_sprite.animation != "run":
 			animated_sprite.play("run")
 
 	else:
 
-		# QUIETO
 		if animated_sprite.animation != "idle":
 			animated_sprite.play("idle")
 
@@ -465,8 +581,15 @@ func respawn() -> void:
 	ataque_en_cola = false
 	combo_tiempo_restante = 0.0
 
+	# Reiniciar dash
+	en_dash = false
+	dash_tiempo_restante = 0.0
+	dash_recarga_restante = 0.0
+
+	# Sincronizar teclas
 	space_was_pressed = Input.is_key_pressed(KEY_SPACE)
 	attack_was_pressed = Input.is_key_pressed(KEY_K)
 	block_was_pressed = Input.is_key_pressed(KEY_L)
+	dash_was_pressed = Input.is_key_pressed(KEY_SHIFT)
 
 	animated_sprite.play("idle")
