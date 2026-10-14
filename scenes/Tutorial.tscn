@@ -171,4 +171,4 @@ position = Vector2(480, 1248)
 position = Vector2(1772, 1180)
 
 [node name="Node2D5" parent="." unique_id=538056576 instance=ExtResource("9_0g6v0")]
-position = Vector2(1340, 1277)
+position = Vector2(1226, 1280)
