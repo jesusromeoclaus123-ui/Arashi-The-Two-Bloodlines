@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b1l2mvkoro111"]
 
-[ext_resource type="Texture2D" uid="uid://d2fykjce7b1mi" path="res://Assets/Samurai.png" id="1_usilb"]
+[ext_resource type="Texture2D" uid="uid://d2fykjce7b1mi" path="res://Assets/Otros/Samurai.png" id="1_usilb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5h11f"]
 radius = 86.0

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cen3fnftqsun5"
-path="res://.godot/imported/Casa.png-41782a4c6b158f0733a7fdc9dfe5af8a.ctex"
+uid="uid://d2fykjce7b1mi"
+path="res://.godot/imported/Samurai.png-5913a9cb9fc77d5f8f9a0cbd7948fe58.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Casa.png"
-dest_files=["res://.godot/imported/Casa.png-41782a4c6b158f0733a7fdc9dfe5af8a.ctex"]
+source_file="res://Assets/Otros/Samurai.png"
+dest_files=["res://.godot/imported/Samurai.png-5913a9cb9fc77d5f8f9a0cbd7948fe58.ctex"]
 
 [params]
 

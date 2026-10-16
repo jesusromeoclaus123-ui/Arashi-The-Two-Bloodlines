@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://i0dbckjo3i3w"
-path="res://.godot/imported/Plataforma1.png-87a616afcf96891f9a55eb132aba7f8e.ctex"
+uid="uid://c3clqsk1f5csn"
+path="res://.godot/imported/EnergiaSola.png-90fb65ff1b2b8fe2422aaaf90c0c13bc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Plataforma1.png"
-dest_files=["res://.godot/imported/Plataforma1.png-87a616afcf96891f9a55eb132aba7f8e.ctex"]
+source_file="res://Assets/Otros/EnergiaSola.png"
+dest_files=["res://.godot/imported/EnergiaSola.png-90fb65ff1b2b8fe2422aaaf90c0c13bc.ctex"]
 
 [params]
 

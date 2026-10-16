@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2fykjce7b1mi"
-path="res://.godot/imported/Samurai.png-e7f8565b0c6641cbb0a43a57595492b5.ctex"
+uid="uid://b2esffpwtu7c5"
+path="res://.godot/imported/Energia50.png-afbffd1c2b4c5379d354599655875d1b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Samurai.png"
-dest_files=["res://.godot/imported/Samurai.png-e7f8565b0c6641cbb0a43a57595492b5.ctex"]
+source_file="res://Assets/Otros/Energia50.png"
+dest_files=["res://.godot/imported/Energia50.png-afbffd1c2b4c5379d354599655875d1b.ctex"]
 
 [params]
 

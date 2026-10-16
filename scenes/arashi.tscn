@@ -33,6 +33,13 @@
 [ext_resource type="Texture2D" uid="uid://5unkdeeuejlu" path="res://Assets/Arashi/DashFrame2.png" id="18_tae3t"]
 [ext_resource type="Texture2D" uid="uid://dtinatd6sdfvd" path="res://Assets/Arashi/DashFrame3.png" id="19_tsfr7"]
 [ext_resource type="Texture2D" uid="uid://bk2t1jwdfjued" path="res://Assets/Arashi/DashFrame4.png" id="20_swq80"]
+[ext_resource type="Texture2D" uid="uid://q5jevrxtsyob" path="res://Assets/Arashi/RayoFrame1.png" id="28_tybav"]
+[ext_resource type="Texture2D" uid="uid://bhb5aerlayfbv" path="res://Assets/Arashi/RayoFrame2.png" id="29_k57lf"]
+[ext_resource type="Texture2D" uid="uid://bke3i7tq770pf" path="res://Assets/Arashi/RayoFrame3.png" id="30_mdo7n"]
+[ext_resource type="Texture2D" uid="uid://dlxn5hbluvngo" path="res://Assets/Arashi/RayoFrame4.png" id="31_844f1"]
+[ext_resource type="Texture2D" uid="uid://bs5xh76lbu2k6" path="res://Assets/Arashi/ElectricidadFrame1.png" id="38_844f1"]
+[ext_resource type="Texture2D" uid="uid://ddarh6g4278dj" path="res://Assets/Arashi/ElectricidadFrame2.png" id="39_05auq"]
+[ext_resource type="Texture2D" uid="uid://cxvuhyuwgyhp7" path="res://Assets/Arashi/ElectricidadFrame3.png" id="40_xjekv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
 radius = 78.11481
@@ -188,6 +195,28 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("28_tybav")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_k57lf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_mdo7n")
+}],
+"loop": 1,
+"name": &"rayo",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("31_844f1")
+}],
+"loop": 1,
+"name": &"rayo_fin",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("10_p0lmu")
 }, {
 "duration": 1.0,
@@ -210,6 +239,23 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_5h11f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("38_844f1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_05auq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_xjekv")
+}],
+"loop": 1,
+"name": &"lightning_beam",
+"speed": 12.0
+}]
+
 [node name="Arashi" type="CharacterBody2D" unique_id=489452437 groups=["player"]]
 script = ExtResource("1_7qhff")
 
@@ -219,9 +265,18 @@ shape = SubResource("CapsuleShape2D_siew1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444]
 scale = Vector2(0.22336394, 0.20973176)
 sprite_frames = SubResource("SpriteFrames_te31d")
-animation = &"dash"
+animation = &"rayo"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=903674846]
 limit_left = 0
 limit_top = 0
 limit_bottom = 1450
+
+[node name="LightningOrigin" type="Marker2D" parent="." unique_id=1878257757]
+position = Vector2(-103, -34)
+
+[node name="LightningBeam" type="AnimatedSprite2D" parent="LightningOrigin" unique_id=1980970499]
+position = Vector2(-24.375004, 0)
+scale = Vector2(0.1598757, 0.13743095)
+sprite_frames = SubResource("SpriteFrames_5h11f")
+animation = &"lightning_beam"
