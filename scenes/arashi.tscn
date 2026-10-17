@@ -233,6 +233,15 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("15_ag8g7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_h5ptu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_62ryb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_g7m5g")
 }],
 "loop": 1,
 "name": &"run",
@@ -265,7 +274,8 @@ shape = SubResource("CapsuleShape2D_siew1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444]
 scale = Vector2(0.22336394, 0.20973176)
 sprite_frames = SubResource("SpriteFrames_te31d")
-animation = &"rayo"
+animation = &"run"
+flip_h = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=903674846]
 limit_left = 0

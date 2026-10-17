@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 # La interfaz escucha esta senal para actualizar la barra de energia.
 signal energia_cambiada(actual: float, maxima: float)
+signal vida_cambiada(actual: float, maxima: float)
 
 # ENERGIA ELECTRICA
 @export_range(1.0, 300.0, 1.0) var energia_maxima := 100.0
@@ -11,6 +12,18 @@ signal energia_cambiada(actual: float, maxima: float)
 @export_range(0.0, 10.0, 0.1) var espera_para_recuperar := 2.5
 var energia_actual := 100.0
 var tiempo_espera_recuperacion := 0.0
+
+# VIDA DE ARASHI
+@export_range(1.0, 500.0, 1.0) var vida_maxima := 100.0
+@export_range(0.0, 5.0, 0.1) var segundos_invulnerable := 1.0
+var vida_actual := 100.0
+var tiempo_invulnerable_restante := 0.0
+
+# PRUEBA TEMPORAL: presionar H para recibir dano sin enemigos.
+# Desactivar desde el Inspector cuando implementemos los ataques enemigos.
+@export var prueba_dano_con_h := true
+@export_range(1.0, 200.0, 1.0) var dano_prueba := 20.0
+var h_was_pressed := false
 
 const SPEED := 500.0
 const GRAVITY := 900.0
@@ -67,6 +80,8 @@ var origen_rayo_izquierda := Vector2.ZERO
 
 
 func _ready() -> void:
+	vida_actual = vida_maxima
+	vida_cambiada.emit(vida_actual, vida_maxima)
 	energia_actual = energia_maxima
 	energia_cambiada.emit(energia_actual, energia_maxima)
 	punto_checkpoint = global_position
@@ -98,6 +113,17 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	# VIDA: breve invulnerabilidad despues de un golpe.
+	if tiempo_invulnerable_restante > 0.0:
+		tiempo_invulnerable_restante = maxf(tiempo_invulnerable_restante - delta, 0.0)
+
+	# PRUEBA DE VIDA: una pulsacion de H = un golpe.
+	# Esto no interfiere con el ataque electrico ni el combo.
+	var h_pressed := Input.is_key_pressed(KEY_H)
+	if prueba_dano_con_h and h_pressed and not h_was_pressed:
+		recibir_dano(dano_prueba)
+	h_was_pressed = h_pressed
+
 	# DASH: tiempo de recarga
 	if dash_recarga_restante > 0.0:
 		dash_recarga_restante = maxf(dash_recarga_restante - delta, 0.0)
@@ -232,6 +258,25 @@ func _physics_process(delta: float) -> void:
 	# No sobreescribir las animaciones de ataque, defensa o electricidad
 	if not atacando and bloqueo_estado == "" and rayo_estado == "":
 		actualizar_animacion(direction)
+
+
+# =========================
+# VIDA Y DANO
+# =========================
+
+func recibir_dano(cantidad: float) -> void:
+	# Los enemigos llamaran a esta funcion cuando sus ataques conecten.
+	if cantidad <= 0.0 or tiempo_invulnerable_restante > 0.0:
+		return
+
+	vida_actual = maxf(0.0, vida_actual - cantidad)
+	vida_cambiada.emit(vida_actual, vida_maxima)
+
+	if vida_actual <= 0.0:
+		# Por ahora: volver al ultimo checkpoint sin animacion de muerte.
+		respawn()
+	else:
+		tiempo_invulnerable_restante = segundos_invulnerable
 
 
 # =========================
@@ -512,6 +557,11 @@ func respawn() -> void:
 	block_was_pressed = Input.is_key_pressed(KEY_L)
 	dash_was_pressed = Input.is_key_pressed(KEY_SHIFT)
 	rayo_was_pressed = Input.is_key_pressed(KEY_J)
+
+	# Al reaparecer, restaurar la vida y evitar dano inmediato.
+	vida_actual = vida_maxima
+	tiempo_invulnerable_restante = segundos_invulnerable
+	vida_cambiada.emit(vida_actual, vida_maxima)
 
 	# Por ahora recuperamos la energia al reaparecer.
 	energia_actual = energia_maxima

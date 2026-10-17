@@ -10,7 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://ci1pva736l8g0" path="res://Assets/Fondo/MonteLejano.png" id="10_1qfbs"]
 [ext_resource type="PackedScene" uid="uid://cgr211ituxreg" path="res://scenes/Papa.tscn" id="10_hf6er"]
 [ext_resource type="Texture2D" uid="uid://cen3fnftqsun5" path="res://Assets/Otros/Casa.png" id="10_hvqni"]
-[ext_resource type="Texture2D" uid="uid://d0pbxjo72k6si" path="res://Assets/Otros/BarradeVida.png" id="11_1qfbs"]
+[ext_resource type="Texture2D" uid="uid://7x0x441a4abg" path="res://Assets/Otros/VidaVacia.png" id="11_l206y"]
+[ext_resource type="Texture2D" uid="uid://dkn8w16ph3fma" path="res://Assets/Otros/VidaSola.png" id="12_ei5ly"]
+[ext_resource type="Script" uid="uid://byfp8ad1njbms" path="res://Scripts/barra_vida_progreso.gd" id="13_ei5ly"]
 [ext_resource type="Texture2D" uid="uid://bqa42gsemr6yl" path="res://Assets/Otros/EnergiaVacia.png" id="13_lyiqi"]
 [ext_resource type="Texture2D" uid="uid://c3clqsk1f5csn" path="res://Assets/Otros/EnergiaSola.png" id="14_l206y"]
 [ext_resource type="Script" uid="uid://q8u87csgkqnl" path="res://Scripts/barra_energia_progreso.gd" id="14_lyiqi"]
@@ -86,8 +88,10 @@ shape = SubResource("RectangleShape2D_ci5ev")
 position = Vector2(941, 1108)
 
 [node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
-position = Vector2(480, 1248)
+position = Vector2(477, 1235)
 espera_para_recuperar = 2.0
+segundos_invulnerable = 0.5
+dano_prueba = 15.0
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=674905101]
 
@@ -169,10 +173,20 @@ texture = ExtResource("9_0g6v0")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=382602471]
 
-[node name="BarradeVida" type="Sprite2D" parent="CanvasLayer" unique_id=626155384]
-position = Vector2(360.00003, 227)
+[node name="VidaVacia" type="Sprite2D" parent="CanvasLayer" unique_id=907303746]
+position = Vector2(358.00003, 227)
 scale = Vector2(0.3232819, 0.32328197)
-texture = ExtResource("11_1qfbs")
+texture = ExtResource("11_l206y")
+
+[node name="BarraVidaProgreso" type="TextureProgressBar" parent="CanvasLayer/VidaVacia" unique_id=682827636 node_paths=PackedStringArray("arashi")]
+offset_left = -1079.5532
+offset_top = -361.9132
+offset_right = 7659.9624
+offset_bottom = 1614.6893
+value = 100.0
+texture_progress = ExtResource("12_ei5ly")
+script = ExtResource("13_ei5ly")
+arashi = NodePath("../../../Arashi")
 
 [node name="BarraEnergiaProgreso" type="TextureProgressBar" parent="CanvasLayer" unique_id=740164304 node_paths=PackedStringArray("arashi")]
 anchors_preset = -1
