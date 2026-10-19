@@ -20,12 +20,6 @@ var vida_actual := 100.0
 var tiempo_invulnerable_restante := 0.0
 var esta_muerto := false
 
-# PRUEBA TEMPORAL: presionar H para recibir dano sin enemigos.
-# Desactivar desde el Inspector cuando implementemos los ataques enemigos.
-@export var prueba_dano_con_h := true
-@export_range(1.0, 200.0, 1.0) var dano_prueba := 20.0
-var h_was_pressed := false
-
 const SPEED := 500.0
 const GRAVITY := 900.0
 const JUMP_FORCE := -600.0
@@ -118,13 +112,6 @@ func _physics_process(delta: float) -> void:
 	if tiempo_invulnerable_restante > 0.0:
 		tiempo_invulnerable_restante = maxf(tiempo_invulnerable_restante - delta, 0.0)
 
-	# PRUEBA DE VIDA: una pulsacion de H = un golpe.
-	# Esto no interfiere con el ataque electrico ni el combo.
-	var h_pressed := Input.is_key_pressed(KEY_H)
-	if prueba_dano_con_h and h_pressed and not h_was_pressed:
-		recibir_dano(dano_prueba)
-	h_was_pressed = h_pressed
-	
 	# PRUEBA: abrir el menú de derrota con P
 	if Input.is_key_pressed(KEY_P):
 		get_tree().call_deferred(
@@ -328,6 +315,40 @@ func morir() -> void:
 	get_tree().change_scene_to_file("res://menu_derrota.tscn")
 
 
+
+
+# =========================
+# BLOQUEO DE ATAQUES ENEMIGOS
+# =========================
+
+# Solo bloquea cuando Arashi ya termino la animacion de preparacion
+# (block_start) y esta en block_hold, mirando hacia el atacante.
+func esta_bloqueando_desde(posicion_atacante: Vector2) -> bool:
+	if esta_muerto or bloqueo_estado != "hold":
+		return false
+
+	var distancia_x: float = posicion_atacante.x - global_position.x
+	if absf(distancia_x) < 1.0:
+		return false
+
+	# Los sprites originales de Arashi miran hacia la izquierda.
+	# flip_h = false: mira a izquierda; true: mira a derecha.
+	if distancia_x < 0.0:
+		return not animated_sprite.flip_h
+	return animated_sprite.flip_h
+
+
+# El enemigo llama esta funcion en vez de recibir_dano() directamente.
+# Otras fuentes de dano pueden seguir utilizando recibir_dano().
+func recibir_ataque_enemigo(cantidad: float, posicion_atacante: Vector2) -> void:
+	if esta_muerto or cantidad <= 0.0:
+		return
+
+	if esta_bloqueando_desde(posicion_atacante):
+		print("ARASHI BLOQUEO EL ATAQUE")
+		return
+
+	recibir_dano(cantidad)
 
 
 # =========================

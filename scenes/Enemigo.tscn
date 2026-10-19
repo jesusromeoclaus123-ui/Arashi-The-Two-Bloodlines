@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://b1l2mvkoro111"]
 
+[ext_resource type="Script" uid="uid://18k02ao7ndif" path="res://Scripts/enemigo.gd" id="1_hswjn"]
 [ext_resource type="Texture2D" uid="uid://d2fykjce7b1mi" path="res://Assets/Otros/Samurai.png" id="1_usilb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5h11f"]
-radius = 86.0
-height = 250.0
+radius = 77.0
+height = 202.0
 
-[node name="Node2D" type="CharacterBody2D" unique_id=1087525712]
+[node name="Enemigo" type="CharacterBody2D" unique_id=1087525712]
+script = ExtResource("1_hswjn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=118984478]
 position = Vector2(13, 18)

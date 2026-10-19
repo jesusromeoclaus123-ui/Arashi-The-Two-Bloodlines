@@ -107,7 +107,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"block_end",
-"speed": 12.0
+"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -115,7 +115,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"block_hold",
-"speed": 12.0
+"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -129,7 +129,7 @@ animations = [{
 }],
 "loop": 1,
 "name": &"block_start",
-"speed": 12.0
+"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -267,14 +267,15 @@ animations = [{
 
 [node name="Arashi" type="CharacterBody2D" unique_id=489452437 groups=["player"]]
 script = ExtResource("1_7qhff")
+prueba_dano_con_h = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=206490550]
 shape = SubResource("CapsuleShape2D_siew1")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444 groups=["player"]]
 scale = Vector2(0.22336394, 0.20973176)
 sprite_frames = SubResource("SpriteFrames_te31d")
-animation = &"run"
+animation = &"block_start"
 flip_h = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=903674846]
