@@ -201,3 +201,16 @@ texture_under = ExtResource("13_lyiqi")
 texture_progress = ExtResource("14_l206y")
 script = ExtResource("14_lyiqi")
 arashi = NodePath("../../Arashi")
+
+[node name="TransicionMuerte" type="CanvasLayer" parent="." unique_id=1411910349]
+layer = 10
+
+[node name="PantallaNegra" type="ColorRect" parent="TransicionMuerte" unique_id=796564114]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)

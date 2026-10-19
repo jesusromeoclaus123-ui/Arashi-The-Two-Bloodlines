@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://dgrtsp4ih673d"]
+
+[ext_resource type="Script" uid="uid://c34gk4xi52p1g" path="res://menu_derrota.gd" id="1_x4idp"]
+[ext_resource type="Texture2D" uid="uid://umh4tle11vrf" path="res://Menu derrota/fondoderrota.png" id="2_c1xa8"]
+[ext_resource type="Texture2D" uid="uid://84sb5oadmbc1" path="res://Menu derrota/perdiste logotipo.png" id="3_ko0qg"]
+[ext_resource type="Texture2D" uid="uid://b03oi3y7tk7fd" path="res://Menu derrota/reintentarboton.png" id="4_0iipi"]
+[ext_resource type="Texture2D" uid="uid://vydjnwxnf6h0" path="res://Menu derrota/menuboton.png" id="5_o53ho"]
+
+[node name="MenuDerrota" type="Control" unique_id=382744938]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_x4idp")
+
+[node name="Fondo" type="TextureRect" parent="." unique_id=1250152227]
+layout_mode = 0
+offset_right = 1918.9799
+offset_bottom = 1080.0
+texture = ExtResource("2_c1xa8")
+
+[node name="Oscurecer" type="ColorRect" parent="." unique_id=1596133554]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.34901962)
+
+[node name="LogoPerdiste" type="TextureRect" parent="." unique_id=1374724479]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 47.0
+offset_right = 1684.0
+offset_bottom = 523.0
+texture = ExtResource("3_ko0qg")
+expand_mode = 1
+
+[node name="BotonReintentar" type="TextureButton" parent="." unique_id=1739366025]
+layout_mode = 0
+offset_top = 702.0
+offset_right = 720.0
+offset_bottom = 1004.0
+texture_normal = ExtResource("4_0iipi")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="BotonMenu" type="TextureButton" parent="." unique_id=1146051296]
+layout_mode = 0
+offset_left = 1200.0
+offset_top = 702.0
+offset_right = 1920.0
+offset_bottom = 1002.0
+texture_normal = ExtResource("5_o53ho")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="TransicionSalida" type="CanvasLayer" parent="." unique_id=31519606]
+layer = 10
+
+[node name="PantallaNegra" type="ColorRect" parent="TransicionSalida" unique_id=690301429]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="mouse_entered" from="BotonReintentar" to="." method="_on_boton_reintentar_mouse_entered"]
+[connection signal="mouse_exited" from="BotonReintentar" to="." method="_on_boton_reintentar_mouse_exited"]
+[connection signal="pressed" from="BotonReintentar" to="." method="_on_boton_reintentar_pressed"]
+[connection signal="pressed" from="BotonMenu" to="." method="_on_boton_menu_pressed"]

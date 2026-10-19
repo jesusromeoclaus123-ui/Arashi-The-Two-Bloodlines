@@ -18,6 +18,7 @@ var tiempo_espera_recuperacion := 0.0
 @export_range(0.0, 5.0, 0.1) var segundos_invulnerable := 1.0
 var vida_actual := 100.0
 var tiempo_invulnerable_restante := 0.0
+var esta_muerto := false
 
 # PRUEBA TEMPORAL: presionar H para recibir dano sin enemigos.
 # Desactivar desde el Inspector cuando implementemos los ataques enemigos.
@@ -123,6 +124,15 @@ func _physics_process(delta: float) -> void:
 	if prueba_dano_con_h and h_pressed and not h_was_pressed:
 		recibir_dano(dano_prueba)
 	h_was_pressed = h_pressed
+	
+	# PRUEBA: abrir el menú de derrota con P
+	if Input.is_key_pressed(KEY_P):
+		get_tree().call_deferred(
+			"change_scene_to_file",
+			"res://menu_derrota.tscn"
+		)
+		return
+
 
 	# DASH: tiempo de recarga
 	if dash_recarga_restante > 0.0:
@@ -264,19 +274,60 @@ func _physics_process(delta: float) -> void:
 # VIDA Y DANO
 # =========================
 
+
 func recibir_dano(cantidad: float) -> void:
-	# Los enemigos llamaran a esta funcion cuando sus ataques conecten.
-	if cantidad <= 0.0 or tiempo_invulnerable_restante > 0.0:
+	if esta_muerto or cantidad <= 0.0 or tiempo_invulnerable_restante > 0.0:
 		return
 
 	vida_actual = maxf(0.0, vida_actual - cantidad)
+	print("VIDA REAL DE ARASHI: ", vida_actual)
 	vida_cambiada.emit(vida_actual, vida_maxima)
 
-	if vida_actual <= 0.0:
-		# Por ahora: volver al ultimo checkpoint sin animacion de muerte.
-		respawn()
+	print("VIDA ACTUAL DE ARASHI: ", vida_actual)
+
+	if vida_actual <= 10.0:
+		print("ARASHI MURIO - ABRIENDO MENU DE DERROTA")
+		morir()
 	else:
 		tiempo_invulnerable_restante = segundos_invulnerable
+
+
+
+
+
+func morir() -> void:
+	if esta_muerto:
+		return
+
+	esta_muerto = true
+	velocity = Vector2.ZERO
+
+	# Detener las acciones de Arashi
+	set_physics_process(false)
+
+	print("ARASHI MURIO - INICIANDO TRANSICION")
+
+	# Buscar la pantalla negra del Tutorial
+	var pantalla_negra: ColorRect = get_tree().current_scene.get_node(
+		"TransicionMuerte/PantallaNegra"
+	)
+
+	# Crear el fundido a negro
+	var tween = create_tween()
+	tween.tween_property(
+		pantalla_negra,
+		"modulate:a",
+		1.0,
+		1.5
+	)
+
+	# Esperar a que termine el fundido
+	await tween.finished
+
+	# Abrir el menu de derrota
+	get_tree().change_scene_to_file("res://menu_derrota.tscn")
+
+
 
 
 # =========================
@@ -532,6 +583,7 @@ func activar_bandera(posicion: Vector2) -> void:
 # =========================
 
 func respawn() -> void:
+	esta_muerto = false
 	global_position = posicion_bandera if bandera_activada else punto_checkpoint
 	velocity = Vector2.ZERO
 
