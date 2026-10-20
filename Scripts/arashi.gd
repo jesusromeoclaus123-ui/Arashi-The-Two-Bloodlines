@@ -20,6 +20,15 @@ var vida_actual := 100.0
 var tiempo_invulnerable_restante := 0.0
 var esta_muerto := false
 
+# NUEVO: reaccion al golpe y secuencia de derrota.
+@export_range(0.05, 1.0, 0.05) var duracion_destello_dano: float = 0.15
+@export_range(0.0, 5.0, 0.1) var tiempo_cuerpo_en_suelo: float = 1.0
+@export_range(0.1, 5.0, 0.1) var duracion_fundido_derrota: float = 1.5
+var recibiendo_dano: bool = false
+var tiempo_destello_restante: float = 0.0
+var color_sprite_original: Color = Color.WHITE
+var transicion_derrota_iniciada: bool = false
+
 const SPEED := 500.0
 const GRAVITY := 900.0
 const JUMP_FORCE := -600.0
@@ -121,13 +130,18 @@ func _ready() -> void:
 	colision_katana_x_derecha = colision_katana.position.x
 	colision_rayo_x_derecha = colision_rayo.position.x
 
-	# Animaciones que terminan al llegar al ultimo frame
+	# Animaciones que terminan al llegar al ultimo frame.
 	for anim in [
 		"attack1", "attack2", "attack3",
 		"jump", "double_jump", "block_start", "block_end",
-		"dash", "rayo", "rayo_fin"
+		"dash", "rayo", "rayo_fin", "hurt", "death"
 	]:
-		animated_sprite.sprite_frames.set_animation_loop(anim, false)
+		if animated_sprite.sprite_frames.has_animation(anim):
+			animated_sprite.sprite_frames.set_animation_loop(anim, false)
+		else:
+			push_warning("Falta la animacion '%s' en Arashi." % anim)
+
+	color_sprite_original = animated_sprite.modulate
 
 	# Animaciones que se repiten
 	for anim in ["run", "idle", "block_hold"]:
@@ -147,16 +161,40 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	# VIDA: breve invulnerabilidad despues de un golpe.
+	# Mientras termina la animacion de derrota, no aceptar controles.
+	# Mantenemos la gravedad por si Arashi fue derrotado en el aire.
+	if esta_muerto:
+		velocity.x = 0.0
+		if not is_on_floor():
+			velocity.y += GRAVITY * delta
+		move_and_slide()
+		return
+
+	# Invulnerabilidad y destello rojo despues de recibir dano.
 	if tiempo_invulnerable_restante > 0.0:
 		tiempo_invulnerable_restante = maxf(tiempo_invulnerable_restante - delta, 0.0)
+	if tiempo_destello_restante > 0.0:
+		tiempo_destello_restante = maxf(tiempo_destello_restante - delta, 0.0)
+	actualizar_color_dano()
 
-	# PRUEBA: abrir el menú de derrota con P
+	# Durante hurt no mover, atacar ni iniciar habilidades.
+	# Actualizamos los estados de las teclas para evitar pulsaciones retenidas.
+	if recibiendo_dano:
+		velocity.x = 0.0
+		if not is_on_floor():
+			velocity.y += GRAVITY * delta
+		move_and_slide()
+		space_was_pressed = Input.is_key_pressed(KEY_SPACE)
+		attack_was_pressed = Input.is_key_pressed(KEY_K)
+		block_was_pressed = Input.is_key_pressed(KEY_L)
+		dash_was_pressed = Input.is_key_pressed(KEY_SHIFT)
+		rayo_was_pressed = Input.is_key_pressed(KEY_J)
+		return
+
+	# PRUEBA: P provoca una derrota de prueba, incluyendo la animacion.
+	# Esta tecla se puede quitar cuando terminemos de comprobar el sistema.
 	if Input.is_key_pressed(KEY_P):
-		get_tree().call_deferred(
-			"change_scene_to_file",
-			"res://menu_derrota.tscn"
-		)
+		morir()
 		return
 
 
@@ -371,19 +409,60 @@ func recibir_dano(cantidad: float) -> void:
 		return
 
 	vida_actual = maxf(0.0, vida_actual - cantidad)
-	print("VIDA REAL DE ARASHI: ", vida_actual)
 	vida_cambiada.emit(vida_actual, vida_maxima)
-
 	print("VIDA ACTUAL DE ARASHI: ", vida_actual)
 
-	if vida_actual <= 10.0:
-		print("ARASHI MURIO - ABRIENDO MENU DE DERROTA")
+	# En cero reproducir toda la animacion antes del menu de derrota.
+	if vida_actual <= 0.0:
 		morir()
+		return
+
+	tiempo_invulnerable_restante = segundos_invulnerable
+	tiempo_destello_restante = duracion_destello_dano
+	actualizar_color_dano()
+	iniciar_animacion_dano()
+
+
+func actualizar_color_dano() -> void:
+	if tiempo_destello_restante > 0.0 and not esta_muerto:
+		animated_sprite.modulate = color_sprite_original * Color(1.0, 0.20, 0.20, 1.0)
 	else:
-		tiempo_invulnerable_restante = segundos_invulnerable
+		animated_sprite.modulate = color_sprite_original
 
 
+func detener_acciones_por_dano() -> void:
+	# Si hay rayo activo, cortarlo sin reproducir rayo_fin:
+	# la animacion hurt/death debe tener prioridad.
+	if rayo_estado != "":
+		tiempo_espera_recuperacion = espera_para_recuperar
+	rayo_estado = ""
+	lightning_beam.hide()
+	lightning_beam.stop()
+	tiempo_para_pulso_rayo = 0.0
 
+	# Interrumpir combo, bloqueo y dash sin cambiar a otras animaciones.
+	atacando = false
+	ataque_en_cola = false
+	combo_step = 0
+	combo_tiempo_restante = 0.0
+	enemigos_golpeados_este_ataque.clear()
+	bloqueo_estado = ""
+	if en_dash:
+		dash_recarga_restante = DASH_COOLDOWN
+	en_dash = false
+	dash_tiempo_restante = 0.0
+	velocity.x = 0.0
+
+
+func iniciar_animacion_dano() -> void:
+	detener_acciones_por_dano()
+	if animated_sprite.sprite_frames.has_animation("hurt") and animated_sprite.sprite_frames.get_frame_count("hurt") > 0:
+		recibiendo_dano = true
+		animated_sprite.play("hurt")
+	else:
+		push_warning("Falta la animacion 'hurt' en Arashi.")
+		recibiendo_dano = false
+		actualizar_animacion(obtener_direccion())
 
 
 func morir() -> void:
@@ -391,34 +470,47 @@ func morir() -> void:
 		return
 
 	esta_muerto = true
+	recibiendo_dano = false
+	detener_acciones_por_dano()
 	velocity = Vector2.ZERO
+	tiempo_destello_restante = 0.0
+	animated_sprite.modulate = color_sprite_original
+	print("ARASHI DERROTADO - REPRODUCIENDO DEATH")
 
-	# Detener las acciones de Arashi
-	set_physics_process(false)
+	# NO detener _physics_process: asi no queda flotando si muere en el aire.
+	if animated_sprite.sprite_frames.has_animation("death") and animated_sprite.sprite_frames.get_frame_count("death") > 0:
+		animated_sprite.play("death")
+	else:
+		push_warning("Falta la animacion 'death' en Arashi; se abre el menu igual.")
+		iniciar_transicion_derrota()
 
-	print("ARASHI MURIO - INICIANDO TRANSICION")
 
-	# Buscar la pantalla negra del Tutorial
-	var pantalla_negra: ColorRect = get_tree().current_scene.get_node(
+func iniciar_transicion_derrota() -> void:
+	if transicion_derrota_iniciada:
+		return
+	transicion_derrota_iniciada = true
+
+	# Mantener visible el ultimo sprite de death durante un instante.
+	if tiempo_cuerpo_en_suelo > 0.0:
+		await get_tree().create_timer(tiempo_cuerpo_en_suelo).timeout
+	if not is_inside_tree():
+		return
+
+	# Reutilizar la pantalla negra que ya existe en Tutorial.
+	var pantalla_negra: ColorRect = get_tree().current_scene.get_node_or_null(
 		"TransicionMuerte/PantallaNegra"
-	)
+	) as ColorRect
+	if pantalla_negra != null:
+		pantalla_negra.show()
+		pantalla_negra.modulate.a = 0.0
+		var tween: Tween = create_tween()
+		tween.tween_property(pantalla_negra, "modulate:a", 1.0, duracion_fundido_derrota)
+		await tween.finished
+	else:
+		push_warning("No se encontro TransicionMuerte/PantallaNegra; se abre el menu sin fundido.")
 
-	# Crear el fundido a negro
-	var tween = create_tween()
-	tween.tween_property(
-		pantalla_negra,
-		"modulate:a",
-		1.0,
-		1.5
-	)
-
-	# Esperar a que termine el fundido
-	await tween.finished
-
-	# Abrir el menu de derrota
-	get_tree().change_scene_to_file("res://menu_derrota.tscn")
-
-
+	if is_inside_tree():
+		get_tree().change_scene_to_file("res://menu_derrota.tscn")
 
 
 # =========================
@@ -636,6 +728,19 @@ func iniciar_ataque(numero: int) -> void:
 func _on_animation_finished() -> void:
 	var animacion_actual := animated_sprite.animation
 
+	# Las reacciones tienen prioridad sobre todas las demas animaciones.
+	if animacion_actual == "death" and esta_muerto:
+		iniciar_transicion_derrota()
+		return
+
+	if animacion_actual == "hurt" and recibiendo_dano and not esta_muerto:
+		recibiendo_dano = false
+		actualizar_animacion(obtener_direccion())
+		return
+
+	if esta_muerto or recibiendo_dano:
+		return
+
 	if animacion_actual == "dash":
 		return  # La duracion se controla por tiempo en _physics_process
 
@@ -697,7 +802,7 @@ func obtener_direccion() -> float:
 
 
 func actualizar_animacion(direction: float) -> void:
-	if en_dash or atacando or bloqueo_estado != "" or rayo_estado != "":
+	if esta_muerto or recibiendo_dano or en_dash or atacando or bloqueo_estado != "" or rayo_estado != "":
 		return
 
 	if not is_on_floor():
@@ -733,6 +838,10 @@ func activar_bandera(posicion: Vector2) -> void:
 
 func respawn() -> void:
 	esta_muerto = false
+	recibiendo_dano = false
+	transicion_derrota_iniciada = false
+	tiempo_destello_restante = 0.0
+	animated_sprite.modulate = color_sprite_original
 	global_position = posicion_bandera if bandera_activada else punto_checkpoint
 	velocity = Vector2.ZERO
 

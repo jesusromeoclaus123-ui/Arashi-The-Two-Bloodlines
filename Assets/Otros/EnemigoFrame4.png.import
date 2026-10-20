@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2fykjce7b1mi"
-path="res://.godot/imported/Samurai.png-5913a9cb9fc77d5f8f9a0cbd7948fe58.ctex"
+uid="uid://dfbnmmsw1ohyk"
+path="res://.godot/imported/EnemigoFrame4.png-e78756d2c16a87958ed24671026e5c3d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Otros/Samurai.png"
-dest_files=["res://.godot/imported/Samurai.png-5913a9cb9fc77d5f8f9a0cbd7948fe58.ctex"]
+source_file="res://Assets/Otros/EnemigoFrame4.png"
+dest_files=["res://.godot/imported/EnemigoFrame4.png-e78756d2c16a87958ed24671026e5c3d.ctex"]
 
 [params]
 

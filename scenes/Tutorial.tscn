@@ -132,7 +132,7 @@ distancia_deteccion = 900.0
 distancia_detenerse = 200.0
 
 [node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
-position = Vector2(477, 1235)
+position = Vector2(472, 1234)
 espera_para_recuperar = 2.0
 segundos_invulnerable = 0.5
 

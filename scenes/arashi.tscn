@@ -33,7 +33,12 @@
 [ext_resource type="Texture2D" uid="uid://5unkdeeuejlu" path="res://Assets/Arashi/DashFrame2.png" id="18_tae3t"]
 [ext_resource type="Texture2D" uid="uid://dtinatd6sdfvd" path="res://Assets/Arashi/DashFrame3.png" id="19_tsfr7"]
 [ext_resource type="Texture2D" uid="uid://bk2t1jwdfjued" path="res://Assets/Arashi/DashFrame4.png" id="20_swq80"]
+[ext_resource type="Texture2D" uid="uid://oqlice0vejtf" path="res://Assets/Arashi/DerrotaFrame2.png" id="21_188wh"]
+[ext_resource type="Texture2D" uid="uid://da5x8obcdsp82" path="res://Assets/Arashi/DerrotaFrame3.png" id="22_mswdf"]
+[ext_resource type="Texture2D" uid="uid://byeogpmtvdbc" path="res://Assets/Arashi/DerrotaFrame4.png" id="23_dllcq"]
+[ext_resource type="Texture2D" uid="uid://plcjtxsgc6gy" path="res://Assets/Arashi/DerrotaFrame5.png" id="24_mgrsv"]
 [ext_resource type="Texture2D" uid="uid://q5jevrxtsyob" path="res://Assets/Arashi/RayoFrame1.png" id="28_tybav"]
+[ext_resource type="Texture2D" uid="uid://cjiocerj1xoa0" path="res://Assets/Arashi/DerrotaFrame1.png" id="29_aqedr"]
 [ext_resource type="Texture2D" uid="uid://bhb5aerlayfbv" path="res://Assets/Arashi/RayoFrame2.png" id="29_k57lf"]
 [ext_resource type="Texture2D" uid="uid://bke3i7tq770pf" path="res://Assets/Arashi/RayoFrame3.png" id="30_mdo7n"]
 [ext_resource type="Texture2D" uid="uid://dlxn5hbluvngo" path="res://Assets/Arashi/RayoFrame4.png" id="31_844f1"]
@@ -153,6 +158,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("21_188wh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_mswdf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_dllcq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_mgrsv")
+}],
+"loop": 0,
+"name": &"death",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("2_gv8de")
 }, {
 "duration": 1.0,
@@ -167,6 +189,14 @@ animations = [{
 "loop": 0,
 "name": &"double_jump",
 "speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("29_aqedr")
+}],
+"loop": 0,
+"name": &"hurt",
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -280,7 +310,7 @@ shape = SubResource("CapsuleShape2D_siew1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444 groups=["player"]]
 scale = Vector2(0.22336394, 0.20973176)
 sprite_frames = SubResource("SpriteFrames_te31d")
-animation = &"rayo"
+animation = &"death"
 flip_h = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=903674846]

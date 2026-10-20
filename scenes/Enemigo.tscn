@@ -1,18 +1,133 @@
 [gd_scene format=3 uid="uid://b1l2mvkoro111"]
 
 [ext_resource type="Script" uid="uid://18k02ao7ndif" path="res://Scripts/enemigo.gd" id="1_hswjn"]
-[ext_resource type="Texture2D" uid="uid://d2fykjce7b1mi" path="res://Assets/Otros/Samurai.png" id="1_usilb"]
+[ext_resource type="Texture2D" uid="uid://dr3jyeh377lak" path="res://Assets/Otros/Enemigo.png" id="2_hswjn"]
+[ext_resource type="Texture2D" uid="uid://yq86vwvgjca7" path="res://Assets/Otros/EnemigoGolpeFrame1.png" id="2_i2drj"]
+[ext_resource type="Texture2D" uid="uid://1d1hiwth38sp" path="res://Assets/Otros/EnemigoGolpeFrame2.png" id="3_kdtgc"]
+[ext_resource type="Texture2D" uid="uid://c3q24lrmdh5ng" path="res://Assets/Otros/EnemigoFrame3.png" id="3_ljuuw"]
+[ext_resource type="Texture2D" uid="uid://cxpyg1rck2x81" path="res://Assets/Otros/EnemigoGolpeFrame3.png" id="4_m0jp6"]
+[ext_resource type="Texture2D" uid="uid://04ab35ohdn5v" path="res://Assets/Otros/EnemigoFrame2.png" id="4_upee4"]
+[ext_resource type="Texture2D" uid="uid://d3meatnal0t1o" path="res://Assets/Otros/EnemigoGolpeFrame4.png" id="5_akhib"]
+[ext_resource type="Texture2D" uid="uid://drqlowwl8fbks" path="res://Assets/Otros/EnemigoGolpeFrame5.png" id="5_kdtgc"]
+[ext_resource type="Texture2D" uid="uid://ok7dc7pbuntb" path="res://Assets/Otros/EnemigoFrame1.png" id="5_wormu"]
+[ext_resource type="Texture2D" uid="uid://bjhsi61vgane8" path="res://Assets/Otros/EnemigoFrame6.png" id="6_xjkg6"]
+[ext_resource type="Texture2D" uid="uid://dy573qvt41kgk" path="res://Assets/Otros/EnemigoDerrotadoFrame2.png" id="7_28pn3"]
+[ext_resource type="Texture2D" uid="uid://b30qstcw332ql" path="res://Assets/Otros/EnemigoFrame8.png" id="7_i2drj"]
+[ext_resource type="Texture2D" uid="uid://dfbnmmsw1ohyk" path="res://Assets/Otros/EnemigoFrame4.png" id="8_kdtgc"]
+[ext_resource type="Texture2D" uid="uid://b4q4bqhllcslj" path="res://Assets/Otros/EnemigoDerrotadoFrame3.png" id="8_t4sk1"]
+[ext_resource type="Texture2D" uid="uid://btp5rar72qxco" path="res://Assets/Otros/EnemigoDerrotadoFrame4.png" id="9_47o5q"]
+[ext_resource type="Texture2D" uid="uid://upkqg8lakqkb" path="res://Assets/Otros/EnemigoFrame5.png" id="9_m0jp6"]
+[ext_resource type="Texture2D" uid="uid://btbq8i0op08sv" path="res://Assets/Otros/EnemigoFrame7.png" id="10_akhib"]
+[ext_resource type="Texture2D" uid="uid://dbv4x7l8t5ulg" path="res://Assets/Otros/EnemigoDerrotadoFrame1.png" id="10_syp1f"]
+[ext_resource type="Texture2D" uid="uid://f5x25bl6s5ul" path="res://Assets/Otros/EnemigoDerrotadoFrame5.png" id="11_u18y3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5h11f"]
 radius = 77.0
 height = 202.0
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_5h11f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_i2drj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_kdtgc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_m0jp6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_kdtgc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_kdtgc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_akhib")
+}],
+"loop": 0,
+"name": &"attack",
+"speed": 13.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_28pn3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_t4sk1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_47o5q")
+}],
+"loop": 0,
+"name": &"death",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_syp1f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_u18y3")
+}],
+"loop": 0,
+"name": &"hurt",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hswjn")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ljuuw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_upee4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_wormu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_xjkg6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_i2drj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_wormu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_kdtgc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ljuuw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_m0jp6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_akhib")
+}],
+"loop": 1,
+"name": &"run",
+"speed": 7.0
+}]
+
 [node name="Enemigo" type="CharacterBody2D" unique_id=1087525712 groups=["enemigos"]]
 script = ExtResource("1_hswjn")
+velocidad = 200.0
+vida_maxima = 150.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=118984478 groups=["enemigos"]]
 shape = SubResource("CapsuleShape2D_5h11f")
 
-[node name="Samurai" type="Sprite2D" parent="." unique_id=1480024677]
+[node name="Enemigo" type="AnimatedSprite2D" parent="." unique_id=799517108]
 scale = Vector2(0.234, 0.234)
-texture = ExtResource("1_usilb")
+sprite_frames = SubResource("SpriteFrames_5h11f")
+animation = &"death"
