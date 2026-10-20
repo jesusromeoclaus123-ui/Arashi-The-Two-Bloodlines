@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cav872024t0s0"]
 
-[ext_resource type="Script" uid="uid://d078ud71uj4ax" path="res://dialogo_tutorial.gd" id="1_8tcvs"]
+[ext_resource type="Script" uid="uid://d078ud71uj4ax" path="res://Scripts/dialogo_tutorial.gd" id="1_8tcvs"]
 [ext_resource type="Texture2D" uid="uid://c1v3l5y4a4cq5" path="res://Assets/Otros/PapaArashi.png" id="1_o441l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_siew1"]

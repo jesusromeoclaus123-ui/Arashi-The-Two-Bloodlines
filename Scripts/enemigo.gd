@@ -38,6 +38,8 @@ var derrotado: bool = false
 # REFERENCIAS Y ESTADO
 # =========================
 @onready var sprite: Sprite2D = $Samurai
+@onready var colision_cuerpo: CollisionShape2D = $CollisionShape2D
+var colision_cuerpo_x_original: float = 0.0
 
 var jugador: CharacterBody2D = null
 var preparando_ataque: bool = false
@@ -47,6 +49,7 @@ var color_normal: Color = Color.WHITE
 
 
 func _ready() -> void:
+	colision_cuerpo_x_original = colision_cuerpo.position.x
 	color_normal = sprite.modulate
 	vida_actual = vida_maxima
 	vida_cambiada.emit(vida_actual, vida_maxima)
@@ -99,6 +102,10 @@ func _physics_process(delta: float) -> void:
 		sprite.flip_h = false  # El dibujo original mira a izquierda.
 	elif diferencia_x > 1.0:
 		sprite.flip_h = true
+
+	# La colision corporal acompanha al sprite si su forma esta desplazada.
+	# Si CollisionShape2D esta centrado (Position X = 0), se queda centrado.
+	colision_cuerpo.position.x = -colision_cuerpo_x_original if sprite.flip_h else colision_cuerpo_x_original
 
 	# Durante la preparacion no persigue: espera y lanza el golpe.
 	if preparando_ataque:

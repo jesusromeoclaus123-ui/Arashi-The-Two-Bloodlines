@@ -248,6 +248,9 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5h11f"]
+size = Vector2(222, 153)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_5h11f"]
 animations = [{
 "frames": [{
@@ -265,9 +268,11 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bx8n8"]
+size = Vector2(326.5, 35)
+
 [node name="Arashi" type="CharacterBody2D" unique_id=489452437 groups=["player"]]
 script = ExtResource("1_7qhff")
-prueba_dano_con_h = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=206490550]
 shape = SubResource("CapsuleShape2D_siew1")
@@ -275,7 +280,7 @@ shape = SubResource("CapsuleShape2D_siew1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444 groups=["player"]]
 scale = Vector2(0.22336394, 0.20973176)
 sprite_frames = SubResource("SpriteFrames_te31d")
-animation = &"block_start"
+animation = &"rayo"
 flip_h = true
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=903674846]
@@ -283,11 +288,25 @@ limit_left = 0
 limit_top = 0
 limit_bottom = 1450
 
+[node name="KatanaHitbox" type="Area2D" parent="." unique_id=1543054617]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KatanaHitbox" unique_id=23062675]
+position = Vector2(55, -14.5)
+shape = SubResource("RectangleShape2D_5h11f")
+
 [node name="LightningOrigin" type="Marker2D" parent="." unique_id=1878257757]
-position = Vector2(-103, -34)
+position = Vector2(103, -34)
 
 [node name="LightningBeam" type="AnimatedSprite2D" parent="LightningOrigin" unique_id=1980970499]
-position = Vector2(-24.375004, 0)
+position = Vector2(164.99997, -1)
 scale = Vector2(0.1598757, 0.13743095)
 sprite_frames = SubResource("SpriteFrames_5h11f")
 animation = &"lightning_beam"
+flip_h = true
+
+[node name="RayoHitbox" type="Area2D" parent="LightningOrigin" unique_id=118111160]
+position = Vector2(207, -2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LightningOrigin/RayoHitbox" unique_id=1130331029]
+position = Vector2(-47, 3)
+shape = SubResource("RectangleShape2D_bx8n8")

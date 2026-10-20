@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://do3t08ueypg34"]
+
+[ext_resource type="Script" uid="uid://d0052d0syqob5" path="res://Scripts/menu_pausa.gd" id="1_iivcj"]
+[ext_resource type="Texture2D" uid="uid://b74tb7bp43v3x" path="res://Assets/Menu/Titulo.png" id="1_jhjql"]
+[ext_resource type="Texture2D" uid="uid://doc0wvdy7js1y" path="res://Assets/Menu/Reanudar.png" id="2_ajpfe"]
+[ext_resource type="Texture2D" uid="uid://ds3mf11qxokn1" path="res://Assets/Menu/Opciones.png" id="3_iivcj"]
+[ext_resource type="Texture2D" uid="uid://b7c3xbghhc01x" path="res://Assets/Menu/MenuPrincipal.png" id="4_8ryx1"]
+
+[node name="MenuPausa" type="CanvasLayer" unique_id=631862092]
+layer = 20
+script = ExtResource("1_iivcj")
+
+[node name="InterfazPausa" type="Control" parent="." unique_id=581095900]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FondoOscuro" type="ColorRect" parent="InterfazPausa" unique_id=759291778]
+modulate = Color(0.003921569, 0.003921569, 0.003921569, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="LogoArashi" type="TextureRect" parent="InterfazPausa" unique_id=1088559609]
+layout_mode = 0
+offset_left = 246.0
+offset_top = 21.0
+offset_right = 1668.0211
+offset_bottom = 535.0
+mouse_filter = 2
+texture = ExtResource("1_jhjql")
+expand_mode = 1
+
+[node name="BotonReanudar" type="TextureButton" parent="InterfazPausa" unique_id=1742377207]
+layout_mode = 0
+offset_left = 722.0
+offset_top = 512.0
+offset_right = 1226.0
+offset_bottom = 680.0
+texture_normal = ExtResource("2_ajpfe")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="BotonOpciones" type="TextureButton" parent="InterfazPausa" unique_id=2129849391]
+layout_mode = 0
+offset_left = 740.0
+offset_top = 658.0
+offset_right = 1190.0
+offset_bottom = 808.0
+texture_normal = ExtResource("3_iivcj")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="BotonMenu" type="TextureButton" parent="InterfazPausa" unique_id=658339454]
+layout_mode = 0
+offset_left = 693.0
+offset_top = 770.0
+offset_right = 1269.0
+offset_bottom = 962.0
+texture_normal = ExtResource("4_8ryx1")
+ignore_texture_size = true
+stretch_mode = 0

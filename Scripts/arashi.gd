@@ -35,6 +35,8 @@ var combo_tiempo_restante := 0.0
 const DASH_SPEED := 1200.0
 const DASH_DURATION := 0.25
 const DASH_COOLDOWN := 0.6
+@export_range(0.0, 100.0, 1.0) var costo_dash_porcentaje := 25.0
+
 var en_dash := false
 var dash_was_pressed := false
 var dash_direccion := -1.0
@@ -63,6 +65,27 @@ const RAYO_FRAME_DISPARO := 2
 # Ajustar este valor si el nacimiento no coincide con la palma.
 @export_range(0.5, 1.0, 0.01) var rayo_origen_en_imagen := 0.95
 
+# =========================
+# DANO DE ARASHI CONTRA ENEMIGOS
+# =========================
+# Los valores se pueden ajustar desde el Inspector.
+@export_range(1.0, 100.0, 1.0) var dano_katana_1: float = 20.0
+@export_range(1.0, 100.0, 1.0) var dano_katana_2: float = 25.0
+@export_range(1.0, 100.0, 1.0) var dano_katana_3: float = 35.0
+
+# Indice del primer frame que puede golpear (el primero es 0).
+@export_range(0, 20, 1) var frame_golpe_1: int = 1
+@export_range(0, 20, 1) var frame_golpe_2: int = 1
+@export_range(0, 20, 1) var frame_golpe_3: int = 1
+@export_range(1, 10, 1) var duracion_golpe_en_frames: int = 2
+
+@export_range(1.0, 100.0, 1.0) var dano_rayo_por_pulso: float = 10.0
+@export_range(0.1, 3.0, 0.05) var intervalo_pulso_rayo: float = 0.5
+
+# Cada golpe de katana puede afectar a un enemigo UNA sola vez.
+var enemigos_golpeados_este_ataque: Dictionary = {}
+var tiempo_para_pulso_rayo: float = 0.0
+
 # CHECKPOINT
 var punto_checkpoint: Vector2
 var posicion_bandera: Vector2
@@ -71,7 +94,15 @@ var bandera_activada: bool = false
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var lightning_origin: Marker2D = $LightningOrigin
 @onready var lightning_beam: AnimatedSprite2D = $LightningOrigin/LightningBeam
-var origen_rayo_izquierda := Vector2.ZERO
+@onready var katana_hitbox: Area2D = $KatanaHitbox
+@onready var rayo_hitbox: Area2D = $LightningOrigin/RayoHitbox
+@onready var colision_katana: CollisionShape2D = $KatanaHitbox/CollisionShape2D
+@onready var colision_rayo: CollisionShape2D = $LightningOrigin/RayoHitbox/CollisionShape2D
+var katana_posicion_derecha: Vector2 = Vector2.ZERO
+var rayo_hitbox_posicion_derecha: Vector2 = Vector2.ZERO
+var colision_katana_x_derecha: float = 0.0
+var colision_rayo_x_derecha: float = 0.0
+var origen_rayo_derecha := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -80,7 +111,15 @@ func _ready() -> void:
 	energia_actual = energia_maxima
 	energia_cambiada.emit(energia_actual, energia_maxima)
 	punto_checkpoint = global_position
-	origen_rayo_izquierda = lightning_origin.position
+	origen_rayo_derecha = lightning_origin.position
+	# Guardar posiciones con Arashi mirando hacia la DERECHA en el editor.
+	# Colocalas en el editor antes de ejecutar la escena.
+	katana_posicion_derecha = katana_hitbox.position
+	rayo_hitbox_posicion_derecha = rayo_hitbox.position
+	# Guardar los desplazamientos de las formas de colision por separado.
+	# Estos tambien necesitan invertirse al usar flip_h.
+	colision_katana_x_derecha = colision_katana.position.x
+	colision_rayo_x_derecha = colision_rayo.position.x
 
 	# Animaciones que terminan al llegar al ultimo frame
 	for anim in [
@@ -256,6 +295,71 @@ func _physics_process(delta: float) -> void:
 	if not atacando and bloqueo_estado == "" and rayo_estado == "":
 		actualizar_animacion(direction)
 
+	# Comprobar impactos despues de mover a Arashi.
+	procesar_dano_a_enemigos(delta)
+
+
+# =========================
+# KATANA Y RAYO: DETECCION DE IMPACTOS
+# =========================
+
+func obtener_frame_golpe(numero: int) -> int:
+	match numero:
+		1:
+			return frame_golpe_1
+		2:
+			return frame_golpe_2
+		3:
+			return frame_golpe_3
+	return 1
+
+
+func obtener_dano_katana(numero: int) -> float:
+	match numero:
+		1:
+			return dano_katana_1
+		2:
+			return dano_katana_2
+		3:
+			return dano_katana_3
+	return 0.0
+
+
+func procesar_dano_a_enemigos(delta: float) -> void:
+	if esta_muerto:
+		return
+
+	# La katana solo golpea durante los frames centrales del ataque.
+	if atacando and combo_step >= 1 and combo_step <= 3:
+		var animacion_esperada: String = "attack%d" % combo_step
+		if animated_sprite.animation == animacion_esperada:
+			var frame_inicio: int = obtener_frame_golpe(combo_step)
+			var frame_actual: int = animated_sprite.frame
+			if frame_actual >= frame_inicio and frame_actual < frame_inicio + duracion_golpe_en_frames:
+				for cuerpo in katana_hitbox.get_overlapping_bodies():
+					if not is_instance_valid(cuerpo) or cuerpo == self:
+						continue
+					if not cuerpo.is_in_group("enemigos") or not cuerpo.has_method("recibir_dano"):
+						continue
+					var identificador: int = cuerpo.get_instance_id()
+					if enemigos_golpeados_este_ataque.has(identificador):
+						continue
+					enemigos_golpeados_este_ataque[identificador] = true
+					cuerpo.recibir_dano(obtener_dano_katana(combo_step))
+
+	# La descarga electrica golpea cada cierto intervalo mientras es visible.
+	if lightning_beam.visible and (rayo_estado == "start" or rayo_estado == "hold"):
+		tiempo_para_pulso_rayo -= delta
+		if tiempo_para_pulso_rayo <= 0.0:
+			tiempo_para_pulso_rayo = intervalo_pulso_rayo
+			for cuerpo in rayo_hitbox.get_overlapping_bodies():
+				if not is_instance_valid(cuerpo) or cuerpo == self:
+					continue
+				if cuerpo.is_in_group("enemigos") and cuerpo.has_method("recibir_dano"):
+					cuerpo.recibir_dano(dano_rayo_por_pulso)
+	else:
+		tiempo_para_pulso_rayo = 0.0
+
 
 # =========================
 # VIDA Y DANO
@@ -367,6 +471,7 @@ func cambiar_energia(cantidad: float) -> void:
 
 func iniciar_rayo() -> void:
 	rayo_estado = "start"
+	tiempo_para_pulso_rayo = 0.0
 	velocity.x = 0.0
 
 	# El rayo reinicia la secuencia de golpes
@@ -411,16 +516,24 @@ func finalizar_rayo() -> void:
 
 
 func actualizar_orientacion_rayo() -> void:
-	# Coloca el Marker2D en la palma para cada direccion.
-	# En el editor, acomodar LightningOrigin para Arashi mirando a la izquierda.
-	lightning_origin.position.y = origen_rayo_izquierda.y
-	if animated_sprite.flip_h:
-		lightning_origin.position.x = -origen_rayo_izquierda.x
-	else:
-		lightning_origin.position.x = origen_rayo_izquierda.x
+	# En el editor, Arashi y las hitboxes estan configurados mirando a la DERECHA.
+	# Los sprites originales miran a la izquierda: flip_h=true significa DERECHA.
+	# Solo reflejamos las posiciones cuando Arashi pasa a mirar a la IZQUIERDA.
+	var invertir_posiciones := not animated_sprite.flip_h
 
-	# Cada PNG nace cerca de su borde derecho. Ajustamos el centro
-	# del AnimatedSprite2D hasta que su nacimiento quede en el marker.
+	lightning_origin.position.y = origen_rayo_derecha.y
+	lightning_origin.position.x = -origen_rayo_derecha.x if invertir_posiciones else origen_rayo_derecha.x
+
+	# Reflejar las Areas2D respecto del centro de Arashi.
+	katana_hitbox.position.x = -katana_posicion_derecha.x if invertir_posiciones else katana_posicion_derecha.x
+	rayo_hitbox.position.x = -rayo_hitbox_posicion_derecha.x if invertir_posiciones else rayo_hitbox_posicion_derecha.x
+
+	# Tambien reflejar el desplazamiento local de cada CollisionShape2D.
+	colision_katana.position.x = -colision_katana_x_derecha if invertir_posiciones else colision_katana_x_derecha
+	colision_rayo.position.x = -colision_rayo_x_derecha if invertir_posiciones else colision_rayo_x_derecha
+
+	# Mantener la orientacion REAL del efecto electrico.
+	# Los PNG nacen por el extremo derecho y avanzan hacia la izquierda.
 	lightning_beam.flip_h = animated_sprite.flip_h
 	var textura: Texture2D = lightning_beam.sprite_frames.get_frame_texture("lightning_beam", 0)
 	if textura != null:
@@ -435,6 +548,20 @@ func actualizar_orientacion_rayo() -> void:
 # =========================
 
 func iniciar_dash(direction: float) -> void:
+	
+	# Calcular el costo segun la energia maxima
+	var costo_dash: float = energia_maxima * (costo_dash_porcentaje / 100.0)
+
+	# Si no tiene suficiente energia, no puede hacer dash
+	if energia_actual < costo_dash:
+		return
+
+	# Consumir energia
+	cambiar_energia(-costo_dash)
+
+	# Reiniciar la espera de regeneracion
+	tiempo_espera_recuperacion = espera_para_recuperar
+
 	en_dash = true
 	dash_tiempo_restante = DASH_DURATION
 
@@ -497,6 +624,7 @@ func iniciar_ataque(numero: int) -> void:
 	combo_step = numero
 	ataque_en_cola = false
 	combo_tiempo_restante = 0.0
+	enemigos_golpeados_este_ataque.clear()
 	velocity.x = 0.0
 	animated_sprite.play("attack%d" % numero)
 
@@ -613,6 +741,8 @@ func respawn() -> void:
 	jumps_left = 2
 	bloqueo_estado = ""
 	rayo_estado = ""
+	tiempo_para_pulso_rayo = 0.0
+	enemigos_golpeados_este_ataque.clear()
 	tiempo_espera_recuperacion = 0.0
 	lightning_beam.hide()
 	lightning_beam.stop()

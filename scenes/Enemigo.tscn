@@ -7,11 +7,10 @@
 radius = 77.0
 height = 202.0
 
-[node name="Enemigo" type="CharacterBody2D" unique_id=1087525712]
+[node name="Enemigo" type="CharacterBody2D" unique_id=1087525712 groups=["enemigos"]]
 script = ExtResource("1_hswjn")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=118984478]
-position = Vector2(13, 18)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=118984478 groups=["enemigos"]]
 shape = SubResource("CapsuleShape2D_5h11f")
 
 [node name="Samurai" type="Sprite2D" parent="." unique_id=1480024677]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dgrtsp4ih673d"]
 
-[ext_resource type="Script" uid="uid://c34gk4xi52p1g" path="res://menu_derrota.gd" id="1_x4idp"]
+[ext_resource type="Script" uid="uid://c34gk4xi52p1g" path="res://Scripts/menu_derrota.gd" id="1_x4idp"]
 [ext_resource type="Texture2D" uid="uid://umh4tle11vrf" path="res://Menu derrota/fondoderrota.png" id="2_c1xa8"]
 [ext_resource type="Texture2D" uid="uid://84sb5oadmbc1" path="res://Menu derrota/perdiste logotipo.png" id="3_ko0qg"]
 [ext_resource type="Texture2D" uid="uid://b03oi3y7tk7fd" path="res://Menu derrota/reintentarboton.png" id="4_0iipi"]
