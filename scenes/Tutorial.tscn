@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://1pgsymgkb84o" path="res://Assets/Fondo/Sol.png" id="7_u5f0c"]
 [ext_resource type="Texture2D" uid="uid://cxu73drdl135h" path="res://Assets/Fondo/Nube.png" id="8_u5f0c"]
 [ext_resource type="Texture2D" uid="uid://ci1pva736l8g0" path="res://Assets/Fondo/MonteLejano.png" id="10_1qfbs"]
-[ext_resource type="PackedScene" uid="uid://cgr211ituxreg" path="res://scenes/Papa.tscn" id="10_hf6er"]
 [ext_resource type="Texture2D" uid="uid://cen3fnftqsun5" path="res://Assets/Otros/Casa.png" id="10_hvqni"]
 [ext_resource type="Texture2D" uid="uid://7x0x441a4abg" path="res://Assets/Otros/VidaVacia.png" id="11_l206y"]
 [ext_resource type="Texture2D" uid="uid://dkn8w16ph3fma" path="res://Assets/Otros/VidaSola.png" id="12_ei5ly"]
@@ -16,6 +15,10 @@
 [ext_resource type="Texture2D" uid="uid://bqa42gsemr6yl" path="res://Assets/Otros/EnergiaVacia.png" id="13_lyiqi"]
 [ext_resource type="Texture2D" uid="uid://c3clqsk1f5csn" path="res://Assets/Otros/EnergiaSola.png" id="14_l206y"]
 [ext_resource type="Script" uid="uid://q8u87csgkqnl" path="res://Scripts/barra_energia_progreso.gd" id="14_lyiqi"]
+[ext_resource type="PackedScene" uid="uid://cav872024t0s0" path="res://dialogo_tutorial.tscn" id="16_ei5ly"]
+[ext_resource type="Script" uid="uid://h1s1kfil7ln6" path="res://scenes/zona_dialogo_salto.gd" id="17_m6ekv"]
+[ext_resource type="Script" uid="uid://c51liltg2e8hx" path="res://scenes/zona_dialogo_doble_salto.gd" id="18_cjgls"]
+[ext_resource type="Script" uid="uid://bw22gugpr5ke3" path="res://scenes/zona_dialogo_dash.gd" id="19_f11s7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pgr2e"]
 size = Vector2(249, 1056.5)
@@ -26,10 +29,12 @@ size = Vector2(1064.2268, 1263.4868)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ci5ev"]
 size = Vector2(2107, 118)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_siew1"]
+size = Vector2(502, 427)
+
 [node name="Node2D" type="Node2D" unique_id=1291949946]
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=1585304690]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=516152779]
 position = Vector2(-53, 805)
@@ -43,17 +48,17 @@ scale = Vector2(1.0262431, 1)
 texture = ExtResource("5_0g6v0")
 
 [node name="PlataformaDeHierbaDoradaAlAtardecer2" type="Sprite2D" parent="StaticBody2D3" unique_id=1426168887]
-position = Vector2(3091, 1306)
-scale = Vector2(1.0262431, 1)
+position = Vector2(2793.0002, 1299)
+scale = Vector2(0.7064917, 1)
 texture = ExtResource("5_0g6v0")
 
 [node name="PlataformaDeHierbaDoradaAlAtardecer3" type="Sprite2D" parent="StaticBody2D3" unique_id=850822274]
-position = Vector2(5179, 1311)
+position = Vector2(5179, 1302)
 scale = Vector2(1.0262431, 1)
 texture = ExtResource("5_0g6v0")
 
 [node name="PlataformaDeHierbaDoradaAlAtardecer4" type="Sprite2D" parent="StaticBody2D3" unique_id=1165654792]
-position = Vector2(7261, 1311)
+position = Vector2(8572, 1302)
 scale = Vector2(1.0262431, 1)
 texture = ExtResource("5_0g6v0")
 
@@ -63,7 +68,6 @@ scale = Vector2(0.47076428, 0.48912272)
 texture = ExtResource("10_hvqni")
 
 [node name="CollisionShape2D6" type="CollisionShape2D" parent="StaticBody2D3" unique_id=989616459]
-visible = false
 position = Vector2(95.499985, 1052)
 scale = Vector2(0.47076428, 0.48912272)
 shape = SubResource("RectangleShape2D_5h11f")
@@ -73,7 +77,7 @@ position = Vector2(1059.5, 1381)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D3" unique_id=756845342]
-position = Vector2(3146, 1381)
+position = Vector2(2474, 1381)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D3" unique_id=1626216297]
@@ -81,11 +85,17 @@ position = Vector2(5242, 1381)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D3" unique_id=56053693]
-position = Vector2(7334, 1377)
+position = Vector2(8617, 1381)
 shape = SubResource("RectangleShape2D_ci5ev")
 
-[node name="Node2D" parent="StaticBody2D3" unique_id=621281575 instance=ExtResource("10_hf6er")]
-position = Vector2(941, 1108)
+[node name="PlataformaDeHierbaDoradaAlAtardecer5" type="Sprite2D" parent="StaticBody2D3" unique_id=802665245]
+position = Vector2(12198, 1291)
+scale = Vector2(1.0262431, 1)
+texture = ExtResource("5_0g6v0")
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="StaticBody2D3" unique_id=5429491]
+position = Vector2(12220, 1356)
+shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="Enemigo" parent="." unique_id=1087525712 instance=ExtResource("4_ei5ly")]
 position = Vector2(1603, 1202)
@@ -104,26 +114,42 @@ segundos_invulnerable = 0.5
 position = Vector2(-53, -49)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/fondo" unique_id=685176173]
-position = Vector2(1063, 686.75)
-scale = Vector2(1.938889, 1.9076388)
+position = Vector2(1063, 750.99994)
+scale = Vector2(1.938889, 2.0861108)
 texture = ExtResource("2_y0w3d")
 
 [node name="Sprite2D2" type="Sprite2D" parent="ParallaxBackground/fondo" unique_id=2056777830]
-position = Vector2(3154.0002, 687)
-scale = Vector2(1.938889, 1.9076388)
+position = Vector2(3154, 751)
+scale = Vector2(1.938, 2.086)
 texture = ExtResource("2_y0w3d")
 flip_h = true
 
 [node name="Sprite2D3" type="Sprite2D" parent="ParallaxBackground/fondo" unique_id=1998917254]
-position = Vector2(5222, 685)
-scale = Vector2(1.938889, 1.9076388)
+position = Vector2(5222, 751)
+scale = Vector2(1.939, 2.086)
 texture = ExtResource("2_y0w3d")
 
 [node name="Sprite2D4" type="Sprite2D" parent="ParallaxBackground/fondo" unique_id=565344821]
-position = Vector2(7311.0005, 686)
-scale = Vector2(1.938889, 1.9076388)
+position = Vector2(7311, 751)
+scale = Vector2(1.939, 2.086)
 texture = ExtResource("2_y0w3d")
 flip_h = true
+
+[node name="Sprite2D5" type="Sprite2D" parent="ParallaxBackground/fondo" unique_id=1742139061]
+position = Vector2(9401, 751)
+scale = Vector2(1.939, 2.086)
+texture = ExtResource("2_y0w3d")
+
+[node name="Sprite2D6" type="Sprite2D" parent="ParallaxBackground/fondo" unique_id=1756108355]
+position = Vector2(11495, 751)
+scale = Vector2(1.939, 2.086)
+texture = ExtResource("2_y0w3d")
+flip_h = true
+
+[node name="Sprite2D7" type="Sprite2D" parent="ParallaxBackground/fondo" unique_id=1807288443]
+position = Vector2(13589, 751)
+scale = Vector2(1.939, 2.086)
+texture = ExtResource("2_y0w3d")
 
 [node name="sol" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1703949792]
 motion_scale = Vector2(0, 1)
@@ -153,8 +179,8 @@ motion_scale = Vector2(0.5, 1)
 motion_mirroring = Vector2(2650, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/monte principal" unique_id=282173197]
-position = Vector2(993.0266, 842.5)
-scale = Vector2(1.5289687, 1.4189688)
+position = Vector2(1314.295, 920.00006)
+scale = Vector2(2.230449, 2.0699818)
 texture = ExtResource("3_u5f0c")
 
 [node name="monte chicos" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1695504696]
@@ -162,27 +188,27 @@ motion_scale = Vector2(0.9, 1)
 motion_mirroring = Vector2(3000, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/monte chicos" unique_id=681377909]
-position = Vector2(343, 1019)
-scale = Vector2(1.0690608, 0.9898711)
+position = Vector2(197.99998, 1201)
+scale = Vector2(1.4695848, 1.4239053)
 texture = ExtResource("10_1qfbs")
 
 [node name="Sprite2D2" type="Sprite2D" parent="ParallaxBackground/monte chicos" unique_id=1258858406]
-position = Vector2(1772, 1019)
-scale = Vector2(1.2189226, 1.1031307)
+position = Vector2(1786, 1048)
+scale = Vector2(1.3704534, 1.2404041)
 texture = ExtResource("10_1qfbs")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=382602471]
 
 [node name="VidaVacia" type="Sprite2D" parent="CanvasLayer" unique_id=907303746]
-position = Vector2(358.00003, 227)
+position = Vector2(374.00003, 160)
 scale = Vector2(0.3232819, 0.32328197)
 texture = ExtResource("11_l206y")
 
 [node name="BarraVidaProgreso" type="TextureProgressBar" parent="CanvasLayer/VidaVacia" unique_id=682827636 node_paths=PackedStringArray("arashi")]
-offset_left = -1079.5532
-offset_top = -361.9132
-offset_right = 7659.9624
-offset_bottom = 1614.6893
+offset_left = -1085.7396
+offset_top = -361.91315
+offset_right = 7653.776
+offset_bottom = 1614.6895
 value = 100.0
 texture_progress = ExtResource("12_ei5ly")
 script = ExtResource("13_ei5ly")
@@ -192,10 +218,10 @@ arashi = NodePath("../../../Arashi")
 anchors_preset = -1
 anchor_top = -0.079
 anchor_bottom = -0.079
-offset_left = 165.0
-offset_top = 285.32
-offset_right = 2337.0
-offset_bottom = 1009.32007
+offset_left = 181.0
+offset_top = 219.32
+offset_right = 2353.0
+offset_bottom = 943.32
 scale = Vector2(0.229, 0.241)
 texture_under = ExtResource("13_lyiqi")
 texture_progress = ExtResource("14_l206y")
@@ -214,3 +240,26 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+
+[node name="DialogoTutorial" parent="." unique_id=1670895123 instance=ExtResource("16_ei5ly")]
+
+[node name="ZonaDialogoSalto" type="Area2D" parent="." unique_id=2041525749]
+script = ExtResource("17_m6ekv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaDialogoSalto" unique_id=1101475970]
+position = Vector2(3268, 1048)
+shape = SubResource("RectangleShape2D_siew1")
+
+[node name="ZonaDialogoDobleSalto" type="Area2D" parent="." unique_id=1127961484]
+script = ExtResource("18_cjgls")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaDialogoDobleSalto" unique_id=1151364968]
+position = Vector2(6080, 1101)
+shape = SubResource("RectangleShape2D_siew1")
+
+[node name="ZonaDialogoDash" type="Area2D" parent="." unique_id=1521460658]
+script = ExtResource("19_f11s7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaDialogoDash" unique_id=589809644]
+position = Vector2(9460, 1052)
+shape = SubResource("RectangleShape2D_siew1")

@@ -1,9 +1,0 @@
-[gd_scene format=3 uid="uid://cgr211ituxreg"]
-
-[ext_resource type="Texture2D" uid="uid://c1v3l5y4a4cq5" path="res://Assets/Otros/PapaArashi.png" id="1_k8u7e"]
-
-[node name="Node2D" type="Node2D" unique_id=621281575]
-
-[node name="PapaArashi" type="Sprite2D" parent="." unique_id=899485781]
-scale = Vector2(0.26058933, 0.26058936)
-texture = ExtResource("1_k8u7e")
