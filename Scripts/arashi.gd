@@ -3,6 +3,9 @@ extends CharacterBody2D
 # La interfaz escucha esta senal para actualizar la barra de energia.
 signal energia_cambiada(actual: float, maxima: float)
 signal vida_cambiada(actual: float, maxima: float)
+# Se emite solamente si un ataque enemigo fue bloqueado correctamente.
+# Servira para el contador de 3 bloqueos del Tutorial.
+signal golpe_bloqueado(posicion_atacante: Vector2)
 
 # ENERGIA ELECTRICA
 @export_range(1.0, 300.0, 1.0) var energia_maxima := 100.0
@@ -61,7 +64,7 @@ var rayo_was_pressed := false
 var atacando := false
 var saltando := false
 
-# BLOQUEO: "", "start", "hold", "end"
+# BLOQUEO: "", "start", "hold", "hit", "end"
 var bloqueo_estado := ""
 
 # RAYO: "", "start", "hold", "end"
@@ -101,6 +104,7 @@ var posicion_bandera: Vector2
 var bandera_activada: bool = false
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var escala_original_x: float = absf(animated_sprite.scale.x)
 @onready var lightning_origin: Marker2D = $LightningOrigin
 @onready var lightning_beam: AnimatedSprite2D = $LightningOrigin/LightningBeam
 @onready var katana_hitbox: Area2D = $KatanaHitbox
@@ -133,7 +137,7 @@ func _ready() -> void:
 	# Animaciones que terminan al llegar al ultimo frame.
 	for anim in [
 		"attack1", "attack2", "attack3",
-		"jump", "double_jump", "block_start", "block_end",
+		"jump", "double_jump", "block_start", "block_hit", "block_end",
 		"dash", "rayo", "rayo_fin", "hurt", "death"
 	]:
 		if animated_sprite.sprite_frames.has_animation(anim):
@@ -157,7 +161,24 @@ func _ready() -> void:
 	if not animated_sprite.frame_changed.is_connected(_on_frame_changed):
 		animated_sprite.frame_changed.connect(_on_frame_changed)
 
+	
+
+	# Preparar Arashi mirando hacia la derecha desde el inicio
+	animated_sprite.flip_h = true
+
+	# Corregir inmediatamente la orientacion del idle
+	animated_sprite.scale.x = -escala_original_x
+
+	# Iniciar la animacion idle
+	animated_sprite.play("idle")
+
+	# Mantener la animacion pausada durante los dialogos
+	animated_sprite.process_mode = Node.PROCESS_MODE_INHERIT
+
+	# Actualizar orientacion del rayo
 	actualizar_orientacion_rayo()
+
+
 
 
 func _physics_process(delta: float) -> void:
@@ -517,10 +538,10 @@ func iniciar_transicion_derrota() -> void:
 # BLOQUEO DE ATAQUES ENEMIGOS
 # =========================
 
-# Solo bloquea cuando Arashi ya termino la animacion de preparacion
-# (block_start) y esta en block_hold, mirando hacia el atacante.
+# Bloquea una vez completada la preparacion (block_start) y mientras
+# sostiene la defensa o reacciona al impacto con block_hit.
 func esta_bloqueando_desde(posicion_atacante: Vector2) -> bool:
-	if esta_muerto or bloqueo_estado != "hold":
+	if esta_muerto or bloqueo_estado not in ["hold", "hit"]:
 		return false
 
 	var distancia_x: float = posicion_atacante.x - global_position.x
@@ -535,16 +556,26 @@ func esta_bloqueando_desde(posicion_atacante: Vector2) -> bool:
 
 
 # El enemigo llama esta funcion en vez de recibir_dano() directamente.
-# Otras fuentes de dano pueden seguir utilizando recibir_dano().
-func recibir_ataque_enemigo(cantidad: float, posicion_atacante: Vector2) -> void:
+# Devuelve true si el golpe fue bloqueado; en otro caso false.
+# El enemigo existente puede seguir llamandola sin usar el valor retornado.
+func recibir_ataque_enemigo(cantidad: float, posicion_atacante: Vector2) -> bool:
 	if esta_muerto or cantidad <= 0.0:
-		return
+		return false
 
 	if esta_bloqueando_desde(posicion_atacante):
 		print("ARASHI BLOQUEO EL ATAQUE")
-		return
+		golpe_bloqueado.emit(posicion_atacante)
+		# No reiniciar la reaccion si ya esta reproduciendo block_hit.
+		if bloqueo_estado == "hold":
+			if animated_sprite.sprite_frames.has_animation("block_hit") and animated_sprite.sprite_frames.get_frame_count("block_hit") > 0:
+				bloqueo_estado = "hit"
+				animated_sprite.play("block_hit")
+			else:
+				push_warning("Falta la animacion 'block_hit' o no tiene fotogramas.")
+		return true
 
 	recibir_dano(cantidad)
+	return false
 
 
 # =========================
@@ -704,7 +735,7 @@ func finalizar_bloqueo() -> void:
 
 
 func esta_bloqueando() -> bool:
-	return bloqueo_estado == "hold"
+	return bloqueo_estado == "hold" or bloqueo_estado == "hit"
 
 
 # =========================
@@ -760,6 +791,16 @@ func _on_animation_finished() -> void:
 		return
 
 	if animacion_actual == "block_start" and bloqueo_estado == "start":
+		if Input.is_key_pressed(KEY_L):
+			bloqueo_estado = "hold"
+			animated_sprite.play("block_hold")
+		else:
+			finalizar_bloqueo()
+		return
+
+	# Al terminar el impacto vuelve a defenderse si L sigue presionada.
+	# Si se solto L durante el impacto, reproduce la salida normal.
+	if animacion_actual == "block_hit" and bloqueo_estado == "hit":
 		if Input.is_key_pressed(KEY_L):
 			bloqueo_estado = "hold"
 			animated_sprite.play("block_hold")
@@ -881,3 +922,15 @@ func respawn() -> void:
 
 	actualizar_orientacion_rayo()
 	animated_sprite.play("idle")
+	
+# =====================================
+# CORREGIR ORIENTACION DEL IDLE
+# =====================================
+
+func _process(_delta: float) -> void:
+	if animated_sprite.animation == "idle":
+		# Invertir solamente los sprites de respiracion
+		animated_sprite.scale.x = -escala_original_x
+	else:
+		# Mantener las demas animaciones normales
+		animated_sprite.scale.x = escala_original_x

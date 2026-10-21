@@ -13,9 +13,12 @@
 [ext_resource type="Texture2D" uid="uid://bjhsi61vgane8" path="res://Assets/Otros/EnemigoFrame6.png" id="6_xjkg6"]
 [ext_resource type="Texture2D" uid="uid://dy573qvt41kgk" path="res://Assets/Otros/EnemigoDerrotadoFrame2.png" id="7_28pn3"]
 [ext_resource type="Texture2D" uid="uid://b30qstcw332ql" path="res://Assets/Otros/EnemigoFrame8.png" id="7_i2drj"]
+[ext_resource type="Texture2D" uid="uid://b0iljwndvbkvq" path="res://Assets/Otros/rebote enemigo 1.png" id="7_syp1f"]
 [ext_resource type="Texture2D" uid="uid://dfbnmmsw1ohyk" path="res://Assets/Otros/EnemigoFrame4.png" id="8_kdtgc"]
 [ext_resource type="Texture2D" uid="uid://b4q4bqhllcslj" path="res://Assets/Otros/EnemigoDerrotadoFrame3.png" id="8_t4sk1"]
+[ext_resource type="Texture2D" uid="uid://3ne5htsj0ktf" path="res://Assets/Otros/rebote enemigo 2.png" id="8_u18y3"]
 [ext_resource type="Texture2D" uid="uid://btp5rar72qxco" path="res://Assets/Otros/EnemigoDerrotadoFrame4.png" id="9_47o5q"]
+[ext_resource type="Texture2D" uid="uid://clg6aq3bmdh0p" path="res://Assets/Otros/rebote enemigo 4.png" id="9_go16t"]
 [ext_resource type="Texture2D" uid="uid://upkqg8lakqkb" path="res://Assets/Otros/EnemigoFrame5.png" id="9_m0jp6"]
 [ext_resource type="Texture2D" uid="uid://btbq8i0op08sv" path="res://Assets/Otros/EnemigoFrame7.png" id="10_akhib"]
 [ext_resource type="Texture2D" uid="uid://dbv4x7l8t5ulg" path="res://Assets/Otros/EnemigoDerrotadoFrame1.png" id="10_syp1f"]
@@ -49,6 +52,20 @@ animations = [{
 "loop": 0,
 "name": &"attack",
 "speed": 13.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_syp1f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_u18y3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_go16t")
+}],
+"loop": 1,
+"name": &"block_recoil",
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -123,6 +140,7 @@ animations = [{
 script = ExtResource("1_hswjn")
 velocidad = 200.0
 vida_maxima = 150.0
+escala_muerte_final = 1.3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=118984478 groups=["enemigos"]]
 shape = SubResource("CapsuleShape2D_5h11f")
@@ -130,4 +148,5 @@ shape = SubResource("CapsuleShape2D_5h11f")
 [node name="Enemigo" type="AnimatedSprite2D" parent="." unique_id=799517108]
 scale = Vector2(0.234, 0.234)
 sprite_frames = SubResource("SpriteFrames_5h11f")
-animation = &"death"
+animation = &"block_recoil"
+frame_progress = 0.7575044

@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cxp23lwbrnclb"]
 
 [ext_resource type="Script" uid="uid://blm7v58vbtlah" path="res://Scripts/arashi.gd" id="1_7qhff"]
-[ext_resource type="Texture2D" uid="uid://c6wvsc8u4x0da" path="res://Assets/Arashi/Arashi.png" id="2_6r2f6"]
 [ext_resource type="Texture2D" uid="uid://nclawmbfjuwl" path="res://Assets/Arashi/FrameGolpe1.png" id="2_bjm35"]
 [ext_resource type="Texture2D" uid="uid://d2o3iximnglq0" path="res://Assets/Arashi/Samurái en salto aéreo dinámico.png" id="2_gv8de"]
 [ext_resource type="Texture2D" uid="uid://bvbwt21ojctkj" path="res://Assets/Arashi/Samurái Ronin en Guardia.png" id="3_6r2f6"]
@@ -29,22 +28,29 @@
 [ext_resource type="Texture2D" uid="uid://bdh873eqpp48q" path="res://Assets/Arashi/Samurái corriendo con katana.png" id="15_ag8g7"]
 [ext_resource type="Texture2D" uid="uid://bog3qrollne5q" path="res://Assets/Arashi/BloqueoFrame1.png" id="15_g4mlw"]
 [ext_resource type="Texture2D" uid="uid://258slktpcgtm" path="res://Assets/Arashi/BloqueoFrame4.png" id="16_fb0g1"]
-[ext_resource type="Texture2D" uid="uid://dvj0qwx2jfl7o" path="res://Assets/Arashi/DashFrame1.png" id="17_pf8w4"]
-[ext_resource type="Texture2D" uid="uid://5unkdeeuejlu" path="res://Assets/Arashi/DashFrame2.png" id="18_tae3t"]
-[ext_resource type="Texture2D" uid="uid://dtinatd6sdfvd" path="res://Assets/Arashi/DashFrame3.png" id="19_tsfr7"]
-[ext_resource type="Texture2D" uid="uid://bk2t1jwdfjued" path="res://Assets/Arashi/DashFrame4.png" id="20_swq80"]
-[ext_resource type="Texture2D" uid="uid://oqlice0vejtf" path="res://Assets/Arashi/DerrotaFrame2.png" id="21_188wh"]
-[ext_resource type="Texture2D" uid="uid://da5x8obcdsp82" path="res://Assets/Arashi/DerrotaFrame3.png" id="22_mswdf"]
-[ext_resource type="Texture2D" uid="uid://byeogpmtvdbc" path="res://Assets/Arashi/DerrotaFrame4.png" id="23_dllcq"]
+[ext_resource type="Texture2D" uid="uid://ed87842lnwt0" path="res://Assets/Arashi/golpe recibido en bloqueo 1.png" id="16_maw14"]
+[ext_resource type="Texture2D" uid="uid://cjvrcgmgrldth" path="res://Assets/Arashi/golpe recibido en bloqueo 3.png" id="17_mgyg1"]
+[ext_resource type="Texture2D" uid="uid://b8w1634fl50kk" path="res://Assets/Arashi/DashFrame1.png" id="17_pf8w4"]
+[ext_resource type="Texture2D" uid="uid://toa60l08e8of" path="res://Assets/Arashi/golpe recibido en bloqueo 2.png" id="18_fymbo"]
+[ext_resource type="Texture2D" uid="uid://b3nu7y6k8yq5a" path="res://Assets/Arashi/DashFrame2.png" id="18_tae3t"]
+[ext_resource type="Texture2D" uid="uid://ywll5yd81y6y" path="res://Assets/Arashi/DashFrame3.png" id="19_tsfr7"]
+[ext_resource type="Texture2D" uid="uid://ovb3w2sfe34b" path="res://Assets/Arashi/DashFrame4.png" id="20_swq80"]
+[ext_resource type="Texture2D" uid="uid://da1q0namqbrxl" path="res://Assets/Arashi/DerrotaFrame2.png" id="21_188wh"]
+[ext_resource type="Texture2D" uid="uid://cqhu351486wv3" path="res://Assets/Arashi/DerrotaFrame3.png" id="22_mswdf"]
+[ext_resource type="Texture2D" uid="uid://bm6dwokvwjix8" path="res://Assets/Arashi/DerrotaFrame4.png" id="23_dllcq"]
 [ext_resource type="Texture2D" uid="uid://plcjtxsgc6gy" path="res://Assets/Arashi/DerrotaFrame5.png" id="24_mgrsv"]
-[ext_resource type="Texture2D" uid="uid://q5jevrxtsyob" path="res://Assets/Arashi/RayoFrame1.png" id="28_tybav"]
-[ext_resource type="Texture2D" uid="uid://cjiocerj1xoa0" path="res://Assets/Arashi/DerrotaFrame1.png" id="29_aqedr"]
-[ext_resource type="Texture2D" uid="uid://bhb5aerlayfbv" path="res://Assets/Arashi/RayoFrame2.png" id="29_k57lf"]
-[ext_resource type="Texture2D" uid="uid://bke3i7tq770pf" path="res://Assets/Arashi/RayoFrame3.png" id="30_mdo7n"]
-[ext_resource type="Texture2D" uid="uid://dlxn5hbluvngo" path="res://Assets/Arashi/RayoFrame4.png" id="31_844f1"]
-[ext_resource type="Texture2D" uid="uid://bs5xh76lbu2k6" path="res://Assets/Arashi/ElectricidadFrame1.png" id="38_844f1"]
-[ext_resource type="Texture2D" uid="uid://ddarh6g4278dj" path="res://Assets/Arashi/ElectricidadFrame2.png" id="39_05auq"]
-[ext_resource type="Texture2D" uid="uid://cxvuhyuwgyhp7" path="res://Assets/Arashi/ElectricidadFrame3.png" id="40_xjekv"]
+[ext_resource type="Texture2D" uid="uid://bea7axm7hwidx" path="res://Assets/Arashi/RayoFrame1.png" id="28_tybav"]
+[ext_resource type="Texture2D" uid="uid://dbl0tctwsoujq" path="res://Assets/Arashi/DerrotaFrame1.png" id="29_aqedr"]
+[ext_resource type="Texture2D" uid="uid://4cksd6y4xcyg" path="res://Assets/Arashi/RayoFrame2.png" id="29_k57lf"]
+[ext_resource type="Texture2D" uid="uid://cid7ovj0p2ld" path="res://Assets/Arashi/RayoFrame3.png" id="30_mdo7n"]
+[ext_resource type="Texture2D" uid="uid://dxce3b3tp4h5q" path="res://Assets/Arashi/RayoFrame4.png" id="31_844f1"]
+[ext_resource type="Texture2D" uid="uid://oh60gadm62et" path="res://Assets/Arashi/arashi quieto primer frame.png" id="31_aqedr"]
+[ext_resource type="Texture2D" uid="uid://dpvq3vyafc6pd" path="res://Assets/Arashi/arashi quieto segundo frame.png" id="32_ti2a0"]
+[ext_resource type="Texture2D" uid="uid://dd0jf6v8cxgmw" path="res://Assets/Arashi/arashi quiero tercer frame.png" id="33_maw14"]
+[ext_resource type="Texture2D" uid="uid://dn0lclkfq3gp0" path="res://Assets/Arashi/arashi quieto 4to frame.png" id="34_mgyg1"]
+[ext_resource type="Texture2D" uid="uid://wx8c3m5res67" path="res://Assets/Arashi/ElectricidadFrame1.png" id="38_844f1"]
+[ext_resource type="Texture2D" uid="uid://dg0jg32yptrdb" path="res://Assets/Arashi/ElectricidadFrame2.png" id="39_05auq"]
+[ext_resource type="Texture2D" uid="uid://cbixu4ksiuffj" path="res://Assets/Arashi/ElectricidadFrame3.png" id="40_xjekv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
 radius = 78.11481
@@ -113,6 +119,20 @@ animations = [{
 "loop": 1,
 "name": &"block_end",
 "speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_maw14")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_mgyg1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_fymbo")
+}],
+"loop": 1,
+"name": &"block_hit",
+"speed": 4.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -200,7 +220,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_6r2f6")
+"texture": ExtResource("31_aqedr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_ti2a0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_maw14")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_mgyg1")
 }],
 "loop": 1,
 "name": &"idle",
@@ -310,13 +339,15 @@ shape = SubResource("CapsuleShape2D_siew1")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1104411444 groups=["player"]]
 scale = Vector2(0.22336394, 0.20973176)
 sprite_frames = SubResource("SpriteFrames_te31d")
-animation = &"death"
-flip_h = true
+animation = &"block_hit"
+frame_progress = 0.9665314
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=903674846]
 limit_left = 0
 limit_top = 0
+limit_right = 18690
 limit_bottom = 1450
+position_smoothing_speed = 3.0
 
 [node name="KatanaHitbox" type="Area2D" parent="." unique_id=1543054617]
 

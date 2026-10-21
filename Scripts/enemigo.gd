@@ -21,6 +21,12 @@ extends CharacterBody2D
 @export_range(0, 20, 1) var frame_impacto: int = 3
 
 # =========================
+# RETROCESO CUANDO ARASHI BLOQUEA
+# =========================
+@export_range(0.0, 500.0, 10.0) var velocidad_retroceso: float = 250.0
+@export_range(0.0, 1.0, 0.01) var duracion_desplazamiento_retroceso: float = 0.18
+
+# =========================
 # VIDA Y REACCION AL DANO
 # =========================
 signal vida_cambiada(actual: float, maxima: float)
@@ -33,6 +39,10 @@ signal vida_cambiada(actual: float, maxima: float)
 @export_range(0.0, 10.0, 0.1) var tiempo_cuerpo_en_suelo: float = 2.0
 @export_range(0.0, 5.0, 0.1) var duracion_desvanecimiento: float = 0.5
 
+# TAMANO DEL ULTIMO FRAME DE MUERTE (EL ENEMIGO ACOSTADO)
+@export_range(1.0, 3.0, 0.1) var escala_muerte_final: float = 1.6
+@export var ajuste_muerte_final: Vector2 = Vector2(0, -12)
+
 var vida_actual: float = 100.0
 var tiempo_destello_restante: float = 0.0
 var tiempo_inmune_restante: float = 0.0
@@ -44,6 +54,8 @@ var derrotado: bool = false
 @onready var sprite: AnimatedSprite2D = $Enemigo
 @onready var colision_cuerpo: CollisionShape2D = $CollisionShape2D
 var colision_cuerpo_x_original: float = 0.0
+var escala_original_muerte: Vector2 = Vector2.ONE
+var posicion_original_muerte: Vector2 = Vector2.ZERO
 
 var jugador: CharacterBody2D = null
 var preparando_ataque: bool = false
@@ -55,6 +67,14 @@ var color_normal: Color = Color.WHITE
 var recibiendo_golpe: bool = false
 var secuencia_derrota_iniciada: bool = false
 
+# Durante block_recoil no puede perseguir ni atacar.
+var retrocediendo: bool = false
+var tiempo_retroceso_restante: float = 0.0
+var direccion_retroceso: float = 0.0
+
+# Salida pacifica del enemigo al completar el entrenamiento.
+var desapareciendo_entrenamiento: bool = false
+
 
 func _ready() -> void:
 	# Movimiento en bucle, acciones de una sola reproduccion.
@@ -62,7 +82,7 @@ func _ready() -> void:
 		if sprite.sprite_frames.has_animation(nombre):
 			sprite.sprite_frames.set_animation_loop(nombre, true)
 
-	for nombre in ["attack", "hurt", "death"]:
+	for nombre in ["attack", "hurt", "death", "block_recoil"]:
 		if sprite.sprite_frames.has_animation(nombre):
 			sprite.sprite_frames.set_animation_loop(nombre, false)
 		else:
@@ -110,6 +130,17 @@ func _physics_process(delta: float) -> void:
 
 	if tiempo_recarga_restante > 0.0:
 		tiempo_recarga_restante = maxf(0.0, tiempo_recarga_restante - delta)
+
+	# Reaccion al ataque bloqueado: se desplaza alejandose de Arashi
+	# mientras se reproduce block_recoil. Despues espera a que termine.
+	if retrocediendo:
+		if tiempo_retroceso_restante > 0.0:
+			tiempo_retroceso_restante = maxf(0.0, tiempo_retroceso_restante - delta)
+			velocity.x = direccion_retroceso * velocidad_retroceso
+		else:
+			velocity.x = 0.0
+		move_and_slide()
+		return
 
 	# Mientras reproduce hurt, no persigue ni inicia ataques.
 	if recibiendo_golpe:
@@ -162,7 +193,7 @@ func _physics_process(delta: float) -> void:
 
 
 func actualizar_animacion() -> void:
-	if preparando_ataque or recibiendo_golpe or derrotado:
+	if preparando_ataque or recibiendo_golpe or derrotado or retrocediendo:
 		return
 	var animacion_deseada: String = "run" if absf(velocity.x) > 1.0 else "idle"
 	if sprite.animation != animacion_deseada:
@@ -170,7 +201,7 @@ func actualizar_animacion() -> void:
 
 
 func iniciar_ataque() -> void:
-	if preparando_ataque or recibiendo_golpe or derrotado:
+	if preparando_ataque or recibiendo_golpe or derrotado or retrocediendo:
 		return
 	if not sprite.sprite_frames.has_animation("attack"):
 		return
@@ -196,6 +227,11 @@ func iniciar_ataque() -> void:
 
 
 func _on_sprite_frame_changed() -> void:
+	# Esta senal ya estaba conectada: tambien la usamos para death.
+	if derrotado and sprite.animation == "death":
+		actualizar_frame_muerte()
+		return
+
 	if not preparando_ataque or impacto_realizado or derrotado:
 		return
 	if sprite.animation != "attack":
@@ -208,7 +244,7 @@ func _on_sprite_frame_changed() -> void:
 
 
 func realizar_ataque() -> void:
-	if impacto_realizado or derrotado or recibiendo_golpe:
+	if impacto_realizado or derrotado or recibiendo_golpe or retrocediendo:
 		return
 	impacto_realizado = true
 	actualizar_color()
@@ -222,14 +258,61 @@ func realizar_ataque() -> void:
 
 	if distancia_x <= alcance and distancia_y <= tolerancia_vertical:
 		if jugador.has_method("recibir_ataque_enemigo"):
-			jugador.recibir_ataque_enemigo(dano_ataque, global_position)
+			# La version actual de arashi.gd devuelve true si bloqueo
+			# correctamente (y reproduce block_hit).
+			var fue_bloqueado: bool = bool(jugador.call(
+				"recibir_ataque_enemigo", dano_ataque, global_position
+			))
+			if fue_bloqueado:
+				iniciar_retroceso()
 		elif jugador.has_method("recibir_dano"):
 			jugador.recibir_dano(dano_ataque)
 		else:
 			push_warning("Arashi no tiene una funcion para recibir dano.")
 
 
+# Se activa SOLO cuando Arashi efectivamente bloquea el golpe.
+func iniciar_retroceso() -> void:
+	if derrotado or retrocediendo:
+		return
+
+	# Cortar el ataque actual y evitar un segundo impacto.
+	retrocediendo = true
+	preparando_ataque = false
+	impacto_realizado = true
+	tiempo_retroceso_restante = duracion_desplazamiento_retroceso
+	velocity.x = 0.0
+
+	# Hacia el lado opuesto de Arashi.
+	var diferencia_x: float = global_position.x - jugador.global_position.x
+	if absf(diferencia_x) > 1.0:
+		direccion_retroceso = signf(diferencia_x)
+	else:
+		direccion_retroceso = -1.0 if sprite.flip_h else 1.0
+
+	actualizar_color()
+	if sprite.sprite_frames.has_animation("block_recoil") and sprite.sprite_frames.get_frame_count("block_recoil") > 0:
+		sprite.play("block_recoil")
+	else:
+		push_warning("Falta la animacion 'block_recoil' con sus cuatro frames.")
+		finalizar_retroceso()
+
+
+func finalizar_retroceso() -> void:
+	retrocediendo = false
+	impacto_realizado = false
+	tiempo_retroceso_restante = 0.0
+	velocity.x = 0.0
+	# Pausa entre golpes para que Arashi pueda prepararse de nuevo.
+	tiempo_recarga_restante = maxf(tiempo_recarga_restante, espera_entre_ataques)
+	actualizar_animacion()
+
+
 func _on_sprite_animation_finished() -> void:
+	if sprite.animation == "block_recoil" and retrocediendo and not derrotado:
+		finalizar_retroceso()
+		return
+
 	if sprite.animation == "attack" and preparando_ataque and not derrotado:
 		preparando_ataque = false
 		impacto_realizado = false
@@ -273,7 +356,9 @@ func recibir_dano(cantidad: float) -> void:
 		morir()
 		return
 
-	# El golpe interrumpe cualquier ataque en preparacion.
+	# El golpe interrumpe cualquier ataque o retroceso en curso.
+	retrocediendo = false
+	tiempo_retroceso_restante = 0.0
 	cancelar_preparacion()
 	tiempo_recarga_restante = espera_entre_ataques
 	velocity.x = 0.0
@@ -291,36 +376,106 @@ func recibir_dano(cantidad: float) -> void:
 
 
 func actualizar_color() -> void:
+	# Conservar el color original al preparar y lanzar ataques.
 	if tiempo_destello_restante > 0.0:
-		# Rojo fuerte al recibir dano.
+		# Solo se ilumina rojo al recibir dano real.
 		sprite.modulate = color_normal * Color(1.0, 0.20, 0.20, 1.0)
-	elif preparando_ataque and not impacto_realizado:
-		# Rojo suave de aviso de ataque.
-		sprite.modulate = color_normal * Color(1.0, 0.55, 0.55, 1.0)
 	else:
 		sprite.modulate = color_normal
+
+
+# No reproduce "death": termina el entrenamiento y se desvanece.
+func desvanecer_entrenamiento() -> void:
+	if derrotado or desapareciendo_entrenamiento:
+		return
+
+	desapareciendo_entrenamiento = true
+	derrotado = true
+	preparando_ataque = false
+	recibiendo_golpe = false
+	retrocediendo = false
+	impacto_realizado = true
+	tiempo_retroceso_restante = 0.0
+	velocity = Vector2.ZERO
+
+	# Deja de atacar y de bloquear el paso.
+	set_physics_process(false)
+	sprite.stop()
+	tiempo_destello_restante = 0.0
+	sprite.modulate = color_normal
+	set_deferred("collision_layer", 0)
+	set_deferred("collision_mask", 0)
+	colision_cuerpo.set_deferred("disabled", true)
+	remove_from_group("enemigos")
+
+	# Solo se desvanece el sprite; el nodo se libera al terminar.
+	var tween: Tween = create_tween()
+	tween.tween_property(sprite, "modulate:a", 0.0, 0.75)
+	await tween.finished
+	if is_inside_tree():
+		queue_free()
 
 
 func morir() -> void:
 	if derrotado:
 		return
+
 	derrotado = true
 	recibiendo_golpe = false
 	preparando_ataque = false
 	impacto_realizado = false
-	velocity.x = 0.0
+	retrocediendo = false
+	tiempo_retroceso_restante = 0.0
+
+	# Detener completamente al enemigo
+	velocity = Vector2.ZERO
+	set_physics_process(false)
+
 	tiempo_destello_restante = 0.0
 	sprite.modulate = color_normal
+
 	print("SAMURAI DERROTADO")
 
-	# Dejar de poder ser detectado como objetivo por las hitboxes.
+	# Desactivar las colisiones
+	set_deferred("collision_layer", 0)
+	set_deferred("collision_mask", 0)
+
+	var colision = get_node_or_null("CollisionShape2D")
+	if colision:
+		colision.set_deferred("disabled", true)
+
+	# Evitar que reciba mas ataques
 	remove_from_group("enemigos")
 
+	# Guardar la escala y posicion antes de iniciar la muerte.
+	escala_original_muerte = sprite.scale
+	posicion_original_muerte = sprite.position
+
+	# Reproducir la animacion conservando los frames iniciales.
 	if sprite.sprite_frames.has_animation("death"):
 		sprite.play("death")
+		actualizar_frame_muerte()
 	else:
-		push_warning("Falta 'death': se eliminara el enemigo sin animacion.")
+		push_warning("Falta animacion death")
 		queue_free()
+
+
+
+# Ajustar solo el ultimo fotograma de "death" sin afectar otras animaciones.
+func actualizar_frame_muerte() -> void:
+	if not derrotado or sprite.animation != "death":
+		return
+
+	var ultimo_frame: int = sprite.sprite_frames.get_frame_count("death") - 1
+	if ultimo_frame < 0:
+		return
+
+	if sprite.frame == ultimo_frame:
+		sprite.scale = escala_original_muerte * escala_muerte_final
+		sprite.position = posicion_original_muerte + ajuste_muerte_final
+	else:
+		sprite.scale = escala_original_muerte
+		sprite.position = posicion_original_muerte
 
 
 func terminar_derrota() -> void:

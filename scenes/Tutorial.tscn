@@ -2,10 +2,11 @@
 
 [ext_resource type="PackedScene" uid="uid://cxp23lwbrnclb" path="res://scenes/arashi.tscn" id="1_cfv3y"]
 [ext_resource type="Texture2D" uid="uid://ix3m832rm8bj" path="res://Assets/Fondo/Cielo.png" id="2_y0w3d"]
-[ext_resource type="Texture2D" uid="uid://b0rxxmc68kgch" path="res://Assets/Fondo/Monte.png" id="3_u5f0c"]
+[ext_resource type="Texture2D" uid="uid://jhg8kbh6utsg" path="res://Assets/Fondo/Monte.png" id="3_u5f0c"]
 [ext_resource type="PackedScene" uid="uid://b1l2mvkoro111" path="res://scenes/Enemigo.tscn" id="4_ei5ly"]
-[ext_resource type="Texture2D" uid="uid://dr1blc5e3wi76" path="res://Assets/Fondo/Plataforma de hierba dorada al atardecer.png" id="5_0g6v0"]
+[ext_resource type="Texture2D" uid="uid://be3ya3my8qek" path="res://Assets/Fondo/plataforma de hierba dorada al atardecer.png" id="5_0g6v0"]
 [ext_resource type="Texture2D" uid="uid://1pgsymgkb84o" path="res://Assets/Fondo/Sol.png" id="7_u5f0c"]
+[ext_resource type="Shader" uid="uid://dsb4a2jmmi2r1" path="res://Assets/Fondo/shader_monte_lejano.gdshader" id="8_q5ijt"]
 [ext_resource type="Texture2D" uid="uid://cxu73drdl135h" path="res://Assets/Fondo/Nube.png" id="8_u5f0c"]
 [ext_resource type="Texture2D" uid="uid://ci1pva736l8g0" path="res://Assets/Fondo/MonteLejano.png" id="10_1qfbs"]
 [ext_resource type="Texture2D" uid="uid://cen3fnftqsun5" path="res://Assets/Otros/Casa.png" id="10_hvqni"]
@@ -19,7 +20,14 @@
 [ext_resource type="Script" uid="uid://h1s1kfil7ln6" path="res://Scripts/zona_dialogo_salto.gd" id="17_m6ekv"]
 [ext_resource type="Script" uid="uid://c51liltg2e8hx" path="res://Scripts/zona_dialogo_doble_salto.gd" id="18_cjgls"]
 [ext_resource type="Script" uid="uid://bw22gugpr5ke3" path="res://Scripts/zona_dialogo_dash.gd" id="19_f11s7"]
+[ext_resource type="Script" uid="uid://bkqgyqgl0nlna" path="res://scenes/zona_dialogo_ataque.gd" id="20_npjuv"]
 [ext_resource type="PackedScene" uid="uid://do3t08ueypg34" path="res://scenes/menu_pausa.tscn" id="20_wl8cv"]
+[ext_resource type="Script" uid="uid://jh30fw35pnit" path="res://scenes/zona_dialogo_bloqueo.gd" id="21_v5f6i"]
+[ext_resource type="Script" uid="uid://c1img8wyistx2" path="res://scenes/zona_dialogo_rayo.gd" id="22_l4yix"]
+[ext_resource type="Script" uid="uid://bpwteq8fbbyjx" path="res://scenes/indicador_bloqueos.gd" id="23_jw24r"]
+[ext_resource type="Script" uid="uid://dkx8odi8ou5l0" path="res://scenes/zona_caida_hueco_1.gd" id="25_0hjnf"]
+[ext_resource type="Shader" uid="uid://bicyobyxspqkt" path="res://Assets/Fondo/shader_portal_blanco.gdshader" id="27_bi4s5"]
+[ext_resource type="Script" uid="uid://bvuwqovcoggpe" path="res://scenes/zona_salida_tutorial.gd" id="27_ujnhc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pgr2e"]
 size = Vector2(249, 1056.5)
@@ -30,8 +38,93 @@ size = Vector2(1064.2268, 1263.4868)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ci5ev"]
 size = Vector2(2107, 118)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q5ijt"]
+shader = ExtResource("8_q5ijt")
+shader_parameter/color_distancia = Color(0.8315255, 0.4949882, 0.1961444, 1)
+shader_parameter/intensidad = 0.45
+
+[sub_resource type="Shader" id="Shader_q5ijt"]
+code = "
+shader_type canvas_item;
+
+uniform vec4 color_distancia : source_color = vec4(0.78, 0.52, 0.33, 1.0);
+uniform float intensidad : hint_range(0.0, 1.0) = 0.45;
+
+void fragment() {
+	vec4 textura = texture(TEXTURE, UV);
+
+	vec3 color_final = mix(
+		textura.rgb,
+		color_distancia.rgb,
+		intensidad
+	);
+
+	COLOR = vec4(color_final, textura.a);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bi4s5"]
+shader = SubResource("Shader_q5ijt")
+shader_parameter/color_distancia = Color(0.7347486, 0.5463209, 0.36078444, 1)
+shader_parameter/intensidad = 0.31200001482
+
+[sub_resource type="Shader" id="Shader_bi4s5"]
+code = "
+shader_type canvas_item;
+
+uniform vec4 color_distancia : source_color = vec4(0.78, 0.52, 0.33, 1.0);
+uniform float intensidad : hint_range(0.0, 1.0) = 0.45;
+
+void fragment() {
+	vec4 textura = texture(TEXTURE, UV);
+
+	vec3 color_final = mix(
+		textura.rgb,
+		color_distancia.rgb,
+		intensidad
+	);
+
+	COLOR = vec4(color_final, textura.a);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ujnhc"]
+shader = SubResource("Shader_bi4s5")
+shader_parameter/color_distancia = Color(0.78, 0.52, 0.33, 1)
+shader_parameter/intensidad = 0.40400001919
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_siew1"]
 size = Vector2(502, 427)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jw24r"]
+bg_color = Color(0.09803922, 0.09019608, 0.11372549, 0.92156863)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.72156864, 0.54509807, 0.3137255, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 14.0
+expand_margin_top = 14.0
+expand_margin_right = 14.0
+expand_margin_bottom = 14.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4tdr4"]
+size = Vector2(1659.625, 105.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_siew1"]
+shader = ExtResource("27_bi4s5")
+shader_parameter/intensidad = 1.0
+shader_parameter/velocidad_pulso = 2.50000011875
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eacn4"]
+size = Vector2(544.3906, 2668.8125)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6fd5t"]
+size = Vector2(230, 1411.75)
 
 [node name="Node2D" type="Node2D" unique_id=1291949946]
 
@@ -47,11 +140,22 @@ shape = SubResource("RectangleShape2D_pgr2e")
 position = Vector2(1023, 1302)
 scale = Vector2(1.0262431, 1)
 texture = ExtResource("5_0g6v0")
+region_enabled = true
+region_rect = Rect2(0, 0, 2007.958, 724)
+
+[node name="PlataformaDeHierbaDoradaAlAtardecer9" type="Sprite2D" parent="StaticBody2D3" unique_id=356151402]
+position = Vector2(-960, 1288)
+scale = Vector2(1.0262431, 1)
+texture = ExtResource("5_0g6v0")
+region_enabled = true
+region_rect = Rect2(0, 0, 2007.958, 724)
 
 [node name="PlataformaDeHierbaDoradaAlAtardecer2" type="Sprite2D" parent="StaticBody2D3" unique_id=1426168887]
-position = Vector2(2793.0002, 1299)
-scale = Vector2(0.7064917, 1)
+position = Vector2(2812.5, 1307)
+scale = Vector2(0.7375997, 1.0844268)
 texture = ExtResource("5_0g6v0")
+region_enabled = true
+region_rect = Rect2(113.17537, 0, 2058.8247, 724)
 
 [node name="PlataformaDeHierbaDoradaAlAtardecer3" type="Sprite2D" parent="StaticBody2D3" unique_id=850822274]
 position = Vector2(5179, 1302)
@@ -64,28 +168,35 @@ scale = Vector2(1.0262431, 1)
 texture = ExtResource("5_0g6v0")
 
 [node name="PlataformaDeHierbaDoradaAlAtardecer5" type="Sprite2D" parent="StaticBody2D3" unique_id=802665245]
-position = Vector2(12198, 1291)
+position = Vector2(12346, 1276)
 scale = Vector2(1.0262431, 1)
 texture = ExtResource("5_0g6v0")
+region_enabled = true
+region_rect = Rect2(0, 0, 2004.7845, 724)
 
 [node name="PlataformaDeHierbaDoradaAlAtardecer6" type="Sprite2D" parent="StaticBody2D3" unique_id=593285471]
-position = Vector2(14267, 1294)
-scale = Vector2(1.0262431, 1)
+position = Vector2(14357, 1274.0001)
+scale = Vector2(1.0262431, 1.0345304)
 texture = ExtResource("5_0g6v0")
+flip_h = true
+region_enabled = true
+region_rect = Rect2(69.72393, 0, 1917.0127, 724)
 
 [node name="PlataformaDeHierbaDoradaAlAtardecer7" type="Sprite2D" parent="StaticBody2D3" unique_id=1838368597]
-position = Vector2(16303, 1294)
-scale = Vector2(1.0262431, 1)
+position = Vector2(16391.002, 1273)
+scale = Vector2(1.0274483, 1.0593923)
 texture = ExtResource("5_0g6v0")
+region_enabled = true
+region_rect = Rect2(112.367134, 0, 2059.6328, 724)
 
 [node name="PlataformaDeHierbaDoradaAlAtardecer8" type="Sprite2D" parent="StaticBody2D3" unique_id=606437720]
-position = Vector2(18352, 1300)
+position = Vector2(18758, 1288)
 scale = Vector2(1.0262431, 1)
 texture = ExtResource("5_0g6v0")
 
 [node name="Casa" type="Sprite2D" parent="StaticBody2D3" unique_id=1957945432]
-position = Vector2(105, 1097)
-scale = Vector2(0.47076428, 0.48912272)
+position = Vector2(-7, 962)
+scale = Vector2(0.75233203, 0.7816708)
 texture = ExtResource("10_hvqni")
 
 [node name="CollisionShape2D6" type="CollisionShape2D" parent="StaticBody2D3" unique_id=989616459]
@@ -94,27 +205,27 @@ scale = Vector2(0.47076428, 0.48912272)
 shape = SubResource("RectangleShape2D_5h11f")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D3" unique_id=120338455]
-position = Vector2(1059.5, 1381)
+position = Vector2(1064, 1356)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D3" unique_id=756845342]
-position = Vector2(2474, 1381)
+position = Vector2(2474, 1356)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D3" unique_id=1626216297]
-position = Vector2(5242, 1381)
+position = Vector2(5246, 1356)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D3" unique_id=56053693]
-position = Vector2(8617, 1381)
+position = Vector2(8596, 1356)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="CollisionShape2D7" type="CollisionShape2D" parent="StaticBody2D3" unique_id=5429491]
-position = Vector2(12220, 1356)
+position = Vector2(12300, 1361)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="CollisionShape2D8" type="CollisionShape2D" parent="StaticBody2D3" unique_id=1955040512]
-position = Vector2(14323, 1356)
+position = Vector2(14403, 1361)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="CollisionShape2D9" type="CollisionShape2D" parent="StaticBody2D3" unique_id=1086001445]
@@ -122,17 +233,30 @@ position = Vector2(16427, 1356)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="CollisionShape2D10" type="CollisionShape2D" parent="StaticBody2D3" unique_id=1340224382]
-position = Vector2(18532, 1358)
+position = Vector2(18742, 1356)
 shape = SubResource("RectangleShape2D_ci5ev")
 
 [node name="Enemigo" parent="." unique_id=1087525712 instance=ExtResource("4_ei5ly")]
-position = Vector2(1603, 1202)
+position = Vector2(13684, 1149)
 velocidad = 300.0
 distancia_deteccion = 900.0
 distancia_detenerse = 200.0
 
+[node name="Enemigo2" parent="." unique_id=187845376 instance=ExtResource("4_ei5ly")]
+position = Vector2(15500, 1149)
+velocidad = 300.0
+distancia_deteccion = 900.0
+distancia_detenerse = 200.0
+
+[node name="EnemigoRayo" parent="." unique_id=419952462 instance=ExtResource("4_ei5ly")]
+position = Vector2(17824, 1149)
+velocidad = 0.0
+distancia_deteccion = 0.0
+distancia_detenerse = 200.0
+vida_maxima = 20.0
+
 [node name="Arashi" parent="." unique_id=489452437 instance=ExtResource("1_cfv3y")]
-position = Vector2(472, 1234)
+position = Vector2(472, 1209)
 espera_para_recuperar = 2.0
 segundos_invulnerable = 0.5
 
@@ -195,8 +319,8 @@ motion_scale = Vector2(0, 1)
 motion_mirroring = Vector2(2100, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/sol" unique_id=1392091553]
-position = Vector2(302.00003, 547)
-scale = Vector2(0.63703704, 0.55277777)
+position = Vector2(192.5, 600)
+scale = Vector2(0.3544401, 0.2969522)
 texture = ExtResource("7_u5f0c")
 
 [node name="nube" type="ParallaxLayer" parent="ParallaxBackground" unique_id=212608983]
@@ -218,22 +342,25 @@ motion_scale = Vector2(0.5, 1)
 motion_mirroring = Vector2(2650, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/monte principal" unique_id=282173197]
+material = SubResource("ShaderMaterial_q5ijt")
 position = Vector2(1314.295, 920.00006)
 scale = Vector2(2.230449, 2.0699818)
 texture = ExtResource("3_u5f0c")
 
 [node name="monte chicos" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1695504696]
-motion_scale = Vector2(0.9, 1)
+motion_scale = Vector2(0.7, 1)
 motion_mirroring = Vector2(3000, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/monte chicos" unique_id=681377909]
-position = Vector2(197.99998, 1201)
-scale = Vector2(1.4695848, 1.4239053)
+material = SubResource("ShaderMaterial_bi4s5")
+position = Vector2(404.9342, 1301.251)
+scale = Vector2(1.2362881, 1.1978601)
 texture = ExtResource("10_1qfbs")
 
 [node name="Sprite2D2" type="Sprite2D" parent="ParallaxBackground/monte chicos" unique_id=1258858406]
-position = Vector2(1786, 1048)
-scale = Vector2(1.3704534, 1.2404041)
+material = SubResource("ShaderMaterial_ujnhc")
+position = Vector2(1987.2134, 1139.0596)
+scale = Vector2(1.1436063, 1.0350837)
 texture = ExtResource("10_1qfbs")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=382602471]
@@ -286,7 +413,7 @@ color = Color(0, 0, 0, 1)
 script = ExtResource("17_m6ekv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaDialogoSalto" unique_id=1101475970]
-position = Vector2(3268, 1048)
+position = Vector2(3268, 1082)
 shape = SubResource("RectangleShape2D_siew1")
 
 [node name="ZonaDialogoDobleSalto" type="Area2D" parent="." unique_id=1127961484]
@@ -303,4 +430,162 @@ script = ExtResource("19_f11s7")
 position = Vector2(9460, 1052)
 shape = SubResource("RectangleShape2D_siew1")
 
+[node name="ZonaDialogoAtaque" type="Area2D" parent="." unique_id=1086966691]
+script = ExtResource("20_npjuv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaDialogoAtaque" unique_id=645688368]
+position = Vector2(12709, 1052)
+shape = SubResource("RectangleShape2D_siew1")
+
+[node name="ZonaDialogoBloqueo" type="Area2D" parent="." unique_id=239512435]
+script = ExtResource("21_v5f6i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaDialogoBloqueo" unique_id=1492838677]
+position = Vector2(14956, 1048)
+shape = SubResource("RectangleShape2D_siew1")
+
+[node name="ZonaDialogoRayo" type="Area2D" parent="." unique_id=884253372]
+script = ExtResource("22_l4yix")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaDialogoRayo" unique_id=565744114]
+position = Vector2(16981, 1048)
+shape = SubResource("RectangleShape2D_siew1")
+
 [node name="MenuPausa" parent="." unique_id=631862092 instance=ExtResource("20_wl8cv")]
+
+[node name="IndicadorBloqueos" type="CanvasLayer" parent="." unique_id=569771835 node_paths=PackedStringArray("samurai_entrenamiento")]
+layer = 5
+script = ExtResource("23_jw24r")
+samurai_entrenamiento = NodePath("../Enemigo2")
+
+[node name="PanelBloqueos" type="PanelContainer" parent="IndicadorBloqueos" unique_id=968334682]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -320.0
+offset_top = 150.0
+offset_right = -40.0
+offset_bottom = 212.0
+grow_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jw24r")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="IndicadorBloqueos/PanelBloqueos" unique_id=103885898]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TituloBloqueos" type="Label" parent="IndicadorBloqueos/PanelBloqueos/VBoxContainer" unique_id=1290564016]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95686275, 0.9137255, 0.84313726, 1)
+theme_override_font_sizes/font_size = 15
+text = "ENTRENAMIENTO . DEFENSA"
+
+[node name="TextoBloqueos" type="Label" parent="IndicadorBloqueos/PanelBloqueos/VBoxContainer" unique_id=1856192260]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95686275, 0.9137255, 0.84313726, 1)
+theme_override_font_sizes/font_size = 20
+text = "GOLPES BLOQUEADOS: 0/3"
+
+[node name="BarraBloqueos" type="HBoxContainer" parent="IndicadorBloqueos/PanelBloqueos/VBoxContainer" unique_id=81586659]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Bloqueo1" type="ColorRect" parent="IndicadorBloqueos/PanelBloqueos/VBoxContainer/BarraBloqueos" unique_id=1727590114]
+custom_minimum_size = Vector2(70, 10)
+layout_mode = 2
+color = Color(0.2901961, 0.20392157, 0.1764706, 1)
+
+[node name="Bloqueo2" type="ColorRect" parent="IndicadorBloqueos/PanelBloqueos/VBoxContainer/BarraBloqueos" unique_id=560076575]
+custom_minimum_size = Vector2(70, 10)
+layout_mode = 2
+color = Color(0.2901961, 0.20392157, 0.1764706, 1)
+
+[node name="Bloqueo3" type="ColorRect" parent="IndicadorBloqueos/PanelBloqueos/VBoxContainer/BarraBloqueos" unique_id=1290036675]
+custom_minimum_size = Vector2(70, 10)
+layout_mode = 2
+color = Color(0.2901961, 0.20392157, 0.1764706, 1)
+
+[node name="ReaparicionHueco1" type="Marker2D" parent="." unique_id=2020677204]
+position = Vector2(2967, 1176)
+
+[node name="ReaparicionHueco2" type="Marker2D" parent="." unique_id=493243526]
+position = Vector2(5624, 1124)
+
+[node name="ReaparicionHueco3" type="Marker2D" parent="." unique_id=64230327]
+position = Vector2(9053, 1149)
+
+[node name="ReaparicionHueco4" type="Marker2D" parent="." unique_id=1658164714]
+position = Vector2(16680, 1149)
+
+[node name="ZonaCaidaHueco1" type="Area2D" parent="." unique_id=1401447819 node_paths=PackedStringArray("punto_reaparicion")]
+script = ExtResource("25_0hjnf")
+punto_reaparicion = NodePath("../ReaparicionHueco1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaCaidaHueco1" unique_id=1601794782]
+position = Vector2(3853, 1661)
+shape = SubResource("RectangleShape2D_4tdr4")
+
+[node name="ZonaCaidaHueco2" type="Area2D" parent="." unique_id=1243705107 node_paths=PackedStringArray("punto_reaparicion")]
+script = ExtResource("25_0hjnf")
+punto_reaparicion = NodePath("../ReaparicionHueco2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaCaidaHueco2" unique_id=1374699827]
+position = Vector2(6886.375, 1598)
+shape = SubResource("RectangleShape2D_4tdr4")
+
+[node name="ZonaCaidaHueco3" type="Area2D" parent="." unique_id=1930778850 node_paths=PackedStringArray("punto_reaparicion")]
+script = ExtResource("25_0hjnf")
+punto_reaparicion = NodePath("../ReaparicionHueco3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaCaidaHueco3" unique_id=1525295130]
+position = Vector2(10395, 1661)
+shape = SubResource("RectangleShape2D_4tdr4")
+
+[node name="ZonaCaidaHueco4" type="Area2D" parent="." unique_id=209062675 node_paths=PackedStringArray("punto_reaparicion")]
+script = ExtResource("25_0hjnf")
+punto_reaparicion = NodePath("../ReaparicionHueco4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaCaidaHueco4" unique_id=1617316979]
+position = Vector2(17644, 1664)
+shape = SubResource("RectangleShape2D_4tdr4")
+
+[node name="ZonaSalidaTutorial" type="Area2D" parent="." unique_id=1688553815]
+position = Vector2(18688, 881)
+script = ExtResource("27_ujnhc")
+distancia_inicio = 1400.0
+blanco_maximo = 1.0
+
+[node name="LuzBlanca" type="ColorRect" parent="ZonaSalidaTutorial" unique_id=1828210395]
+material = SubResource("ShaderMaterial_siew1")
+offset_left = -344.0
+offset_top = -2458.0
+offset_right = 329.0
+offset_bottom = 2058.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ZonaSalidaTutorial" unique_id=2053449990]
+position = Vector2(57.195313, -334)
+shape = SubResource("RectangleShape2D_eacn4")
+
+[node name="TransicionNivel1" type="CanvasLayer" parent="." unique_id=617765208]
+
+[node name="PantallaBlanca" type="ColorRect" parent="TransicionNivel1" unique_id=617624235]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="TextoNivel1" type="Label" parent="TransicionNivel1" unique_id=559150771]
+offset_left = 735.0
+offset_top = 512.0
+offset_right = 2106.0
+offset_bottom = 881.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "ENTRANDO AL NIVEL 1"
+
+[node name="LimiteFinalTutorial" type="StaticBody2D" parent="." unique_id=201056043]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LimiteFinalTutorial" unique_id=587126965]
+position = Vector2(18824, 680.875)
+shape = SubResource("RectangleShape2D_6fd5t")

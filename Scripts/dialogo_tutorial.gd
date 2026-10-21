@@ -39,7 +39,7 @@ func _ready() -> void:
 func mostrar_introduccion() -> void:
 	mostrar_dialogo(
 		"Padre",
-		"Hola hijo, te enseñaré algunos movimientos básicos para enfrentarte a los retos que vendrán hacia ti."
+		"Hola hijo, te enseñaré algunos movimientos básicos para enfrentarte a los retos que vendrán hacia ti. mientras tanto pulsa A Y D para moverte horizontalmente."
 	)
 
 
