@@ -28,6 +28,11 @@
 [ext_resource type="Script" uid="uid://dkx8odi8ou5l0" path="res://scenes/zona_caida_hueco_1.gd" id="25_0hjnf"]
 [ext_resource type="Shader" uid="uid://bicyobyxspqkt" path="res://Assets/Fondo/shader_portal_blanco.gdshader" id="27_bi4s5"]
 [ext_resource type="Script" uid="uid://bvuwqovcoggpe" path="res://scenes/zona_salida_tutorial.gd" id="27_ujnhc"]
+[ext_resource type="Script" uid="uid://cg0flnbkl3mqj" path="res://scenes/audio_portal.gd" id="29_f47pi"]
+[ext_resource type="Script" uid="uid://cyd2rht8cahf0" path="res://scenes/hud_dinamico.gd" id="29_xi6p3"]
+[ext_resource type="AudioStream" uid="uid://bnx538pu1agiv" path="res://Audio/musica/tutorial.mp3" id="30_e4hrd"]
+[ext_resource type="AudioStream" uid="uid://cg6b64fv47qi1" path="res://Audio/portal/ambiente_portal.mp3" id="30_gb32b"]
+[ext_resource type="AudioStream" uid="uid://cjsy0r7gbsgh4" path="res://Audio/portal/entrada_portal.mp3" id="31_eba8f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pgr2e"]
 size = Vector2(249, 1056.5)
@@ -375,6 +380,7 @@ offset_left = -1085.7396
 offset_top = -361.91315
 offset_right = 7653.776
 offset_bottom = 1614.6895
+min_value = 10.0
 value = 100.0
 texture_progress = ExtResource("12_ei5ly")
 script = ExtResource("13_ei5ly")
@@ -565,6 +571,18 @@ offset_bottom = 2058.0
 position = Vector2(57.195313, -334)
 shape = SubResource("RectangleShape2D_eacn4")
 
+[node name="AudioPortal" type="Node" parent="ZonaSalidaTutorial" unique_id=975071660]
+script = ExtResource("29_f47pi")
+distancia_activacion = 2000.0
+volumen_lejano = -60.0
+velocidad_volumen = 35.0
+
+[node name="AmbientePortal" type="AudioStreamPlayer" parent="ZonaSalidaTutorial/AudioPortal" unique_id=526666470]
+stream = ExtResource("30_gb32b")
+
+[node name="EntradaPortal" type="AudioStreamPlayer" parent="ZonaSalidaTutorial/AudioPortal" unique_id=1107466654]
+stream = ExtResource("31_eba8f")
+
 [node name="TransicionNivel1" type="CanvasLayer" parent="." unique_id=617765208]
 
 [node name="PantallaBlanca" type="ColorRect" parent="TransicionNivel1" unique_id=617624235]
@@ -589,3 +607,11 @@ text = "ENTRANDO AL NIVEL 1"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LimiteFinalTutorial" unique_id=587126965]
 position = Vector2(18824, 680.875)
 shape = SubResource("RectangleShape2D_6fd5t")
+
+[node name="HUDDinamico" type="Node" parent="." unique_id=1998018384 node_paths=PackedStringArray("arashi", "hud_raiz")]
+script = ExtResource("29_xi6p3")
+arashi = NodePath("../Arashi")
+hud_raiz = NodePath("../CanvasLayer")
+
+[node name="MusicaTutorial" type="AudioStreamPlayer" parent="." unique_id=1956817477]
+stream = ExtResource("30_e4hrd")

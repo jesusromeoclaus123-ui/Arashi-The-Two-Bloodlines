@@ -51,6 +51,13 @@
 [ext_resource type="Texture2D" uid="uid://wx8c3m5res67" path="res://Assets/Arashi/ElectricidadFrame1.png" id="38_844f1"]
 [ext_resource type="Texture2D" uid="uid://dg0jg32yptrdb" path="res://Assets/Arashi/ElectricidadFrame2.png" id="39_05auq"]
 [ext_resource type="Texture2D" uid="uid://cbixu4ksiuffj" path="res://Assets/Arashi/ElectricidadFrame3.png" id="40_xjekv"]
+[ext_resource type="AudioStream" uid="uid://mr2xyvjnnirf" path="res://Audio/Arashi/salto.mp3" id="52_mgyg1"]
+[ext_resource type="AudioStream" uid="uid://cd5qmbwf6qg55" path="res://Audio/Arashi/dash.mp3" id="53_fymbo"]
+[ext_resource type="AudioStream" uid="uid://bxwv0hwe7o483" path="res://Audio/Arashi/rayo.mp3" id="54_in3yl"]
+[ext_resource type="AudioStream" uid="uid://dtyij5b5ooqlt" path="res://Audio/Arashi/katana.mp3" id="55_3lacj"]
+[ext_resource type="AudioStream" uid="uid://bnc26uvqxmsgh" path="res://Audio/Arashi/bloqueo.mp3" id="56_oxryr"]
+[ext_resource type="AudioStream" uid="uid://da6n817xe421b" path="res://Audio/Arashi/dano.mp3" id="57_v8i65"]
+[ext_resource type="AudioStream" uid="uid://ctoqrmnvnkh8j" path="res://Audio/Arashi/derrota.mp3" id="58_5to2y"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_siew1"]
 radius = 78.11481
@@ -371,3 +378,24 @@ position = Vector2(207, -2)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LightningOrigin/RayoHitbox" unique_id=1130331029]
 position = Vector2(-47, 3)
 shape = SubResource("RectangleShape2D_bx8n8")
+
+[node name="SonidoSalto" type="AudioStreamPlayer2D" parent="." unique_id=2100870614]
+stream = ExtResource("52_mgyg1")
+
+[node name="SonidoDash" type="AudioStreamPlayer2D" parent="." unique_id=1654275051]
+stream = ExtResource("53_fymbo")
+
+[node name="SonidoRayo" type="AudioStreamPlayer2D" parent="." unique_id=740953168]
+stream = ExtResource("54_in3yl")
+
+[node name="SonidoKatana" type="AudioStreamPlayer2D" parent="." unique_id=784988758]
+stream = ExtResource("55_3lacj")
+
+[node name="SonidoBloqueo" type="AudioStreamPlayer2D" parent="." unique_id=36628510]
+stream = ExtResource("56_oxryr")
+
+[node name="SonidoDano" type="AudioStreamPlayer2D" parent="." unique_id=715450909]
+stream = ExtResource("57_v8i65")
+
+[node name="SonidoDerrota" type="AudioStreamPlayer2D" parent="." unique_id=171821891]
+stream = ExtResource("58_5to2y")

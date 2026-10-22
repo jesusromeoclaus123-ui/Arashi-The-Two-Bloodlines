@@ -7,7 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://cwbofpv27v8hh" path="res://Assets/Menu/jugar seleccionado.png" id="5_a6518"]
 [ext_resource type="Texture2D" uid="uid://bhe7jlstecc6t" path="res://Assets/Menu/Salir.png" id="5_fa1tu"]
 [ext_resource type="Texture2D" uid="uid://c43viux4t8cjj" path="res://Assets/Menu/salir destrozado.png" id="7_yxm4i"]
-[ext_resource type="Texture2D" uid="uid://6qhlnlyvuj5d" path="res://Assets/Menu/Ajustes.png" id="8_b574n"]
+[ext_resource type="AudioStream" uid="uid://bl43w03wv27nr" path="res://Audio/musica/Menu principal.mp3" id="8_2xgxd"]
+[ext_resource type="AudioStream" uid="uid://j47yglphgbb8" path="res://Audio/Dialogo/seleccion.mp3" id="9_8k4fm"]
 
 [node name="Menu principal" type="Control" unique_id=1193101146]
 layout_mode = 3
@@ -64,10 +65,10 @@ expand_mode = 1
 
 [node name="Salir" type="TextureButton" parent="." unique_id=639878286]
 layout_mode = 0
-offset_left = 1512.0
-offset_top = 947.0
-offset_right = 1919.0
-offset_bottom = 1049.0
+offset_left = 1174.0
+offset_top = 534.0
+offset_right = 1581.0
+offset_bottom = 636.0
 texture_normal = ExtResource("5_fa1tu")
 
 [node name="RayoSalir" type="TextureRect" parent="." unique_id=458175064]
@@ -82,13 +83,20 @@ mouse_filter = 2
 texture = ExtResource("7_yxm4i")
 expand_mode = 1
 
-[node name="TextureButton" type="TextureButton" parent="." unique_id=1967559912]
+[node name="MusicaMenu" type="AudioStreamPlayer" parent="." unique_id=760098810]
+stream = ExtResource("8_2xgxd")
+volume_db = -10.0
+autoplay = true
+
+[node name="SonidoSeleccion" type="AudioStreamPlayer" parent="." unique_id=1609902011]
+stream = ExtResource("9_8k4fm")
+
+[node name="PantallaFundido" type="ColorRect" parent="." unique_id=1241450964]
 layout_mode = 0
-offset_left = 1107.0
-offset_top = 534.0
-offset_right = 1516.0
-offset_bottom = 638.0
-texture_normal = ExtResource("8_b574n")
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [connection signal="mouse_entered" from="Jugar" to="." method="_on_jugar_mouse_entered"]
 [connection signal="mouse_exited" from="Jugar" to="." method="_on_jugar_mouse_exited"]

@@ -23,6 +23,9 @@
 [ext_resource type="Texture2D" uid="uid://btbq8i0op08sv" path="res://Assets/Otros/EnemigoFrame7.png" id="10_akhib"]
 [ext_resource type="Texture2D" uid="uid://dbv4x7l8t5ulg" path="res://Assets/Otros/EnemigoDerrotadoFrame1.png" id="10_syp1f"]
 [ext_resource type="Texture2D" uid="uid://f5x25bl6s5ul" path="res://Assets/Otros/EnemigoDerrotadoFrame5.png" id="11_u18y3"]
+[ext_resource type="AudioStream" uid="uid://byk1monm7ypif" path="res://Audio/Enemigo/ataque_samurai.mp3" id="24_u18y3"]
+[ext_resource type="AudioStream" uid="uid://dn7wd1u367cjy" path="res://Audio/Enemigo/dano_samurai.mp3" id="25_go16t"]
+[ext_resource type="AudioStream" uid="uid://ma1i5r6k8sy" path="res://Audio/Enemigo/muerte.mp3" id="26_u5xdb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5h11f"]
 radius = 77.0
@@ -150,3 +153,14 @@ scale = Vector2(0.234, 0.234)
 sprite_frames = SubResource("SpriteFrames_5h11f")
 animation = &"block_recoil"
 frame_progress = 0.7575044
+
+[node name="SonidoAtaque" type="AudioStreamPlayer2D" parent="." unique_id=1779776109]
+stream = ExtResource("24_u18y3")
+volume_db = -12.0
+
+[node name="SonidoDano" type="AudioStreamPlayer2D" parent="." unique_id=10954460]
+stream = ExtResource("25_go16t")
+volume_db = -12.0
+
+[node name="SonidoMuerte" type="AudioStreamPlayer2D" parent="." unique_id=1060893171]
+stream = ExtResource("26_u5xdb")

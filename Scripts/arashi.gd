@@ -111,6 +111,20 @@ var bandera_activada: bool = false
 @onready var rayo_hitbox: Area2D = $LightningOrigin/RayoHitbox
 @onready var colision_katana: CollisionShape2D = $KatanaHitbox/CollisionShape2D
 @onready var colision_rayo: CollisionShape2D = $LightningOrigin/RayoHitbox/CollisionShape2D
+@onready var sonido_salto: AudioStreamPlayer2D = $SonidoSalto
+@onready var sonido_dash: AudioStreamPlayer2D = $SonidoDash
+@onready var sonido_rayo: AudioStreamPlayer2D = $SonidoRayo
+@onready var sonido_katana: AudioStreamPlayer2D = $SonidoKatana
+@onready var sonido_bloqueo: AudioStreamPlayer2D = $SonidoBloqueo
+@onready var sonido_dano: AudioStreamPlayer2D = $SonidoDano
+@onready var sonido_derrota: AudioStreamPlayer2D = $SonidoDerrota
+
+
+
+
+
+
+
 var katana_posicion_derecha: Vector2 = Vector2.ZERO
 var rayo_hitbox_posicion_derecha: Vector2 = Vector2.ZERO
 var colision_katana_x_derecha: float = 0.0
@@ -118,7 +132,12 @@ var colision_rayo_x_derecha: float = 0.0
 var origen_rayo_derecha := Vector2.ZERO
 
 
+
 func _ready() -> void:
+	# Repetir el sonido del rayo.
+	if sonido_rayo.stream is AudioStreamMP3:
+		sonido_rayo.stream.loop = true
+
 	vida_actual = vida_maxima
 	vida_cambiada.emit(vida_actual, vida_maxima)
 	energia_actual = energia_maxima
@@ -308,21 +327,30 @@ func _physics_process(delta: float) -> void:
 		finalizar_bloqueo()
 	block_was_pressed = block_pressed
 
+	
 	# Salto y doble salto con Espacio
 	if space_pressed and not space_was_pressed:
 		if jumps_left > 0 and bloqueo_estado == "" and rayo_estado == "":
 			if jumps_left == 2:
+				# Salto normal
 				velocity.y = JUMP_FORCE
+				sonido_salto.play()
 				saltando = true
 				if not atacando:
 					animated_sprite.play("jump")
+
 			elif jumps_left == 1:
+				# Doble salto
 				velocity.y = DOUBLE_JUMP_FORCE
+				sonido_salto.play()
 				saltando = true
 				if not atacando:
 					animated_sprite.play("double_jump")
+
 			jumps_left -= 1
+
 	space_was_pressed = space_pressed
+
 
 	# Combo de tres ataques con K
 	if attack_pressed and not attack_was_pressed:
@@ -425,23 +453,35 @@ func procesar_dano_a_enemigos(delta: float) -> void:
 # =========================
 
 
+
 func recibir_dano(cantidad: float) -> void:
 	if esta_muerto or cantidad <= 0.0 or tiempo_invulnerable_restante > 0.0:
 		return
 
+	# Reducir la vida de Arashi.
 	vida_actual = maxf(0.0, vida_actual - cantidad)
 	vida_cambiada.emit(vida_actual, vida_maxima)
+
 	print("VIDA ACTUAL DE ARASHI: ", vida_actual)
 
-	# En cero reproducir toda la animacion antes del menu de derrota.
-	if vida_actual <= 0.0:
+	# Si el golpe es fatal, reproducir solo el sonido de derrota.
+	if vida_actual <= 10.0:
 		morir()
 		return
 
+	# Si Arashi sobrevive, reproducir el sonido de dano.
+	sonido_dano.play()
+
+	# Activar invulnerabilidad temporal.
 	tiempo_invulnerable_restante = segundos_invulnerable
+
+	# Activar destello rojo.
 	tiempo_destello_restante = duracion_destello_dano
 	actualizar_color_dano()
+
+	# Reproducir animacion de daño.
 	iniciar_animacion_dano()
+
 
 
 func actualizar_color_dano() -> void:
@@ -459,6 +499,7 @@ func detener_acciones_por_dano() -> void:
 	rayo_estado = ""
 	lightning_beam.hide()
 	lightning_beam.stop()
+	sonido_rayo.stop()
 	tiempo_para_pulso_rayo = 0.0
 
 	# Interrumpir combo, bloqueo y dash sin cambiar a otras animaciones.
@@ -486,24 +527,35 @@ func iniciar_animacion_dano() -> void:
 		actualizar_animacion(obtener_direccion())
 
 
+
 func morir() -> void:
 	if esta_muerto:
 		return
 
 	esta_muerto = true
 	recibiendo_dano = false
+
 	detener_acciones_por_dano()
+
 	velocity = Vector2.ZERO
 	tiempo_destello_restante = 0.0
 	animated_sprite.modulate = color_sprite_original
+
 	print("ARASHI DERROTADO - REPRODUCIENDO DEATH")
 
-	# NO detener _physics_process: asi no queda flotando si muere en el aire.
+	# Detener el sonido de daño para que no se superponga.
+	sonido_dano.stop()
+
+	# Reproducir sonido de derrota una sola vez.
+	sonido_derrota.play()
+
+	# Reproducir la animacion de muerte.
 	if animated_sprite.sprite_frames.has_animation("death") and animated_sprite.sprite_frames.get_frame_count("death") > 0:
 		animated_sprite.play("death")
 	else:
-		push_warning("Falta la animacion 'death' en Arashi; se abre el menu igual.")
+		push_warning("Falta la animacion 'death' en Arashi.")
 		iniciar_transicion_derrota()
+
 
 
 func iniciar_transicion_derrota() -> void:
@@ -558,24 +610,35 @@ func esta_bloqueando_desde(posicion_atacante: Vector2) -> bool:
 # El enemigo llama esta funcion en vez de recibir_dano() directamente.
 # Devuelve true si el golpe fue bloqueado; en otro caso false.
 # El enemigo existente puede seguir llamandola sin usar el valor retornado.
+
 func recibir_ataque_enemigo(cantidad: float, posicion_atacante: Vector2) -> bool:
 	if esta_muerto or cantidad <= 0.0:
 		return false
 
+	# Arashi bloquea correctamente el ataque enemigo.
 	if esta_bloqueando_desde(posicion_atacante):
 		print("ARASHI BLOQUEO EL ATAQUE")
+
+		# Reproducir el choque metalico.
+		sonido_bloqueo.play()
+
+		# Avisar al contador del Tutorial.
 		golpe_bloqueado.emit(posicion_atacante)
-		# No reiniciar la reaccion si ya esta reproduciendo block_hit.
+
+		# Reproducir la animacion del impacto.
 		if bloqueo_estado == "hold":
 			if animated_sprite.sprite_frames.has_animation("block_hit") and animated_sprite.sprite_frames.get_frame_count("block_hit") > 0:
 				bloqueo_estado = "hit"
 				animated_sprite.play("block_hit")
 			else:
 				push_warning("Falta la animacion 'block_hit' o no tiene fotogramas.")
+
 		return true
 
+	# Si no bloqueo, recibe dano normalmente.
 	recibir_dano(cantidad)
 	return false
+
 
 
 # =========================
@@ -615,27 +678,44 @@ func _on_frame_changed() -> void:
 			mostrar_rayo()
 
 
+
 func mostrar_rayo() -> void:
 	if rayo_estado != "start" and rayo_estado != "hold":
 		return
+
 	if energia_actual <= 0.0:
 		finalizar_rayo()
 		return
+
 	actualizar_orientacion_rayo()
+
 	if not lightning_beam.visible:
 		lightning_beam.show()
 		lightning_beam.play("lightning_beam")
+
+		# Reproducir sonido cuando aparece la electricidad.
+		if not sonido_rayo.playing:
+			sonido_rayo.play(3.0)
+
+
 
 
 func finalizar_rayo() -> void:
 	if rayo_estado == "" or rayo_estado == "end":
 		return
+
 	rayo_estado = "end"
-	# Reiniciar la espera cada vez que la habilidad se interrumpe.
+
 	tiempo_espera_recuperacion = espera_para_recuperar
+
 	lightning_beam.hide()
 	lightning_beam.stop()
+
+	# Detener el sonido al cortar la descarga.
+	sonido_rayo.stop()
+
 	animated_sprite.play("rayo_fin")
+
 
 
 func actualizar_orientacion_rayo() -> void:
@@ -670,12 +750,12 @@ func actualizar_orientacion_rayo() -> void:
 # DASH
 # =========================
 
+
 func iniciar_dash(direction: float) -> void:
-	
-	# Calcular el costo segun la energia maxima
+	# Calcular el costo del dash
 	var costo_dash: float = energia_maxima * (costo_dash_porcentaje / 100.0)
 
-	# Si no tiene suficiente energia, no puede hacer dash
+	# Comprobar que tenga energia suficiente
 	if energia_actual < costo_dash:
 		return
 
@@ -695,12 +775,19 @@ func iniciar_dash(direction: float) -> void:
 		dash_direccion = 1.0 if animated_sprite.flip_h else -1.0
 
 	actualizar_orientacion_rayo()
+
 	combo_step = 0
 	ataque_en_cola = false
 	combo_tiempo_restante = 0.0
+
 	velocity.x = dash_direccion * DASH_SPEED
 	velocity.y = 0.0
+
+	# Reproducir animacion del dash
 	animated_sprite.play("dash")
+
+	# Reproducir sonido del dash
+	sonido_dash.play()
 
 
 func finalizar_dash() -> void:
@@ -742,6 +829,7 @@ func esta_bloqueando() -> bool:
 # ATAQUES CON K
 # =========================
 
+
 func iniciar_ataque(numero: int) -> void:
 	atacando = true
 	combo_step = numero
@@ -749,7 +837,22 @@ func iniciar_ataque(numero: int) -> void:
 	combo_tiempo_restante = 0.0
 	enemigos_golpeados_este_ataque.clear()
 	velocity.x = 0.0
+
+	# Reproducir la animacion correspondiente.
 	animated_sprite.play("attack%d" % numero)
+
+	# Variar ligeramente el tono de cada golpe.
+	match numero:
+		1:
+			sonido_katana.pitch_scale = 1.0
+		2:
+			sonido_katana.pitch_scale = 1.15
+		3:
+			sonido_katana.pitch_scale = 0.85
+
+	# Reproducir el sonido de la katana.
+	sonido_katana.play()
+
 
 
 # =========================
@@ -896,6 +999,7 @@ func respawn() -> void:
 	tiempo_espera_recuperacion = 0.0
 	lightning_beam.hide()
 	lightning_beam.stop()
+	sonido_rayo.stop()
 
 	combo_step = 0
 	ataque_en_cola = false

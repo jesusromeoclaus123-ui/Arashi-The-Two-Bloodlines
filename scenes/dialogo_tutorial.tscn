@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://d078ud71uj4ax" path="res://Scripts/dialogo_tutorial.gd" id="1_8tcvs"]
 [ext_resource type="Texture2D" uid="uid://c1v3l5y4a4cq5" path="res://Assets/Otros/PapaArashi.png" id="1_o441l"]
+[ext_resource type="AudioStream" uid="uid://bmtltfpnrplqk" path="res://Audio/Dialogo/abrir_dialogo.mp3" id="3_x1401"]
+[ext_resource type="AudioStream" uid="uid://j47yglphgbb8" path="res://Audio/Dialogo/seleccion.mp3" id="4_6ce76"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_siew1"]
 bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
@@ -72,3 +74,21 @@ text = "Presiona E para continuar."
 position = Vector2(1461, -5)
 scale = Vector2(0.4638672, 0.4638672)
 texture = ExtResource("1_o441l")
+
+[node name="SonidoAbrirDialogo" type="AudioStreamPlayer" parent="." unique_id=1932310823]
+stream = ExtResource("3_x1401")
+volume_db = 5.916
+
+[node name="SonidoCerrarDialogo" type="AudioStreamPlayer" parent="." unique_id=1332691271]
+stream = ExtResource("4_6ce76")
+
+[node name="TransicionEntrada" type="CanvasLayer" parent="." unique_id=1014100180]
+layer = 100
+
+[node name="PantallaNegra" type="ColorRect" parent="TransicionEntrada" unique_id=1540913410]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)

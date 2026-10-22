@@ -53,6 +53,12 @@ var derrotado: bool = false
 # =========================
 @onready var sprite: AnimatedSprite2D = $Enemigo
 @onready var colision_cuerpo: CollisionShape2D = $CollisionShape2D
+@onready var sonido_ataque: AudioStreamPlayer2D = $SonidoAtaque
+@onready var sonido_dano: AudioStreamPlayer2D = $SonidoDano
+@onready var sonido_muerte: AudioStreamPlayer2D = $SonidoMuerte
+
+
+
 var colision_cuerpo_x_original: float = 0.0
 var escala_original_muerte: Vector2 = Vector2.ONE
 var posicion_original_muerte: Vector2 = Vector2.ZERO
@@ -200,6 +206,7 @@ func actualizar_animacion() -> void:
 		sprite.play(animacion_deseada)
 
 
+
 func iniciar_ataque() -> void:
 	if preparando_ataque or recibiendo_golpe or derrotado or retrocediendo:
 		return
@@ -215,15 +222,23 @@ func iniciar_ataque() -> void:
 	if cantidad_frames <= 0:
 		cancelar_preparacion()
 		return
+
 	var indice: int = mini(frame_impacto, cantidad_frames - 1)
 	var fps_base: float = sprite.sprite_frames.get_animation_speed("attack")
 	var multiplicador: float = 1.0
+
 	if indice > 0 and tiempo_preparacion > 0.0 and fps_base > 0.0:
 		multiplicador = (float(indice) / tiempo_preparacion) / fps_base
 
+	# Reproducir animacion de ataque
 	sprite.play("attack", multiplicador)
+
+	# Reproducir sonido de la katana
+	sonido_ataque.play()
+
 	if indice == 0:
 		realizar_ataque()
+
 
 
 func _on_sprite_frame_changed() -> void:
@@ -344,6 +359,7 @@ func cancelar_preparacion() -> void:
 # =========================
 # RECIBIR DANO / DERROTA
 # =========================
+
 func recibir_dano(cantidad: float) -> void:
 	if derrotado or cantidad <= 0.0 or tiempo_inmune_restante > 0.0:
 		return
@@ -355,6 +371,9 @@ func recibir_dano(cantidad: float) -> void:
 	if vida_actual <= 0.0:
 		morir()
 		return
+
+	# Reproducir sonido cuando recibe daño.
+	sonido_dano.play()
 
 	# El golpe interrumpe cualquier ataque o retroceso en curso.
 	retrocediendo = false
@@ -373,6 +392,7 @@ func recibir_dano(cantidad: float) -> void:
 	else:
 		recibiendo_golpe = false
 		actualizar_animacion()
+
 
 
 func actualizar_color() -> void:
@@ -416,6 +436,7 @@ func desvanecer_entrenamiento() -> void:
 		queue_free()
 
 
+
 func morir() -> void:
 	if derrotado:
 		return
@@ -435,6 +456,15 @@ func morir() -> void:
 	sprite.modulate = color_normal
 
 	print("SAMURAI DERROTADO")
+
+	# Reproducir sonido de muerte una sola vez.
+	# Separarlo del enemigo para que no se corte al desaparecer.
+	sonido_ataque.stop()
+	sonido_dano.stop()
+
+	sonido_muerte.reparent(get_tree().current_scene)
+	sonido_muerte.finished.connect(sonido_muerte.queue_free)
+	sonido_muerte.play()
 
 	# Desactivar las colisiones
 	set_deferred("collision_layer", 0)
@@ -458,6 +488,7 @@ func morir() -> void:
 	else:
 		push_warning("Falta animacion death")
 		queue_free()
+
 
 
 
